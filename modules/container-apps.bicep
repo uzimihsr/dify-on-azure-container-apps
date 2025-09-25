@@ -599,14 +599,6 @@ param pluginWorkingPath string = '/app/storage/cwd'
 param pluginInstalledPath string = 'plugin'
 param pluginPackageCachePath string = 'plugin_packages'
 param pluginMediaCachePath string = 'assets'
-param pluginStorageOssBucket string = ''
-param pluginS3UseAws string = 'false'
-param pluginS3UseAwsManagedIam string = 'false'
-param pluginS3Endpoint string = ''
-param pluginS3UsePathStyle string = 'false'
-param pluginAwsAccessKey string = ''
-param pluginAwsSecretKey string = ''
-param pluginAwsRegion string = ''
 param pluginAzureBlobStorageContainerName string = ''
 param pluginAzureBlobStorageConnectionString string = ''
 param pluginTencentCosSecretKey string = ''
@@ -928,14 +920,6 @@ var sharedApiWorkerEnv = [
   { name: 'PLUGIN_INSTALLED_PATH', value: pluginInstalledPath }
   { name: 'PLUGIN_PACKAGE_CACHE_PATH', value: pluginPackageCachePath }
   { name: 'PLUGIN_MEDIA_CACHE_PATH', value: pluginMediaCachePath }
-  { name: 'PLUGIN_STORAGE_OSS_BUCKET', value: pluginStorageOssBucket }
-  { name: 'PLUGIN_S3_USE_AWS', value: pluginS3UseAws }
-  { name: 'PLUGIN_S3_USE_AWS_MANAGED_IAM', value: pluginS3UseAwsManagedIam }
-  { name: 'PLUGIN_S3_ENDPOINT', value: pluginS3Endpoint }
-  { name: 'PLUGIN_S3_USE_PATH_STYLE', value: pluginS3UsePathStyle }
-  { name: 'PLUGIN_AWS_ACCESS_KEY', value: pluginAwsAccessKey }
-  { name: 'PLUGIN_AWS_SECRET_KEY', value: pluginAwsSecretKey }
-  { name: 'PLUGIN_AWS_REGION', value: pluginAwsRegion }
   { name: 'PLUGIN_AZURE_BLOB_STORAGE_CONTAINER_NAME', value: pluginAzureBlobStorageContainerName }
   { name: 'PLUGIN_AZURE_BLOB_STORAGE_CONNECTION_STRING', value: pluginAzureBlobStorageConnectionString }
   { name: 'PLUGIN_TENCENT_COS_SECRET_KEY', value: pluginTencentCosSecretKey }
