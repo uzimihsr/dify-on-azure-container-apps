@@ -431,28 +431,28 @@ param vastbasePassword string = 'Difyai123456'
 param vastbaseDatabase string = 'dify'
 param vastbaseMinConnection string = '1'
 param vastbaseMaxConnection string = '5'
-param pgvectoRsHost string = 'pgvecto-rs'
-param pgvectoRsPort string = '5432'
-param pgvectoRsUser string = 'postgres'
-param pgvectoRsPassword string = 'difyai123456'
-param pgvectoRsDatabase string = 'dify'
-param analyticdbKeyId string = 'your-ak'
-param analyticdbKeySecret string = 'your-sk'
-param analyticdbRegionId string = 'cn-hangzhou'
-param analyticdbInstanceId string = 'gp-ab123456'
-param analyticdbAccount string = 'testaccount'
-param analyticdbPassword string = 'testpassword'
-param analyticdbNamespace string = 'dify'
-param analyticdbNamespacePassword string = 'difypassword'
-param analyticdbHost string = 'gp-test.aliyuncs.com'
-param analyticdbPort string = '5432'
-param analyticdbMinConnection string = '1'
-param analyticdbMaxConnection string = '5'
-param tidbVectorHost string = 'tidb'
-param tidbVectorPort string = '4000'
-param tidbVectorUser string = ''
-param tidbVectorPassword string = ''
-param tidbVectorDatabase string = 'dify'
+// param pgvectoRsHost string = 'pgvecto-rs'
+// param pgvectoRsPort string = '5432'
+// param pgvectoRsUser string = 'postgres'
+// param pgvectoRsPassword string = 'difyai123456'
+// param pgvectoRsDatabase string = 'dify'
+// param analyticdbKeyId string = 'your-ak'
+// param analyticdbKeySecret string = 'your-sk'
+// param analyticdbRegionId string = 'cn-hangzhou'
+// param analyticdbInstanceId string = 'gp-ab123456'
+// param analyticdbAccount string = 'testaccount'
+// param analyticdbPassword string = 'testpassword'
+// param analyticdbNamespace string = 'dify'
+// param analyticdbNamespacePassword string = 'difypassword'
+// param analyticdbHost string = 'gp-test.aliyuncs.com'
+// param analyticdbPort string = '5432'
+// param analyticdbMinConnection string = '1'
+// param analyticdbMaxConnection string = '5'
+// param tidbVectorHost string = 'tidb'
+// param tidbVectorPort string = '4000'
+// param tidbVectorUser string = ''
+// param tidbVectorPassword string = ''
+// param tidbVectorDatabase string = 'dify'
 param matrixoneHost string = 'matrixone'
 param matrixonePort string = '6001'
 param matrixoneUser string = 'dump'
@@ -946,28 +946,28 @@ var sharedApiWorkerEnv = [
   { name: 'VASTBASE_DATABASE', value: vastbaseDatabase }
   { name: 'VASTBASE_MIN_CONNECTION', value: vastbaseMinConnection }
   { name: 'VASTBASE_MAX_CONNECTION', value: vastbaseMaxConnection }
-  { name: 'PGVECTO_RS_HOST', value: pgvectoRsHost }
-  { name: 'PGVECTO_RS_PORT', value: pgvectoRsPort }
-  { name: 'PGVECTO_RS_USER', value: pgvectoRsUser }
-  { name: 'PGVECTO_RS_PASSWORD', value: pgvectoRsPassword }
-  { name: 'PGVECTO_RS_DATABASE', value: pgvectoRsDatabase }
-  { name: 'ANALYTICDB_KEY_ID', value: analyticdbKeyId }
-  { name: 'ANALYTICDB_KEY_SECRET', value: analyticdbKeySecret }
-  { name: 'ANALYTICDB_REGION_ID', value: analyticdbRegionId }
-  { name: 'ANALYTICDB_INSTANCE_ID', value: analyticdbInstanceId }
-  { name: 'ANALYTICDB_ACCOUNT', value: analyticdbAccount }
-  { name: 'ANALYTICDB_PASSWORD', value: analyticdbPassword }
-  { name: 'ANALYTICDB_NAMESPACE', value: analyticdbNamespace }
-  { name: 'ANALYTICDB_NAMESPACE_PASSWORD', value: analyticdbNamespacePassword }
-  { name: 'ANALYTICDB_HOST', value: analyticdbHost }
-  { name: 'ANALYTICDB_PORT', value: analyticdbPort }
-  { name: 'ANALYTICDB_MIN_CONNECTION', value: analyticdbMinConnection }
-  { name: 'ANALYTICDB_MAX_CONNECTION', value: analyticdbMaxConnection }
-  { name: 'TIDB_VECTOR_HOST', value: tidbVectorHost }
-  { name: 'TIDB_VECTOR_PORT', value: tidbVectorPort }
-  { name: 'TIDB_VECTOR_USER', value: tidbVectorUser }
-  { name: 'TIDB_VECTOR_PASSWORD', value: tidbVectorPassword }
-  { name: 'TIDB_VECTOR_DATABASE', value: tidbVectorDatabase }
+  // { name: 'PGVECTO_RS_HOST', value: pgvectoRsHost }
+  // { name: 'PGVECTO_RS_PORT', value: pgvectoRsPort }
+  // { name: 'PGVECTO_RS_USER', value: pgvectoRsUser }
+  // { name: 'PGVECTO_RS_PASSWORD', value: pgvectoRsPassword }
+  // { name: 'PGVECTO_RS_DATABASE', value: pgvectoRsDatabase }
+  // { name: 'ANALYTICDB_KEY_ID', value: analyticdbKeyId }
+  // { name: 'ANALYTICDB_KEY_SECRET', value: analyticdbKeySecret }
+  // { name: 'ANALYTICDB_REGION_ID', value: analyticdbRegionId }
+  // { name: 'ANALYTICDB_INSTANCE_ID', value: analyticdbInstanceId }
+  // { name: 'ANALYTICDB_ACCOUNT', value: analyticdbAccount }
+  // { name: 'ANALYTICDB_PASSWORD', value: analyticdbPassword }
+  // { name: 'ANALYTICDB_NAMESPACE', value: analyticdbNamespace }
+  // { name: 'ANALYTICDB_NAMESPACE_PASSWORD', value: analyticdbNamespacePassword }
+  // { name: 'ANALYTICDB_HOST', value: analyticdbHost }
+  // { name: 'ANALYTICDB_PORT', value: analyticdbPort }
+  // { name: 'ANALYTICDB_MIN_CONNECTION', value: analyticdbMinConnection }
+  // { name: 'ANALYTICDB_MAX_CONNECTION', value: analyticdbMaxConnection }
+  // { name: 'TIDB_VECTOR_HOST', value: tidbVectorHost }
+  // { name: 'TIDB_VECTOR_PORT', value: tidbVectorPort }
+  // { name: 'TIDB_VECTOR_USER', value: tidbVectorUser }
+  // { name: 'TIDB_VECTOR_PASSWORD', value: tidbVectorPassword }
+  // { name: 'TIDB_VECTOR_DATABASE', value: tidbVectorDatabase }
   { name: 'MATRIXONE_HOST', value: matrixoneHost }
   { name: 'MATRIXONE_PORT', value: matrixonePort }
   { name: 'MATRIXONE_USER', value: matrixoneUser }
