@@ -527,45 +527,45 @@ param matrixoneDatabase string = 'dify'
 // param baiduVectorDbReplicas string = '3'
 // param baiduVectorDbInvertedIndexAnalyzer string = 'DEFAULT_ANALYZER'
 // param baiduVectorDbInvertedIndexParserMode string = 'COARSE_MODE'
-param vikingdbAccessKey string = 'your-ak'
-param vikingdbSecretKey string = 'your-sk'
-param vikingdbRegion string = 'cn-shanghai'
-param vikingdbHost string = 'api-vikingdb.xxx.volces.com'
-param vikingdbSchema string = 'http'
-param vikingdbConnectionTimeout string = '30'
-param vikingdbSocketTimeout string = '30'
-param lindormUrl string = 'http://localhost:30070'
-param lindormUsername string = 'admin'
-param lindormPassword string = 'admin'
-param lindormUsingUgc string = 'True'
-param lindormQueryTimeout string = '1'
-param oceanbaseVectorHost string = 'oceanbase'
-param oceanbaseVectorPort string = '2881'
-param oceanbaseVectorUser string = 'root@test'
-param oceanbaseVectorPassword string = 'difyai123456'
-param oceanbaseVectorDatabase string = 'test'
-param oceanbaseClusterName string = 'difyai'
-param oceanbaseMemoryLimit string = '6G'
-param oceanbaseEnableHybridSearch string = 'false'
-param oceanbaseFulltextParser string = 'ik'
-param opengaussHost string = 'opengauss'
-param opengaussPort string = '6600'
-param opengaussUser string = 'postgres'
-param opengaussPassword string = 'Dify@123'
-param opengaussDatabase string = 'dify'
-param opengaussMinConnection string = '1'
-param opengaussMaxConnection string = '5'
-param opengaussEnablePq string = 'false'
+// param vikingdbAccessKey string = 'your-ak'
+// param vikingdbSecretKey string = 'your-sk'
+// param vikingdbRegion string = 'cn-shanghai'
+// param vikingdbHost string = 'api-vikingdb.xxx.volces.com'
+// param vikingdbSchema string = 'http'
+// param vikingdbConnectionTimeout string = '30'
+// param vikingdbSocketTimeout string = '30'
+// param lindormUrl string = 'http://localhost:30070'
+// param lindormUsername string = 'admin'
+// param lindormPassword string = 'admin'
+// param lindormUsingUgc string = 'True'
+// param lindormQueryTimeout string = '1'
+// param oceanbaseVectorHost string = 'oceanbase'
+// param oceanbaseVectorPort string = '2881'
+// param oceanbaseVectorUser string = 'root@test'
+// param oceanbaseVectorPassword string = 'difyai123456'
+// param oceanbaseVectorDatabase string = 'test'
+// param oceanbaseClusterName string = 'difyai'
+// param oceanbaseMemoryLimit string = '6G'
+// param oceanbaseEnableHybridSearch string = 'false'
+// param oceanbaseFulltextParser string = 'ik'
+// param opengaussHost string = 'opengauss'
+// param opengaussPort string = '6600'
+// param opengaussUser string = 'postgres'
+// param opengaussPassword string = 'Dify@123'
+// param opengaussDatabase string = 'dify'
+// param opengaussMinConnection string = '1'
+// param opengaussMaxConnection string = '5'
+// param opengaussEnablePq string = 'false'
 param huaweiCloudHosts string = 'https://127.0.0.1:9200'
 param huaweiCloudUser string = 'admin'
 param huaweiCloudPassword string = 'admin'
-param upstashVectorUrl string = 'https://xxx-vector.upstash.io'
-param upstashVectorToken string = 'dify'
-param tablstoreEndpoint string = 'https://instance-name.cn-hangzhou.ots.aliyuncs.com'
-param tablstoreInstanceName string = 'instance-name'
-param tablstoreAccessKeyId string = 'xxx'
-param tablstoreAccessKeySecret string = 'xxx'
-param tablstoreNormalizeFulltextBm25Score string = 'false'
+// param upstashVectorUrl string = 'https://xxx-vector.upstash.io'
+// param upstashVectorToken string = 'dify'
+// param tablstoreEndpoint string = 'https://instance-name.cn-hangzhou.ots.aliyuncs.com'
+// param tablstoreInstanceName string = 'instance-name'
+// param tablstoreAccessKeyId string = 'xxx'
+// param tablstoreAccessKeySecret string = 'xxx'
+// param tablstoreNormalizeFulltextBm25Score string = 'false'
 param clickzettaUsername string = ''
 param clickzettaPassword string = ''
 param clickzettaInstance string = ''
@@ -1042,45 +1042,45 @@ var sharedApiWorkerEnv = [
   // { name: 'BAIDU_VECTOR_DB_REPLICAS', value: baiduVectorDbReplicas }
   // { name: 'BAIDU_VECTOR_DB_INVERTED_INDEX_ANALYZER', value: baiduVectorDbInvertedIndexAnalyzer }
   // { name: 'BAIDU_VECTOR_DB_INVERTED_INDEX_PARSER_MODE', value: baiduVectorDbInvertedIndexParserMode }
-  { name: 'VIKINGDB_ACCESS_KEY', value: vikingdbAccessKey }
-  { name: 'VIKINGDB_SECRET_KEY', value: vikingdbSecretKey }
-  { name: 'VIKINGDB_REGION', value: vikingdbRegion }
-  { name: 'VIKINGDB_HOST', value: vikingdbHost }
-  { name: 'VIKINGDB_SCHEMA', value: vikingdbSchema }
-  { name: 'VIKINGDB_CONNECTION_TIMEOUT', value: vikingdbConnectionTimeout }
-  { name: 'VIKINGDB_SOCKET_TIMEOUT', value: vikingdbSocketTimeout }
-  { name: 'LINDORM_URL', value: lindormUrl }
-  { name: 'LINDORM_USERNAME', value: lindormUsername }
-  { name: 'LINDORM_PASSWORD', value: lindormPassword }
-  { name: 'LINDORM_USING_UGC', value: lindormUsingUgc }
-  { name: 'LINDORM_QUERY_TIMEOUT', value: lindormQueryTimeout }
-  { name: 'OCEANBASE_VECTOR_HOST', value: oceanbaseVectorHost }
-  { name: 'OCEANBASE_VECTOR_PORT', value: oceanbaseVectorPort }
-  { name: 'OCEANBASE_VECTOR_USER', value: oceanbaseVectorUser }
-  { name: 'OCEANBASE_VECTOR_PASSWORD', value: oceanbaseVectorPassword }
-  { name: 'OCEANBASE_VECTOR_DATABASE', value: oceanbaseVectorDatabase }
-  { name: 'OCEANBASE_CLUSTER_NAME', value: oceanbaseClusterName }
-  { name: 'OCEANBASE_MEMORY_LIMIT', value: oceanbaseMemoryLimit }
-  { name: 'OCEANBASE_ENABLE_HYBRID_SEARCH', value: oceanbaseEnableHybridSearch }
-  { name: 'OCEANBASE_FULLTEXT_PARSER', value: oceanbaseFulltextParser }
-  { name: 'OPENGAUSS_HOST', value: opengaussHost }
-  { name: 'OPENGAUSS_PORT', value: opengaussPort }
-  { name: 'OPENGAUSS_USER', value: opengaussUser }
-  { name: 'OPENGAUSS_PASSWORD', value: opengaussPassword }
-  { name: 'OPENGAUSS_DATABASE', value: opengaussDatabase }
-  { name: 'OPENGAUSS_MIN_CONNECTION', value: opengaussMinConnection }
-  { name: 'OPENGAUSS_MAX_CONNECTION', value: opengaussMaxConnection }
-  { name: 'OPENGAUSS_ENABLE_PQ', value: opengaussEnablePq }
-  { name: 'HUAWEI_CLOUD_HOSTS', value: huaweiCloudHosts }
-  { name: 'HUAWEI_CLOUD_USER', value: huaweiCloudUser }
-  { name: 'HUAWEI_CLOUD_PASSWORD', value: huaweiCloudPassword }
-  { name: 'UPSTASH_VECTOR_URL', value: upstashVectorUrl }
-  { name: 'UPSTASH_VECTOR_TOKEN', value: upstashVectorToken }
-  { name: 'TABLESTORE_ENDPOINT', value: tablstoreEndpoint }
-  { name: 'TABLESTORE_INSTANCE_NAME', value: tablstoreInstanceName }
-  { name: 'TABLESTORE_ACCESS_KEY_ID', value: tablstoreAccessKeyId }
-  { name: 'TABLESTORE_ACCESS_KEY_SECRET', value: tablstoreAccessKeySecret }
-  { name: 'TABLESTORE_NORMALIZE_FULLTEXT_BM25_SCORE', value: tablstoreNormalizeFulltextBm25Score }
+  // { name: 'VIKINGDB_ACCESS_KEY', value: vikingdbAccessKey }
+  // { name: 'VIKINGDB_SECRET_KEY', value: vikingdbSecretKey }
+  // { name: 'VIKINGDB_REGION', value: vikingdbRegion }
+  // { name: 'VIKINGDB_HOST', value: vikingdbHost }
+  // { name: 'VIKINGDB_SCHEMA', value: vikingdbSchema }
+  // { name: 'VIKINGDB_CONNECTION_TIMEOUT', value: vikingdbConnectionTimeout }
+  // { name: 'VIKINGDB_SOCKET_TIMEOUT', value: vikingdbSocketTimeout }
+  // { name: 'LINDORM_URL', value: lindormUrl }
+  // { name: 'LINDORM_USERNAME', value: lindormUsername }
+  // { name: 'LINDORM_PASSWORD', value: lindormPassword }
+  // { name: 'LINDORM_USING_UGC', value: lindormUsingUgc }
+  // { name: 'LINDORM_QUERY_TIMEOUT', value: lindormQueryTimeout }
+  // { name: 'OCEANBASE_VECTOR_HOST', value: oceanbaseVectorHost }
+  // { name: 'OCEANBASE_VECTOR_PORT', value: oceanbaseVectorPort }
+  // { name: 'OCEANBASE_VECTOR_USER', value: oceanbaseVectorUser }
+  // { name: 'OCEANBASE_VECTOR_PASSWORD', value: oceanbaseVectorPassword }
+  // { name: 'OCEANBASE_VECTOR_DATABASE', value: oceanbaseVectorDatabase }
+  // { name: 'OCEANBASE_CLUSTER_NAME', value: oceanbaseClusterName }
+  // { name: 'OCEANBASE_MEMORY_LIMIT', value: oceanbaseMemoryLimit }
+  // { name: 'OCEANBASE_ENABLE_HYBRID_SEARCH', value: oceanbaseEnableHybridSearch }
+  // { name: 'OCEANBASE_FULLTEXT_PARSER', value: oceanbaseFulltextParser }
+  // { name: 'OPENGAUSS_HOST', value: opengaussHost }
+  // { name: 'OPENGAUSS_PORT', value: opengaussPort }
+  // { name: 'OPENGAUSS_USER', value: opengaussUser }
+  // { name: 'OPENGAUSS_PASSWORD', value: opengaussPassword }
+  // { name: 'OPENGAUSS_DATABASE', value: opengaussDatabase }
+  // { name: 'OPENGAUSS_MIN_CONNECTION', value: opengaussMinConnection }
+  // { name: 'OPENGAUSS_MAX_CONNECTION', value: opengaussMaxConnection }
+  // { name: 'OPENGAUSS_ENABLE_PQ', value: opengaussEnablePq }
+  // { name: 'HUAWEI_CLOUD_HOSTS', value: huaweiCloudHosts }
+  // { name: 'HUAWEI_CLOUD_USER', value: huaweiCloudUser }
+  // { name: 'HUAWEI_CLOUD_PASSWORD', value: huaweiCloudPassword }
+  // { name: 'UPSTASH_VECTOR_URL', value: upstashVectorUrl }
+  // { name: 'UPSTASH_VECTOR_TOKEN', value: upstashVectorToken }
+  // { name: 'TABLESTORE_ENDPOINT', value: tablstoreEndpoint }
+  // { name: 'TABLESTORE_INSTANCE_NAME', value: tablstoreInstanceName }
+  // { name: 'TABLESTORE_ACCESS_KEY_ID', value: tablstoreAccessKeyId }
+  // { name: 'TABLESTORE_ACCESS_KEY_SECRET', value: tablstoreAccessKeySecret }
+  // { name: 'TABLESTORE_NORMALIZE_FULLTEXT_BM25_SCORE', value: tablstoreNormalizeFulltextBm25Score }
   { name: 'CLICKZETTA_USERNAME', value: clickzettaUsername }
   { name: 'CLICKZETTA_PASSWORD', value: clickzettaPassword }
   { name: 'CLICKZETTA_INSTANCE', value: clickzettaInstance }
