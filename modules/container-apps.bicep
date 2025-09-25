@@ -88,3 +88,56 @@ resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
     }
   }
 }
+
+param containerAppRedisName string = 'redis'
+param redisPassword string = 'difyai123456'
+resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppRedisName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'api'
+          image: 'docker.io/redis:6-alpine'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'REDISCLI_AUTH', value: redisPassword }
+          ]
+          command: [
+            'redis-server'
+            '--requirepass'
+            '${redisPassword}'
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'volume-redis-data'
+              mountPath: '/data'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-redis-data'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
