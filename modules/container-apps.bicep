@@ -424,13 +424,13 @@ param vectorIndexNamePrefix string = 'Vector_index'
 param weaviateEndpoint string = 'http://weaviate:8080'
 param weaviateApiKey string = 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
 
-param vastbaseHost string = 'vastbase'
-param vastbasePort string = '5432'
-param vastbaseUser string = 'dify'
-param vastbasePassword string = 'Difyai123456'
-param vastbaseDatabase string = 'dify'
-param vastbaseMinConnection string = '1'
-param vastbaseMaxConnection string = '5'
+// param vastbaseHost string = 'vastbase'
+// param vastbasePort string = '5432'
+// param vastbaseUser string = 'dify'
+// param vastbasePassword string = 'Difyai123456'
+// param vastbaseDatabase string = 'dify'
+// param vastbaseMinConnection string = '1'
+// param vastbaseMaxConnection string = '5'
 // param pgvectoRsHost string = 'pgvecto-rs'
 // param pgvectoRsPort string = '5432'
 // param pgvectoRsUser string = 'postgres'
@@ -939,13 +939,13 @@ var sharedApiWorkerEnv = [
   { name: 'WEAVIATE_ENDPOINT', value: weaviateEndpoint }
   { name: 'WEAVIATE_API_KEY', value: weaviateApiKey }
 
-  { name: 'VASTBASE_HOST', value: vastbaseHost }
-  { name: 'VASTBASE_PORT', value: vastbasePort }
-  { name: 'VASTBASE_USER', value: vastbaseUser }
-  { name: 'VASTBASE_PASSWORD', value: vastbasePassword }
-  { name: 'VASTBASE_DATABASE', value: vastbaseDatabase }
-  { name: 'VASTBASE_MIN_CONNECTION', value: vastbaseMinConnection }
-  { name: 'VASTBASE_MAX_CONNECTION', value: vastbaseMaxConnection }
+  // { name: 'VASTBASE_HOST', value: vastbaseHost }
+  // { name: 'VASTBASE_PORT', value: vastbasePort }
+  // { name: 'VASTBASE_USER', value: vastbaseUser }
+  // { name: 'VASTBASE_PASSWORD', value: vastbasePassword }
+  // { name: 'VASTBASE_DATABASE', value: vastbaseDatabase }
+  // { name: 'VASTBASE_MIN_CONNECTION', value: vastbaseMinConnection }
+  // { name: 'VASTBASE_MAX_CONNECTION', value: vastbaseMaxConnection }
   // { name: 'PGVECTO_RS_HOST', value: pgvectoRsHost }
   // { name: 'PGVECTO_RS_PORT', value: pgvectoRsPort }
   // { name: 'PGVECTO_RS_USER', value: pgvectoRsUser }
