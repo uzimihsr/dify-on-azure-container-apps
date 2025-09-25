@@ -3,3 +3,88 @@ param containerAppsEnvironmentName string
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' existing = {
   name: containerAppsEnvironmentName
 }
+
+param containerAppDbName string = 'db'
+param postgresUser string = 'postgres'
+param postgresPassword string = 'difyai123456'
+param postgresDb string = 'dify'
+param pgdata string = '/var/lib/postgresql/data/pgdata'
+param postgresMaxConnections string = '100'
+param postgresSharedBuffers string = '128MB'
+param postgresWorkMem string = '4MB'
+param postgresMainenceWorkMem string = '64MB'
+param postgresEffectiveCacheSize string = '4096MB'
+resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppDbName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'db'
+          image: 'docker.io/postgres:15-alpine'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'POSTGRES_USER', value: postgresUser }
+            { name: 'POSTGRES_PASSWORD', value: postgresPassword }
+            { name: 'POSTGRES_DB', value: postgresDb }
+            { name: 'PGDATA', value: pgdata }
+          ]
+          args: [
+            '-c'
+            'max_connections=${postgresMaxConnections}'
+            '-c'
+            'shared_buffers=${postgresSharedBuffers}'
+            '-c'
+            'work_mem=${postgresWorkMem}'
+            '-c'
+            'maintenance_work_mem=${postgresMainenceWorkMem}'
+            '-c'
+            'effective_cache_size=${postgresEffectiveCacheSize}'
+          ]
+          // command: [
+          //   'postgres'
+          //   '-c'
+          //   'max_connections=${pgdata}'
+          //   '-c'
+          //   'shared_buffers=${postgresSharedBuffers}'
+          //   '-c'
+          //   'work_mem=${postgresWorkMem}'
+          //   '-c'
+          //   'maintenance_work_mem=${postgresMainenceWorkMem}'
+          //   '-c'
+          //   'effective_cache_size=${postgresEffectiveCacheSize}'
+          // ] 
+          // "root" execution of the PostgreSQL server is not permitted...
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: [] // not supported https://github.com/langgenius/dify/blob/e937c8c72e56ec8690c1790ff40cb4311bb63510/docker/docker-compose.yaml#L718
+          volumeMounts: [
+            {
+              volumeName: 'volume-db-data'
+              mountPath: '/var/lib/postgresql/data'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-db-data'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
