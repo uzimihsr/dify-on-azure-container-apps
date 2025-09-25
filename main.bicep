@@ -5,3 +5,13 @@ module containerAppsEnvironment './modules/container-apps-environments.bicep' = 
     name: containerAppsEnvironmentName
   }
 }
+
+module containerApps './modules/container-apps.bicep' = {
+  name: 'containerapp-deployment'
+  params: {
+    containerAppsEnvironmentName: containerAppsEnvironmentName
+  }
+  dependsOn: [
+    containerAppsEnvironment
+  ]
+}
