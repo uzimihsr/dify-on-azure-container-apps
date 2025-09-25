@@ -689,33 +689,33 @@ param weaviateDefaultVectorizerModule string = 'none'
 // param weaviateAuthenticationApikeyUsers string = 'hello@dify.ai'
 // param weaviateAuthorizationAdminlistEnabled string = 'true'
 // param weaviateAuthorizationAdminlistUsers string = 'hello@dify.ai'
-param chromaServerAuthnCredentials string = 'difyai123456'
-param chromaServerAuthnProvider string = 'chromadb.auth.token_authn.TokenAuthenticationServerProvider'
-param chromaIsPersistent string = 'TRUE'
-param oraclePwd string = 'Dify123456'
-param oracleCharacterset string = 'AL32UTF8'
-param etcdAutoCompactionMode string = 'revision'
-param etcdAutoCompactionRetention string = '1000'
-param etcdQuotaBackendBytes string = '4294967296'
-param etcdSnapshotCount string = '50000'
-param minioAccessKey string = 'minioadmin'
-param minioSecretKey string = 'minioadmin'
-param etcdEndpoints string = 'etcd:2379'
-param minioAddress string = 'minio:9000'
-param milvusAuthorizationEnabled string = 'true'
-param pgvectorPguser string = 'postgres'
-param pgvectorPostgresPassword string = 'difyai123456'
-param pgvectorPostgresDb string = 'dify'
-param pgvectorPgdata string = '/var/lib/postgresql/data/pgdata'
-param opensearchDiscoveryType string = 'single-node'
-param opensearchBootstrapMemoryLock string = 'true'
-param opensearchJavaOptsMin string = '512m'
-param opensearchJavaOptsMax string = '1024m'
-param opensearchInitialAdminPassword string = 'Qazwsxedc!@#123'
-param opensearchMemlockSoft string = '-1'
-param opensearchMemlockHard string = '-1'
-param opensearchNofileSoft string = '65536'
-param opensearchNofileHard string = '65536'
+// param chromaServerAuthnCredentials string = 'difyai123456'
+// param chromaServerAuthnProvider string = 'chromadb.auth.token_authn.TokenAuthenticationServerProvider'
+// param chromaIsPersistent string = 'TRUE'
+// param oraclePwd string = 'Dify123456'
+// param oracleCharacterset string = 'AL32UTF8'
+// param etcdAutoCompactionMode string = 'revision'
+// param etcdAutoCompactionRetention string = '1000'
+// param etcdQuotaBackendBytes string = '4294967296'
+// param etcdSnapshotCount string = '50000'
+// param minioAccessKey string = 'minioadmin'
+// param minioSecretKey string = 'minioadmin'
+// param etcdEndpoints string = 'etcd:2379'
+// param minioAddress string = 'minio:9000'
+// param milvusAuthorizationEnabled string = 'true'
+// param pgvectorPguser string = 'postgres'
+// param pgvectorPostgresPassword string = 'difyai123456'
+// param pgvectorPostgresDb string = 'dify'
+// param pgvectorPgdata string = '/var/lib/postgresql/data/pgdata'
+// param opensearchDiscoveryType string = 'single-node'
+// param opensearchBootstrapMemoryLock string = 'true'
+// param opensearchJavaOptsMin string = '512m'
+// param opensearchJavaOptsMax string = '1024m'
+// param opensearchInitialAdminPassword string = 'Qazwsxedc!@#123'
+// param opensearchMemlockSoft string = '-1'
+// param opensearchMemlockHard string = '-1'
+// param opensearchNofileSoft string = '65536'
+// param opensearchNofileHard string = '65536'
 param nginxServerName string = '_'
 param nginxHttpsEnabled string = 'false'
 param nginxPort string = '80'
@@ -1204,33 +1204,33 @@ var sharedApiWorkerEnv = [
   { name: 'WEAVIATE_AUTHENTICATION_APIKEY_USERS', value: weaviateAuthenticationApikeyUsers }
   { name: 'WEAVIATE_AUTHORIZATION_ADMINLIST_ENABLED', value: weaviateAuthorizationAdminlistEnabled }
   { name: 'WEAVIATE_AUTHORIZATION_ADMINLIST_USERS', value: weaviateAuthorizationAdminlistUsers }
-  { name: 'CHROMA_SERVER_AUTHN_CREDENTIALS', value: chromaServerAuthnCredentials }
-  { name: 'CHROMA_SERVER_AUTHN_PROVIDER', value: chromaServerAuthnProvider }
-  { name: 'CHROMA_IS_PERSISTENT', value: chromaIsPersistent }
-  { name: 'ORACLE_PWD', value: oraclePwd }
-  { name: 'ORACLE_CHARACTERSET', value: oracleCharacterset }
-  { name: 'ETCD_AUTO_COMPACTION_MODE', value: etcdAutoCompactionMode }
-  { name: 'ETCD_AUTO_COMPACTION_RETENTION', value: etcdAutoCompactionRetention }
-  { name: 'ETCD_QUOTA_BACKEND_BYTES', value: etcdQuotaBackendBytes }
-  { name: 'ETCD_SNAPSHOT_COUNT', value: etcdSnapshotCount }
-  { name: 'MINIO_ACCESS_KEY', value: minioAccessKey }
-  { name: 'MINIO_SECRET_KEY', value: minioSecretKey }
-  { name: 'ETCD_ENDPOINTS', value: etcdEndpoints }
-  { name: 'MINIO_ADDRESS', value: minioAddress }
-  { name: 'MILVUS_AUTHORIZATION_ENABLED', value: milvusAuthorizationEnabled }
-  { name: 'PGVECTOR_PGUSER', value: pgvectorPguser }
-  { name: 'PGVECTOR_POSTGRES_PASSWORD', value: pgvectorPostgresPassword }
-  { name: 'PGVECTOR_POSTGRES_DB', value: pgvectorPostgresDb }
-  { name: 'PGVECTOR_PGDATA', value: pgvectorPgdata }
-  { name: 'OPENSEARCH_DISCOVERY_TYPE', value: opensearchDiscoveryType }
-  { name: 'OPENSEARCH_BOOTSTRAP_MEMORY_LOCK', value: opensearchBootstrapMemoryLock }
-  { name: 'OPENSEARCH_JAVA_OPTS_MIN', value: opensearchJavaOptsMin }
-  { name: 'OPENSEARCH_JAVA_OPTS_MAX', value: opensearchJavaOptsMax }
-  { name: 'OPENSEARCH_INITIAL_ADMIN_PASSWORD', value: opensearchInitialAdminPassword }
-  { name: 'OPENSEARCH_MEMLOCK_SOFT', value: opensearchMemlockSoft }
-  { name: 'OPENSEARCH_MEMLOCK_HARD', value: opensearchMemlockHard }
-  { name: 'OPENSEARCH_NOFILE_SOFT', value: opensearchNofileSoft }
-  { name: 'OPENSEARCH_NOFILE_HARD', value: opensearchNofileHard }
+  // { name: 'CHROMA_SERVER_AUTHN_CREDENTIALS', value: chromaServerAuthnCredentials }
+  // { name: 'CHROMA_SERVER_AUTHN_PROVIDER', value: chromaServerAuthnProvider }
+  // { name: 'CHROMA_IS_PERSISTENT', value: chromaIsPersistent }
+  // { name: 'ORACLE_PWD', value: oraclePwd }
+  // { name: 'ORACLE_CHARACTERSET', value: oracleCharacterset }
+  // { name: 'ETCD_AUTO_COMPACTION_MODE', value: etcdAutoCompactionMode }
+  // { name: 'ETCD_AUTO_COMPACTION_RETENTION', value: etcdAutoCompactionRetention }
+  // { name: 'ETCD_QUOTA_BACKEND_BYTES', value: etcdQuotaBackendBytes }
+  // { name: 'ETCD_SNAPSHOT_COUNT', value: etcdSnapshotCount }
+  // { name: 'MINIO_ACCESS_KEY', value: minioAccessKey }
+  // { name: 'MINIO_SECRET_KEY', value: minioSecretKey }
+  // { name: 'ETCD_ENDPOINTS', value: etcdEndpoints }
+  // { name: 'MINIO_ADDRESS', value: minioAddress }
+  // { name: 'MILVUS_AUTHORIZATION_ENABLED', value: milvusAuthorizationEnabled }
+  // { name: 'PGVECTOR_PGUSER', value: pgvectorPguser }
+  // { name: 'PGVECTOR_POSTGRES_PASSWORD', value: pgvectorPostgresPassword }
+  // { name: 'PGVECTOR_POSTGRES_DB', value: pgvectorPostgresDb }
+  // { name: 'PGVECTOR_PGDATA', value: pgvectorPgdata }
+  // { name: 'OPENSEARCH_DISCOVERY_TYPE', value: opensearchDiscoveryType }
+  // { name: 'OPENSEARCH_BOOTSTRAP_MEMORY_LOCK', value: opensearchBootstrapMemoryLock }
+  // { name: 'OPENSEARCH_JAVA_OPTS_MIN', value: opensearchJavaOptsMin }
+  // { name: 'OPENSEARCH_JAVA_OPTS_MAX', value: opensearchJavaOptsMax }
+  // { name: 'OPENSEARCH_INITIAL_ADMIN_PASSWORD', value: opensearchInitialAdminPassword }
+  // { name: 'OPENSEARCH_MEMLOCK_SOFT', value: opensearchMemlockSoft }
+  // { name: 'OPENSEARCH_MEMLOCK_HARD', value: opensearchMemlockHard }
+  // { name: 'OPENSEARCH_NOFILE_SOFT', value: opensearchNofileSoft }
+  // { name: 'OPENSEARCH_NOFILE_HARD', value: opensearchNofileHard }
   { name: 'NGINX_SERVER_NAME', value: nginxServerName }
   { name: 'NGINX_HTTPS_ENABLED', value: nginxHttpsEnabled }
   { name: 'NGINX_PORT', value: nginxPort }
