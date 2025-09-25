@@ -418,25 +418,7 @@ param clickzettaVolumeType string = 'user'
 param clickzettaVolumeName string = ''
 param clickzettaVolumeTablePrefix string = 'dataset_'
 param clickzettaVolumeDifyPrefix string = 'dify_km'
-param tencentCosBucketName string = 'your-bucket-name'
-param tencentCosSecretKey string = 'your-secret-key'
-param tencentCosSecretId string = 'your-secret-id'
-param tencentCosRegion string = 'your-region'
-param tencentCosScheme string = 'your-scheme'
-param ociEndpoint string = 'https://your-object-storage-namespace.compat.objectstorage.us-ashburn-1.oraclecloud.com'
-param ociBucketName string = 'your-bucket-name'
-param ociAccessKey string = 'your-access-key'
-param ociSecretKey string = 'your-secret-key'
-param ociRegion string = 'us-ashburn-1'
-param huaweiObsBucketName string = 'your-bucket-name'
-param huaweiObsSecretKey string = 'your-secret-key'
-param huaweiObsAccessKey string = 'your-access-key'
-param huaweiObsServer string = 'your-server-url'
-param volcengineTosBucketName string = 'your-bucket-name'
-param volcengineTosSecretKey string = 'your-secret-key'
-param volcengineTosAccessKey string = 'your-access-key'
-param volcengineTosEndpoint string = 'your-server-url'
-param volcengineTosRegion string = 'your-region'
+
 param baiduObsBucketName string = 'your-bucket-name'
 param baiduObsSecretKey string = 'your-secret-key'
 param baiduObsAccessKey string = 'your-access-key'
@@ -991,25 +973,7 @@ var sharedApiWorkerEnv = [
   { name: 'CLICKZETTA_VOLUME_NAME', value: clickzettaVolumeName }
   { name: 'CLICKZETTA_VOLUME_TABLE_PREFIX', value: clickzettaVolumeTablePrefix }
   { name: 'CLICKZETTA_VOLUME_DIFY_PREFIX', value: clickzettaVolumeDifyPrefix }
-  { name: 'TENCENT_COS_BUCKET_NAME', value: tencentCosBucketName }
-  { name: 'TENCENT_COS_SECRET_KEY', value: tencentCosSecretKey }
-  { name: 'TENCENT_COS_SECRET_ID', value: tencentCosSecretId }
-  { name: 'TENCENT_COS_REGION', value: tencentCosRegion }
-  { name: 'TENCENT_COS_SCHEME', value: tencentCosScheme }
-  { name: 'OCI_ENDPOINT', value: ociEndpoint }
-  { name: 'OCI_BUCKET_NAME', value: ociBucketName }
-  { name: 'OCI_ACCESS_KEY', value: ociAccessKey }
-  { name: 'OCI_SECRET_KEY', value: ociSecretKey }
-  { name: 'OCI_REGION', value: ociRegion }
-  { name: 'HUAWEI_OBS_BUCKET_NAME', value: huaweiObsBucketName }
-  { name: 'HUAWEI_OBS_SECRET_KEY', value: huaweiObsSecretKey }
-  { name: 'HUAWEI_OBS_ACCESS_KEY', value: huaweiObsAccessKey }
-  { name: 'HUAWEI_OBS_SERVER', value: huaweiObsServer }
-  { name: 'VOLCENGINE_TOS_BUCKET_NAME', value: volcengineTosBucketName }
-  { name: 'VOLCENGINE_TOS_SECRET_KEY', value: volcengineTosSecretKey }
-  { name: 'VOLCENGINE_TOS_ACCESS_KEY', value: volcengineTosAccessKey }
-  { name: 'VOLCENGINE_TOS_ENDPOINT', value: volcengineTosEndpoint }
-  { name: 'VOLCENGINE_TOS_REGION', value: volcengineTosRegion }
+
   { name: 'BAIDU_OBS_BUCKET_NAME', value: baiduObsBucketName }
   { name: 'BAIDU_OBS_SECRET_KEY', value: baiduObsSecretKey }
   { name: 'BAIDU_OBS_ACCESS_KEY', value: baiduObsAccessKey }
