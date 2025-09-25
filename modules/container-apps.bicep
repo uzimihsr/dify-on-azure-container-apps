@@ -453,11 +453,11 @@ param weaviateApiKey string = 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
 // param tidbVectorUser string = ''
 // param tidbVectorPassword string = ''
 // param tidbVectorDatabase string = 'dify'
-param matrixoneHost string = 'matrixone'
-param matrixonePort string = '6001'
-param matrixoneUser string = 'dump'
-param matrixonePassword string = '111'
-param matrixoneDatabase string = 'dify'
+// param matrixoneHost string = 'matrixone'
+// param matrixonePort string = '6001'
+// param matrixoneUser string = 'dump'
+// param matrixonePassword string = '111'
+// param matrixoneDatabase string = 'dify'
 // param tidbOnQdrantUrl string = 'http://127.0.0.1'
 // param tidbOnQdrantApiKey string = 'dify'
 // param tidbOnQdrantClientTimeout string = '20'
@@ -968,11 +968,11 @@ var sharedApiWorkerEnv = [
   // { name: 'TIDB_VECTOR_USER', value: tidbVectorUser }
   // { name: 'TIDB_VECTOR_PASSWORD', value: tidbVectorPassword }
   // { name: 'TIDB_VECTOR_DATABASE', value: tidbVectorDatabase }
-  { name: 'MATRIXONE_HOST', value: matrixoneHost }
-  { name: 'MATRIXONE_PORT', value: matrixonePort }
-  { name: 'MATRIXONE_USER', value: matrixoneUser }
-  { name: 'MATRIXONE_PASSWORD', value: matrixonePassword }
-  { name: 'MATRIXONE_DATABASE', value: matrixoneDatabase }
+  // { name: 'MATRIXONE_HOST', value: matrixoneHost }
+  // { name: 'MATRIXONE_PORT', value: matrixonePort }
+  // { name: 'MATRIXONE_USER', value: matrixoneUser }
+  // { name: 'MATRIXONE_PASSWORD', value: matrixonePassword }
+  // { name: 'MATRIXONE_DATABASE', value: matrixoneDatabase }
   // { name: 'TIDB_ON_QDRANT_URL', value: tidbOnQdrantUrl }
   // { name: 'TIDB_ON_QDRANT_API_KEY', value: tidbOnQdrantApiKey }
   // { name: 'TIDB_ON_QDRANT_CLIENT_TIMEOUT', value: tidbOnQdrantClientTimeout }
