@@ -458,31 +458,31 @@ param matrixonePort string = '6001'
 param matrixoneUser string = 'dump'
 param matrixonePassword string = '111'
 param matrixoneDatabase string = 'dify'
-param tidbOnQdrantUrl string = 'http://127.0.0.1'
-param tidbOnQdrantApiKey string = 'dify'
-param tidbOnQdrantClientTimeout string = '20'
-param tidbOnQdrantGrpcEnabled string = 'false'
-param tidbOnQdrantGrpcPort string = '6334'
-param tidbPublicKey string = 'dify'
-param tidbPrivateKey string = 'dify'
-param tidbApiUrl string = 'http://127.0.0.1'
-param tidbIamApiUrl string = 'http://127.0.0.1'
-param tidbRegion string = 'regions/aws-us-east-1'
-param tidbProjectId string = 'dify'
-param tidbSpendLimit string = '100'
-param chromaHost string = '127.0.0.1'
-param chromaPort string = '8000'
-param chromaTenant string = 'default_tenant'
-param chromaDatabase string = 'default_database'
-param chromaAuthProvider string = 'chromadb.auth.token_authn.TokenAuthClientProvider'
-param chromaAuthCredentials string = ''
-param oracleUser string = 'dify'
-param oraclePassword string = 'dify'
-param oracleDsn string = 'oracle:1521/FREEPDB1'
-param oracleConfigDir string = '/app/api/storage/wallet'
-param oracleWalletLocation string = '/app/api/storage/wallet'
-param oracleWalletPassword string = 'dify'
-param oracleIsAutonomous string = 'false'
+// param tidbOnQdrantUrl string = 'http://127.0.0.1'
+// param tidbOnQdrantApiKey string = 'dify'
+// param tidbOnQdrantClientTimeout string = '20'
+// param tidbOnQdrantGrpcEnabled string = 'false'
+// param tidbOnQdrantGrpcPort string = '6334'
+// param tidbPublicKey string = 'dify'
+// param tidbPrivateKey string = 'dify'
+// param tidbApiUrl string = 'http://127.0.0.1'
+// param tidbIamApiUrl string = 'http://127.0.0.1'
+// param tidbRegion string = 'regions/aws-us-east-1'
+// param tidbProjectId string = 'dify'
+// param tidbSpendLimit string = '100'
+// param chromaHost string = '127.0.0.1'
+// param chromaPort string = '8000'
+// param chromaTenant string = 'default_tenant'
+// param chromaDatabase string = 'default_database'
+// param chromaAuthProvider string = 'chromadb.auth.token_authn.TokenAuthClientProvider'
+// param chromaAuthCredentials string = ''
+// param oracleUser string = 'dify'
+// param oraclePassword string = 'dify'
+// param oracleDsn string = 'oracle:1521/FREEPDB1'
+// param oracleConfigDir string = '/app/api/storage/wallet'
+// param oracleWalletLocation string = '/app/api/storage/wallet'
+// param oracleWalletPassword string = 'dify'
+// param oracleIsAutonomous string = 'false'
 param relytHost string = 'db'
 param relytPort string = '5432'
 param relytUser string = 'postgres'
@@ -973,31 +973,31 @@ var sharedApiWorkerEnv = [
   { name: 'MATRIXONE_USER', value: matrixoneUser }
   { name: 'MATRIXONE_PASSWORD', value: matrixonePassword }
   { name: 'MATRIXONE_DATABASE', value: matrixoneDatabase }
-  { name: 'TIDB_ON_QDRANT_URL', value: tidbOnQdrantUrl }
-  { name: 'TIDB_ON_QDRANT_API_KEY', value: tidbOnQdrantApiKey }
-  { name: 'TIDB_ON_QDRANT_CLIENT_TIMEOUT', value: tidbOnQdrantClientTimeout }
-  { name: 'TIDB_ON_QDRANT_GRPC_ENABLED', value: tidbOnQdrantGrpcEnabled }
-  { name: 'TIDB_ON_QDRANT_GRPC_PORT', value: tidbOnQdrantGrpcPort }
-  { name: 'TIDB_PUBLIC_KEY', value: tidbPublicKey }
-  { name: 'TIDB_PRIVATE_KEY', value: tidbPrivateKey }
-  { name: 'TIDB_API_URL', value: tidbApiUrl }
-  { name: 'TIDB_IAM_API_URL', value: tidbIamApiUrl }
-  { name: 'TIDB_REGION', value: tidbRegion }
-  { name: 'TIDB_PROJECT_ID', value: tidbProjectId }
-  { name: 'TIDB_SPEND_LIMIT', value: tidbSpendLimit }
-  { name: 'CHROMA_HOST', value: chromaHost }
-  { name: 'CHROMA_PORT', value: chromaPort }
-  { name: 'CHROMA_TENANT', value: chromaTenant }
-  { name: 'CHROMA_DATABASE', value: chromaDatabase }
-  { name: 'CHROMA_AUTH_PROVIDER', value: chromaAuthProvider }
-  { name: 'CHROMA_AUTH_CREDENTIALS', value: chromaAuthCredentials }
-  { name: 'ORACLE_USER', value: oracleUser }
-  { name: 'ORACLE_PASSWORD', value: oraclePassword }
-  { name: 'ORACLE_DSN', value: oracleDsn }
-  { name: 'ORACLE_CONFIG_DIR', value: oracleConfigDir }
-  { name: 'ORACLE_WALLET_LOCATION', value: oracleWalletLocation }
-  { name: 'ORACLE_WALLET_PASSWORD', value: oracleWalletPassword }
-  { name: 'ORACLE_IS_AUTONOMOUS', value: oracleIsAutonomous }
+  // { name: 'TIDB_ON_QDRANT_URL', value: tidbOnQdrantUrl }
+  // { name: 'TIDB_ON_QDRANT_API_KEY', value: tidbOnQdrantApiKey }
+  // { name: 'TIDB_ON_QDRANT_CLIENT_TIMEOUT', value: tidbOnQdrantClientTimeout }
+  // { name: 'TIDB_ON_QDRANT_GRPC_ENABLED', value: tidbOnQdrantGrpcEnabled }
+  // { name: 'TIDB_ON_QDRANT_GRPC_PORT', value: tidbOnQdrantGrpcPort }
+  // { name: 'TIDB_PUBLIC_KEY', value: tidbPublicKey }
+  // { name: 'TIDB_PRIVATE_KEY', value: tidbPrivateKey }
+  // { name: 'TIDB_API_URL', value: tidbApiUrl }
+  // { name: 'TIDB_IAM_API_URL', value: tidbIamApiUrl }
+  // { name: 'TIDB_REGION', value: tidbRegion }
+  // { name: 'TIDB_PROJECT_ID', value: tidbProjectId }
+  // { name: 'TIDB_SPEND_LIMIT', value: tidbSpendLimit }
+  // { name: 'CHROMA_HOST', value: chromaHost }
+  // { name: 'CHROMA_PORT', value: chromaPort }
+  // { name: 'CHROMA_TENANT', value: chromaTenant }
+  // { name: 'CHROMA_DATABASE', value: chromaDatabase }
+  // { name: 'CHROMA_AUTH_PROVIDER', value: chromaAuthProvider }
+  // { name: 'CHROMA_AUTH_CREDENTIALS', value: chromaAuthCredentials }
+  // { name: 'ORACLE_USER', value: oracleUser }
+  // { name: 'ORACLE_PASSWORD', value: oraclePassword }
+  // { name: 'ORACLE_DSN', value: oracleDsn }
+  // { name: 'ORACLE_CONFIG_DIR', value: oracleConfigDir }
+  // { name: 'ORACLE_WALLET_LOCATION', value: oracleWalletLocation }
+  // { name: 'ORACLE_WALLET_PASSWORD', value: oracleWalletPassword }
+  // { name: 'ORACLE_IS_AUTONOMOUS', value: oracleIsAutonomous }
   { name: 'RELYT_HOST', value: relytHost }
   { name: 'RELYT_PORT', value: relytPort }
   { name: 'RELYT_USER', value: relytUser }
