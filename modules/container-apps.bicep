@@ -141,3 +141,69 @@ resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
     }
   }
 }
+
+param containerAppWeaviateName string = 'weaviate'
+param weaviatePersistenceDataPath string = '/var/lib/weaviate'
+param weaviateQueryDefaultsLimit string = '25'
+param weaviateAuthenticationAnonymousAccessEnabled string = 'false'
+param weviateDefaultVectorizerModule string = 'none'
+param weaviateClusterHostname string = 'node1'
+param weaviateAuthenticationApikeyEnabled string = 'true'
+param weaviateAuthenticationApikeyAllowedKeys string = 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
+param weaviateAuthenticationApikeyUsers string = 'hello@dify.ai'
+param weaviateAuthorizationAdminlistEnabled string = 'true'
+param weaviateAuthorizationAdminlistUsers string = 'hello@dify.ai'
+resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppWeaviateName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'api'
+          image: 'docker.io/semitechnologies/weaviate:1.19.0'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'PERSISTENCE_DATA_PATH', value: weaviatePersistenceDataPath }
+            { name: 'QUERY_DEFAULTS_LIMIT', value: weaviateQueryDefaultsLimit }
+            { name: 'AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED', value: weaviateAuthenticationAnonymousAccessEnabled }
+            { name: 'DEFAULT_VECTORIZER_MODULE', value: weviateDefaultVectorizerModule }
+            { name: 'CLUSTER_HOSTNAME', value: weaviateClusterHostname }
+            { name: 'AUTHENTICATION_APIKEY_ENABLED', value: weaviateAuthenticationApikeyEnabled }
+            { name: 'AUTHENTICATION_APIKEY_ALLOWED_KEYS', value: weaviateAuthenticationApikeyAllowedKeys }
+            { name: 'AUTHENTICATION_APIKEY_USERS', value: weaviateAuthenticationApikeyUsers }
+            { name: 'AUTHORIZATION_ADMINLIST_ENABLED', value: weaviateAuthorizationAdminlistEnabled }
+            { name: 'AUTHORIZATION_ADMINLIST_USERS', value: weaviateAuthorizationAdminlistUsers }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'volume-weaviate'
+              mountPath: '/var/lib/weaviate'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-weaviate'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
