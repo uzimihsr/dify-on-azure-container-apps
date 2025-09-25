@@ -418,15 +418,6 @@ param clickzettaVolumeType string = 'user'
 param clickzettaVolumeName string = ''
 param clickzettaVolumeTablePrefix string = 'dataset_'
 param clickzettaVolumeDifyPrefix string = 'dify_km'
-param googleStorageBucketName string = 'your-bucket-name'
-param googleStorageServiceAccountJsonBase64 string = ''
-param aliyunOssBucketName string = 'your-bucket-name'
-param aliyunOssAccessKey string = 'your-access-key'
-param aliyunOssSecretKey string = 'your-secret-key'
-param aliyunOssEndpoint string = 'https://oss-ap-southeast-1-internal.aliyuncs.com'
-param aliyunOssRegion string = 'ap-southeast-1'
-param aliyunOssAuthVersion string = 'v4'
-param aliyunOssPath string = 'your-path'
 param tencentCosBucketName string = 'your-bucket-name'
 param tencentCosSecretKey string = 'your-secret-key'
 param tencentCosSecretId string = 'your-secret-id'
@@ -1000,15 +991,6 @@ var sharedApiWorkerEnv = [
   { name: 'CLICKZETTA_VOLUME_NAME', value: clickzettaVolumeName }
   { name: 'CLICKZETTA_VOLUME_TABLE_PREFIX', value: clickzettaVolumeTablePrefix }
   { name: 'CLICKZETTA_VOLUME_DIFY_PREFIX', value: clickzettaVolumeDifyPrefix }
-  { name: 'GOOGLE_STORAGE_BUCKET_NAME', value: googleStorageBucketName }
-  { name: 'GOOGLE_STORAGE_SERVICE_ACCOUNT_JSON_BASE64', value: googleStorageServiceAccountJsonBase64 }
-  { name: 'ALIYUN_OSS_BUCKET_NAME', value: aliyunOssBucketName }
-  { name: 'ALIYUN_OSS_ACCESS_KEY', value: aliyunOssAccessKey }
-  { name: 'ALIYUN_OSS_SECRET_KEY', value: aliyunOssSecretKey }
-  { name: 'ALIYUN_OSS_ENDPOINT', value: aliyunOssEndpoint }
-  { name: 'ALIYUN_OSS_REGION', value: aliyunOssRegion }
-  { name: 'ALIYUN_OSS_AUTH_VERSION', value: aliyunOssAuthVersion }
-  { name: 'ALIYUN_OSS_PATH', value: aliyunOssPath }
   { name: 'TENCENT_COS_BUCKET_NAME', value: tencentCosBucketName }
   { name: 'TENCENT_COS_SECRET_KEY', value: tencentCosSecretKey }
   { name: 'TENCENT_COS_SECRET_ID', value: tencentCosSecretId }
