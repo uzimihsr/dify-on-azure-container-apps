@@ -418,10 +418,6 @@ param clickzettaVolumeType string = 'user'
 param clickzettaVolumeName string = ''
 param clickzettaVolumeTablePrefix string = 'dataset_'
 param clickzettaVolumeDifyPrefix string = 'dify_km'
-param azureBlobAccountName string = 'difyai'
-param azureBlobAccountKey string = 'difyai'
-param azureBlobContainerName string = 'difyai-container'
-param azureBlobAccountUrl string = 'https://<your_account_name>.blob.core.windows.net'
 param googleStorageBucketName string = 'your-bucket-name'
 param googleStorageServiceAccountJsonBase64 string = ''
 param aliyunOssBucketName string = 'your-bucket-name'
@@ -1004,10 +1000,6 @@ var sharedApiWorkerEnv = [
   { name: 'CLICKZETTA_VOLUME_NAME', value: clickzettaVolumeName }
   { name: 'CLICKZETTA_VOLUME_TABLE_PREFIX', value: clickzettaVolumeTablePrefix }
   { name: 'CLICKZETTA_VOLUME_DIFY_PREFIX', value: clickzettaVolumeDifyPrefix }
-  { name: 'AZURE_BLOB_ACCOUNT_NAME', value: azureBlobAccountName }
-  { name: 'AZURE_BLOB_ACCOUNT_KEY', value: azureBlobAccountKey }
-  { name: 'AZURE_BLOB_CONTAINER_NAME', value: azureBlobContainerName }
-  { name: 'AZURE_BLOB_ACCOUNT_URL', value: azureBlobAccountUrl }
   { name: 'GOOGLE_STORAGE_BUCKET_NAME', value: googleStorageBucketName }
   { name: 'GOOGLE_STORAGE_SERVICE_ACCOUNT_JSON_BASE64', value: googleStorageServiceAccountJsonBase64 }
   { name: 'ALIYUN_OSS_BUCKET_NAME', value: aliyunOssBucketName }
