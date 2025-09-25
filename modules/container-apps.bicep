@@ -207,3 +207,65 @@ resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' =
     }
   }
 }
+
+param containerAppSsrfProxyName string = 'ssrf_proxy'
+param ssrfHttpPort string = '3128'
+param ssrfCoredumpDir string = '/var/spool/squid'
+param ssrfReverseProxyPort string = '8194'
+param ssrfSandboxHost string = 'sandbox'
+param sandboxPort string = '8194'
+resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppSsrfProxyName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'ssrf_proxy'
+          image: 'docker.io/ubuntu/squid:latest'
+          imageType: 'ContainerImage'
+          command: [
+            'sh'
+            '-c'
+            'cp /docker-entrypoint-mount.sh /docker-entrypoint.sh && sed -i \'s/\r$$//\' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && /docker-entrypoint.sh'
+          ]
+          env: [
+            { name: 'HTTP_PORT', value: ssrfHttpPort }
+            { name: 'COREDUMP_DIR', value: ssrfCoredumpDir }
+            { name: 'REVERSE_PROXY_PORT', value: ssrfReverseProxyPort }
+            { name: 'SANDBOX_HOST', value: ssrfSandboxHost }
+            { name: 'SANDBOX_PORT', value: sandboxPort }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'ssrf-proxy'
+              mountPath: '/'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        // TODO: Azure File共有に変更すること
+        {
+          name: 'ssrf-proxy'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
