@@ -164,7 +164,7 @@ resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' =
     template: {
       containers: [
         {
-          name: 'api'
+          name: 'weaviate'
           image: 'docker.io/semitechnologies/weaviate:1.19.0'
           imageType: 'ContainerImage'
           env: [
