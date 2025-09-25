@@ -423,39 +423,7 @@ param vectorStore string = 'weaviate'
 param vectorIndexNamePrefix string = 'Vector_index'
 param weaviateEndpoint string = 'http://weaviate:8080'
 param weaviateApiKey string = 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
-param qdrantUrl string = 'http://qdrant:6333'
-param qdrantApiKey string = 'difyai123456'
-param qdrantClientTimeout string = '20'
-param qdrantGrpcEnabled string = 'false'
-param qdrantGrpcPort string = '6334'
-param qdrantReplicationFactor string = '1'
-param milvusUri string = 'http://host.docker.internal:19530'
-param milvusDatabase string = ''
-param milvusToken string = ''
-param milvusUser string = ''
-param milvusPassword string = ''
-param milvusEnableHybridSearch string = 'False'
-param milvusAnalyzerParams string = ''
-param myscaleHost string = 'myscale'
-param myscalePort string = '8123'
-param myscaleUser string = 'default'
-param myscalePassword string = ''
-param myscaleDatabase string = 'dify'
-param myscaleFtsParams string = ''
-param couchbaseConnectionString string = 'couchbase://couchbase-server'
-param couchbaseUser string = 'Administrator'
-param couchbasePassword string = 'password'
-param couchbaseBucketName string = 'Embeddings'
-param couchbaseScopeName string = '_default'
-param pgvectorHost string = 'pgvector'
-param pgvectorPort string = '5432'
-param pgvectorUser string = 'postgres'
-param pgvectorPassword string = 'difyai123456'
-param pgvectorDatabase string = 'dify'
-param pgvectorMinConnection string = '1'
-param pgvectorMaxConnection string = '5'
-param pgvectorPgBigM string = 'false'
-param pgvectorPgBigMVersion string = '1.2-20240606'
+
 param vastbaseHost string = 'vastbase'
 param vastbasePort string = '5432'
 param vastbaseUser string = 'dify'
@@ -970,39 +938,7 @@ var sharedApiWorkerEnv = [
   { name: 'VECTOR_INDEX_NAME_PREFIX', value: vectorIndexNamePrefix }
   { name: 'WEAVIATE_ENDPOINT', value: weaviateEndpoint }
   { name: 'WEAVIATE_API_KEY', value: weaviateApiKey }
-  { name: 'QDRANT_URL', value: qdrantUrl }
-  { name: 'QDRANT_API_KEY', value: qdrantApiKey }
-  { name: 'QDRANT_CLIENT_TIMEOUT', value: qdrantClientTimeout }
-  { name: 'QDRANT_GRPC_ENABLED', value: qdrantGrpcEnabled }
-  { name: 'QDRANT_GRPC_PORT', value: qdrantGrpcPort }
-  { name: 'QDRANT_REPLICATION_FACTOR', value: qdrantReplicationFactor }
-  { name: 'MILVUS_URI', value: milvusUri }
-  { name: 'MILVUS_DATABASE', value: milvusDatabase }
-  { name: 'MILVUS_TOKEN', value: milvusToken }
-  { name: 'MILVUS_USER', value: milvusUser }
-  { name: 'MILVUS_PASSWORD', value: milvusPassword }
-  { name: 'MILVUS_ENABLE_HYBRID_SEARCH', value: milvusEnableHybridSearch }
-  { name: 'MILVUS_ANALYZER_PARAMS', value: milvusAnalyzerParams }
-  { name: 'MYSCALE_HOST', value: myscaleHost }
-  { name: 'MYSCALE_PORT', value: myscalePort }
-  { name: 'MYSCALE_USER', value: myscaleUser }
-  { name: 'MYSCALE_PASSWORD', value: myscalePassword }
-  { name: 'MYSCALE_DATABASE', value: myscaleDatabase }
-  { name: 'MYSCALE_FTS_PARAMS', value: myscaleFtsParams }
-  { name: 'COUCHBASE_CONNECTION_STRING', value: couchbaseConnectionString }
-  { name: 'COUCHBASE_USER', value: couchbaseUser }
-  { name: 'COUCHBASE_PASSWORD', value: couchbasePassword }
-  { name: 'COUCHBASE_BUCKET_NAME', value: couchbaseBucketName }
-  { name: 'COUCHBASE_SCOPE_NAME', value: couchbaseScopeName }
-  { name: 'PGVECTOR_HOST', value: pgvectorHost }
-  { name: 'PGVECTOR_PORT', value: pgvectorPort }
-  { name: 'PGVECTOR_USER', value: pgvectorUser }
-  { name: 'PGVECTOR_PASSWORD', value: pgvectorPassword }
-  { name: 'PGVECTOR_DATABASE', value: pgvectorDatabase }
-  { name: 'PGVECTOR_MIN_CONNECTION', value: pgvectorMinConnection }
-  { name: 'PGVECTOR_MAX_CONNECTION', value: pgvectorMaxConnection }
-  { name: 'PGVECTOR_PG_BIGM', value: pgvectorPgBigM }
-  { name: 'PGVECTOR_PG_BIGM_VERSION', value: pgvectorPgBigMVersion }
+
   { name: 'VASTBASE_HOST', value: vastbaseHost }
   { name: 'VASTBASE_PORT', value: vastbasePort }
   { name: 'VASTBASE_USER', value: vastbaseUser }
