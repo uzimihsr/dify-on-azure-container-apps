@@ -419,13 +419,6 @@ param clickzettaVolumeName string = ''
 param clickzettaVolumeTablePrefix string = 'dataset_'
 param clickzettaVolumeDifyPrefix string = 'dify_km'
 
-param baiduObsBucketName string = 'your-bucket-name'
-param baiduObsSecretKey string = 'your-secret-key'
-param baiduObsAccessKey string = 'your-access-key'
-param baiduObsEndpoint string = 'your-server-url'
-param supabaseBucketName string = 'your-bucket-name'
-param supabaseApiKey string = 'your-access-key'
-param supabaseUrl string = 'your-server-url'
 param vectorStore string = 'weaviate'
 param vectorIndexNamePrefix string = 'Vector_index'
 param weaviateEndpoint string = 'http://weaviate:8080'
@@ -973,14 +966,6 @@ var sharedApiWorkerEnv = [
   { name: 'CLICKZETTA_VOLUME_NAME', value: clickzettaVolumeName }
   { name: 'CLICKZETTA_VOLUME_TABLE_PREFIX', value: clickzettaVolumeTablePrefix }
   { name: 'CLICKZETTA_VOLUME_DIFY_PREFIX', value: clickzettaVolumeDifyPrefix }
-
-  { name: 'BAIDU_OBS_BUCKET_NAME', value: baiduObsBucketName }
-  { name: 'BAIDU_OBS_SECRET_KEY', value: baiduObsSecretKey }
-  { name: 'BAIDU_OBS_ACCESS_KEY', value: baiduObsAccessKey }
-  { name: 'BAIDU_OBS_ENDPOINT', value: baiduObsEndpoint }
-  { name: 'SUPABASE_BUCKET_NAME', value: supabaseBucketName }
-  { name: 'SUPABASE_API_KEY', value: supabaseApiKey }
-  { name: 'SUPABASE_URL', value: supabaseUrl }
   { name: 'VECTOR_STORE', value: vectorStore }
   { name: 'VECTOR_INDEX_NAME_PREFIX', value: vectorIndexNamePrefix }
   { name: 'WEAVIATE_ENDPOINT', value: weaviateEndpoint }
