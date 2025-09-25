@@ -418,12 +418,6 @@ param clickzettaVolumeType string = 'user'
 param clickzettaVolumeName string = ''
 param clickzettaVolumeTablePrefix string = 'dataset_'
 param clickzettaVolumeDifyPrefix string = 'dify_km'
-param s3Endpoint string = ''
-param s3Region string = 'us-east-1'
-param s3BucketName string = 'difyai'
-param s3AccessKey string = ''
-param s3SecretKey string = ''
-param s3UseAwsManagedIam string = 'false'
 param azureBlobAccountName string = 'difyai'
 param azureBlobAccountKey string = 'difyai'
 param azureBlobContainerName string = 'difyai-container'
@@ -1010,12 +1004,6 @@ var sharedApiWorkerEnv = [
   { name: 'CLICKZETTA_VOLUME_NAME', value: clickzettaVolumeName }
   { name: 'CLICKZETTA_VOLUME_TABLE_PREFIX', value: clickzettaVolumeTablePrefix }
   { name: 'CLICKZETTA_VOLUME_DIFY_PREFIX', value: clickzettaVolumeDifyPrefix }
-  { name: 'S3_ENDPOINT', value: s3Endpoint }
-  { name: 'S3_REGION', value: s3Region }
-  { name: 'S3_BUCKET_NAME', value: s3BucketName }
-  { name: 'S3_ACCESS_KEY', value: s3AccessKey }
-  { name: 'S3_SECRET_KEY', value: s3SecretKey }
-  { name: 'S3_USE_AWS_MANAGED_IAM', value: s3UseAwsManagedIam }
   { name: 'AZURE_BLOB_ACCOUNT_NAME', value: azureBlobAccountName }
   { name: 'AZURE_BLOB_ACCOUNT_KEY', value: azureBlobAccountKey }
   { name: 'AZURE_BLOB_CONTAINER_NAME', value: azureBlobContainerName }
@@ -1504,3 +1492,119 @@ var sharedApiWorkerEnv = [
   { name: 'ENABLE_DATASETS_QUEUE_MONITOR', value: enableDatasetsQueueMonitor }
   { name: 'ENABLE_CHECK_UPGRADABLE_PLUGIN_TASK', value: enableCheckUpgradablePluginTask }
 ]
+
+// param containerAppApiName string = 'api'
+// param difyImageName string = 'docker.io/langgenius/dify-api:1.9.0'
+// param apiSentryDsn string = ''
+// param apiSentryTracesSampleRate string = '1.0'
+// param apiSentryProfilesSampleRate string = '1.0'
+// param exposePluginDebuggingHost string = 'localhost'
+// param exposePluginDebuggingPort string = '5003'
+// param pluginMaxPackageSize string = '52428800'
+// param pluginDifyInnerApiKey string = 'QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1'
+// resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
+//   name: containerAppApiName
+//   location: resourceGroup().location
+//   kind: 'containerapps'
+//   properties: {
+//     environmentId: containerAppsEnvironment.id
+//     workloadProfileName: 'Consumption'
+//     configuration: {
+//       ingress: {
+//         external: true
+//         targetPort: 5001
+//         exposedPort: 0
+//         transport: 'Auto'
+//         traffic: [
+//           {
+//             weight: 100
+//             latestRevision: true
+//           }
+//         ]
+//         allowInsecure: false
+//         stickySessions: {
+//           affinity: 'none'
+//         }
+//       }
+//     }
+//     template: {
+//       containers: [
+//         {
+//           name: 'api'
+//           image: difyImageName
+//           imageType: 'ContainerImage'
+//           env: concat(sharedApiWorkerEnv, [
+//             { name: 'MODE', value: 'api' }
+//             { name: 'SENTRY_DSN', value: apiSentryDsn }
+//             { name: 'SENTRY_TRACES_SAMPLE_RATE', value: apiSentryTracesSampleRate }
+//             { name: 'SENTRY_PROFILES_SAMPLE_RATE', value: apiSentryProfilesSampleRate }
+//             { name: 'PLUGIN_REMOTE_INSTALL_HOST', value: exposePluginDebuggingHost }
+//             { name: 'PLUGIN_REMOTE_INSTALL_PORT', value: exposePluginDebuggingPort }
+//             { name: 'PLUGIN_MAX_PACKAGE_SIZE', value: pluginMaxPackageSize }
+//             { name: 'INNER_API_KEY_FOR_PLUGIN', value: pluginDifyInnerApiKey }
+//           ])
+//           resources: {
+//             cpu: json('0.5')
+//             memory: '1Gi'
+//           }
+//           probes: []
+//           volumeMounts: [
+//             {
+//               volumeName: 'volume-app-storage'
+//               mountPath: '/app/api/storage'
+//             }
+//           ]
+//         }
+//         {
+//           name: 'worker'
+//           image: difyImageName
+//           imageType: 'ContainerImage'
+//           env: concat(sharedApiWorkerEnv, [
+//             { name: 'MODE', value: 'worker' }
+//             { name: 'SENTRY_DSN', value: apiSentryDsn }
+//             { name: 'SENTRY_TRACES_SAMPLE_RATE', value: apiSentryTracesSampleRate }
+//             { name: 'SENTRY_PROFILES_SAMPLE_RATE', value: apiSentryProfilesSampleRate }
+//             { name: 'PLUGIN_MAX_PACKAGE_SIZE', value: pluginMaxPackageSize }
+//             { name: 'INNER_API_KEY_FOR_PLUGIN', value: pluginDifyInnerApiKey }
+//           ])
+//           resources: {
+//             cpu: json('0.5')
+//             memory: '1Gi'
+//           }
+//           probes: []
+//           volumeMounts: [
+//             {
+//               volumeName: 'volume-app-storage'
+//               mountPath: '/app/api/storage'
+//             }
+//           ]
+//         }
+//         {
+//           name: 'worker-beat'
+//           image: difyImageName
+//           imageType: 'ContainerImage'
+//           env: concat(sharedApiWorkerEnv, [
+//             { name: 'MODE', value: 'beat' }
+//           ])
+//           resources: {
+//             cpu: json('0.5')
+//             memory: '1Gi'
+//           }
+//           probes: []
+//         }
+//       ]
+//       scale: {
+//         minReplicas: 1
+//         maxReplicas: 1
+//         cooldownPeriod: 300
+//         pollingInterval: 30
+//       }
+//       volumes: [
+//         {
+//           name: 'volume-app-storage'
+//           storageType: 'EmptyDir'
+//         }
+//       ]
+//     }
+//   }
+// }
