@@ -483,50 +483,50 @@ param matrixoneDatabase string = 'dify'
 // param oracleWalletLocation string = '/app/api/storage/wallet'
 // param oracleWalletPassword string = 'dify'
 // param oracleIsAutonomous string = 'false'
-param relytHost string = 'db'
-param relytPort string = '5432'
-param relytUser string = 'postgres'
-param relytPassword string = 'difyai123456'
-param relytDatabase string = 'postgres'
-param opensearchHost string = 'opensearch'
-param opensearchPort string = '9200'
-param opensearchSecure string = 'true'
-param opensearchVerifyCerts string = 'true'
-param opensearchAuthMethod string = 'basic'
-param opensearchUser string = 'admin'
-param opensearchPassword string = 'admin'
-param opensearchAwsRegion string = 'ap-southeast-1'
-param opensearchAwsService string = 'aoss'
-param tencentVectorDbUrl string = 'http://127.0.0.1'
-param tencentVectorDbApiKey string = 'dify'
-param tencentVectorDbTimeout string = '30'
-param tencentVectorDbUsername string = 'dify'
-param tencentVectorDbDatabase string = 'dify'
-param tencentVectorDbShard string = '1'
-param tencentVectorDbReplicas string = '2'
-param tencentVectorDbEnableHybridSearch string = 'false'
-param elasticsearchHost string = '0.0.0.0'
-param elasticsearchPort string = '9200'
-param elasticsearchUsername string = 'elastic'
-param elasticsearchPassword string = 'elastic'
-param kibanaPort string = '5601'
-param elasticsearchUseCloud string = 'false'
-param elasticsearchCloudUrl string = 'YOUR-ELASTICSEARCH_CLOUD_URL'
-param elasticsearchApiKey string = 'YOUR-ELASTICSEARCH_API_KEY'
-param elasticsearchVerifyCerts string = 'False'
-param elasticsearchCaCerts string = ''
-param elasticsearchRequestTimeout string = '100000'
-param elasticsearchRetryOnTimeout string = 'True'
-param elasticsearchMaxRetries string = '10'
-param baiduVectorDbEndpoint string = 'http://127.0.0.1:5287'
-param baiduVectorDbConnectionTimeoutMs string = '30000'
-param baiduVectorDbAccount string = 'root'
-param baiduVectorDbApiKey string = 'dify'
-param baiduVectorDbDatabase string = 'dify'
-param baiduVectorDbShard string = '1'
-param baiduVectorDbReplicas string = '3'
-param baiduVectorDbInvertedIndexAnalyzer string = 'DEFAULT_ANALYZER'
-param baiduVectorDbInvertedIndexParserMode string = 'COARSE_MODE'
+// param relytHost string = 'db'
+// param relytPort string = '5432'
+// param relytUser string = 'postgres'
+// param relytPassword string = 'difyai123456'
+// param relytDatabase string = 'postgres'
+// param opensearchHost string = 'opensearch'
+// param opensearchPort string = '9200'
+// param opensearchSecure string = 'true'
+// param opensearchVerifyCerts string = 'true'
+// param opensearchAuthMethod string = 'basic'
+// param opensearchUser string = 'admin'
+// param opensearchPassword string = 'admin'
+// param opensearchAwsRegion string = 'ap-southeast-1'
+// param opensearchAwsService string = 'aoss'
+// param tencentVectorDbUrl string = 'http://127.0.0.1'
+// param tencentVectorDbApiKey string = 'dify'
+// param tencentVectorDbTimeout string = '30'
+// param tencentVectorDbUsername string = 'dify'
+// param tencentVectorDbDatabase string = 'dify'
+// param tencentVectorDbShard string = '1'
+// param tencentVectorDbReplicas string = '2'
+// param tencentVectorDbEnableHybridSearch string = 'false'
+// param elasticsearchHost string = '0.0.0.0'
+// param elasticsearchPort string = '9200'
+// param elasticsearchUsername string = 'elastic'
+// param elasticsearchPassword string = 'elastic'
+// param kibanaPort string = '5601'
+// param elasticsearchUseCloud string = 'false'
+// param elasticsearchCloudUrl string = 'YOUR-ELASTICSEARCH_CLOUD_URL'
+// param elasticsearchApiKey string = 'YOUR-ELASTICSEARCH_API_KEY'
+// param elasticsearchVerifyCerts string = 'False'
+// param elasticsearchCaCerts string = ''
+// param elasticsearchRequestTimeout string = '100000'
+// param elasticsearchRetryOnTimeout string = 'True'
+// param elasticsearchMaxRetries string = '10'
+// param baiduVectorDbEndpoint string = 'http://127.0.0.1:5287'
+// param baiduVectorDbConnectionTimeoutMs string = '30000'
+// param baiduVectorDbAccount string = 'root'
+// param baiduVectorDbApiKey string = 'dify'
+// param baiduVectorDbDatabase string = 'dify'
+// param baiduVectorDbShard string = '1'
+// param baiduVectorDbReplicas string = '3'
+// param baiduVectorDbInvertedIndexAnalyzer string = 'DEFAULT_ANALYZER'
+// param baiduVectorDbInvertedIndexParserMode string = 'COARSE_MODE'
 param vikingdbAccessKey string = 'your-ak'
 param vikingdbSecretKey string = 'your-sk'
 param vikingdbRegion string = 'cn-shanghai'
@@ -998,50 +998,50 @@ var sharedApiWorkerEnv = [
   // { name: 'ORACLE_WALLET_LOCATION', value: oracleWalletLocation }
   // { name: 'ORACLE_WALLET_PASSWORD', value: oracleWalletPassword }
   // { name: 'ORACLE_IS_AUTONOMOUS', value: oracleIsAutonomous }
-  { name: 'RELYT_HOST', value: relytHost }
-  { name: 'RELYT_PORT', value: relytPort }
-  { name: 'RELYT_USER', value: relytUser }
-  { name: 'RELYT_PASSWORD', value: relytPassword }
-  { name: 'RELYT_DATABASE', value: relytDatabase }
-  { name: 'OPENSEARCH_HOST', value: opensearchHost }
-  { name: 'OPENSEARCH_PORT', value: opensearchPort }
-  { name: 'OPENSEARCH_SECURE', value: opensearchSecure }
-  { name: 'OPENSEARCH_VERIFY_CERTS', value: opensearchVerifyCerts }
-  { name: 'OPENSEARCH_AUTH_METHOD', value: opensearchAuthMethod }
-  { name: 'OPENSEARCH_USER', value: opensearchUser }
-  { name: 'OPENSEARCH_PASSWORD', value: opensearchPassword }
-  { name: 'OPENSEARCH_AWS_REGION', value: opensearchAwsRegion }
-  { name: 'OPENSEARCH_AWS_SERVICE', value: opensearchAwsService }
-  { name: 'TENCENT_VECTOR_DB_URL', value: tencentVectorDbUrl }
-  { name: 'TENCENT_VECTOR_DB_API_KEY', value: tencentVectorDbApiKey }
-  { name: 'TENCENT_VECTOR_DB_TIMEOUT', value: tencentVectorDbTimeout }
-  { name: 'TENCENT_VECTOR_DB_USERNAME', value: tencentVectorDbUsername }
-  { name: 'TENCENT_VECTOR_DB_DATABASE', value: tencentVectorDbDatabase }
-  { name: 'TENCENT_VECTOR_DB_SHARD', value: tencentVectorDbShard }
-  { name: 'TENCENT_VECTOR_DB_REPLICAS', value: tencentVectorDbReplicas }
-  { name: 'TENCENT_VECTOR_DB_ENABLE_HYBRID_SEARCH', value: tencentVectorDbEnableHybridSearch }
-  { name: 'ELASTICSEARCH_HOST', value: elasticsearchHost }
-  { name: 'ELASTICSEARCH_PORT', value: elasticsearchPort }
-  { name: 'ELASTICSEARCH_USERNAME', value: elasticsearchUsername }
-  { name: 'ELASTICSEARCH_PASSWORD', value: elasticsearchPassword }
-  { name: 'KIBANA_PORT', value: kibanaPort }
-  { name: 'ELASTICSEARCH_USE_CLOUD', value: elasticsearchUseCloud }
-  { name: 'ELASTICSEARCH_CLOUD_URL', value: elasticsearchCloudUrl }
-  { name: 'ELASTICSEARCH_API_KEY', value: elasticsearchApiKey }
-  { name: 'ELASTICSEARCH_VERIFY_CERTS', value: elasticsearchVerifyCerts }
-  { name: 'ELASTICSEARCH_CA_CERTS', value: elasticsearchCaCerts }
-  { name: 'ELASTICSEARCH_REQUEST_TIMEOUT', value: elasticsearchRequestTimeout }
-  { name: 'ELASTICSEARCH_RETRY_ON_TIMEOUT', value: elasticsearchRetryOnTimeout }
-  { name: 'ELASTICSEARCH_MAX_RETRIES', value: elasticsearchMaxRetries }
-  { name: 'BAIDU_VECTOR_DB_ENDPOINT', value: baiduVectorDbEndpoint }
-  { name: 'BAIDU_VECTOR_DB_CONNECTION_TIMEOUT_MS', value: baiduVectorDbConnectionTimeoutMs }
-  { name: 'BAIDU_VECTOR_DB_ACCOUNT', value: baiduVectorDbAccount }
-  { name: 'BAIDU_VECTOR_DB_API_KEY', value: baiduVectorDbApiKey }
-  { name: 'BAIDU_VECTOR_DB_DATABASE', value: baiduVectorDbDatabase }
-  { name: 'BAIDU_VECTOR_DB_SHARD', value: baiduVectorDbShard }
-  { name: 'BAIDU_VECTOR_DB_REPLICAS', value: baiduVectorDbReplicas }
-  { name: 'BAIDU_VECTOR_DB_INVERTED_INDEX_ANALYZER', value: baiduVectorDbInvertedIndexAnalyzer }
-  { name: 'BAIDU_VECTOR_DB_INVERTED_INDEX_PARSER_MODE', value: baiduVectorDbInvertedIndexParserMode }
+  // { name: 'RELYT_HOST', value: relytHost }
+  // { name: 'RELYT_PORT', value: relytPort }
+  // { name: 'RELYT_USER', value: relytUser }
+  // { name: 'RELYT_PASSWORD', value: relytPassword }
+  // { name: 'RELYT_DATABASE', value: relytDatabase }
+  // { name: 'OPENSEARCH_HOST', value: opensearchHost }
+  // { name: 'OPENSEARCH_PORT', value: opensearchPort }
+  // { name: 'OPENSEARCH_SECURE', value: opensearchSecure }
+  // { name: 'OPENSEARCH_VERIFY_CERTS', value: opensearchVerifyCerts }
+  // { name: 'OPENSEARCH_AUTH_METHOD', value: opensearchAuthMethod }
+  // { name: 'OPENSEARCH_USER', value: opensearchUser }
+  // { name: 'OPENSEARCH_PASSWORD', value: opensearchPassword }
+  // { name: 'OPENSEARCH_AWS_REGION', value: opensearchAwsRegion }
+  // { name: 'OPENSEARCH_AWS_SERVICE', value: opensearchAwsService }
+  // { name: 'TENCENT_VECTOR_DB_URL', value: tencentVectorDbUrl }
+  // { name: 'TENCENT_VECTOR_DB_API_KEY', value: tencentVectorDbApiKey }
+  // { name: 'TENCENT_VECTOR_DB_TIMEOUT', value: tencentVectorDbTimeout }
+  // { name: 'TENCENT_VECTOR_DB_USERNAME', value: tencentVectorDbUsername }
+  // { name: 'TENCENT_VECTOR_DB_DATABASE', value: tencentVectorDbDatabase }
+  // { name: 'TENCENT_VECTOR_DB_SHARD', value: tencentVectorDbShard }
+  // { name: 'TENCENT_VECTOR_DB_REPLICAS', value: tencentVectorDbReplicas }
+  // { name: 'TENCENT_VECTOR_DB_ENABLE_HYBRID_SEARCH', value: tencentVectorDbEnableHybridSearch }
+  // { name: 'ELASTICSEARCH_HOST', value: elasticsearchHost }
+  // { name: 'ELASTICSEARCH_PORT', value: elasticsearchPort }
+  // { name: 'ELASTICSEARCH_USERNAME', value: elasticsearchUsername }
+  // { name: 'ELASTICSEARCH_PASSWORD', value: elasticsearchPassword }
+  // { name: 'KIBANA_PORT', value: kibanaPort }
+  // { name: 'ELASTICSEARCH_USE_CLOUD', value: elasticsearchUseCloud }
+  // { name: 'ELASTICSEARCH_CLOUD_URL', value: elasticsearchCloudUrl }
+  // { name: 'ELASTICSEARCH_API_KEY', value: elasticsearchApiKey }
+  // { name: 'ELASTICSEARCH_VERIFY_CERTS', value: elasticsearchVerifyCerts }
+  // { name: 'ELASTICSEARCH_CA_CERTS', value: elasticsearchCaCerts }
+  // { name: 'ELASTICSEARCH_REQUEST_TIMEOUT', value: elasticsearchRequestTimeout }
+  // { name: 'ELASTICSEARCH_RETRY_ON_TIMEOUT', value: elasticsearchRetryOnTimeout }
+  // { name: 'ELASTICSEARCH_MAX_RETRIES', value: elasticsearchMaxRetries }
+  // { name: 'BAIDU_VECTOR_DB_ENDPOINT', value: baiduVectorDbEndpoint }
+  // { name: 'BAIDU_VECTOR_DB_CONNECTION_TIMEOUT_MS', value: baiduVectorDbConnectionTimeoutMs }
+  // { name: 'BAIDU_VECTOR_DB_ACCOUNT', value: baiduVectorDbAccount }
+  // { name: 'BAIDU_VECTOR_DB_API_KEY', value: baiduVectorDbApiKey }
+  // { name: 'BAIDU_VECTOR_DB_DATABASE', value: baiduVectorDbDatabase }
+  // { name: 'BAIDU_VECTOR_DB_SHARD', value: baiduVectorDbShard }
+  // { name: 'BAIDU_VECTOR_DB_REPLICAS', value: baiduVectorDbReplicas }
+  // { name: 'BAIDU_VECTOR_DB_INVERTED_INDEX_ANALYZER', value: baiduVectorDbInvertedIndexAnalyzer }
+  // { name: 'BAIDU_VECTOR_DB_INVERTED_INDEX_PARSER_MODE', value: baiduVectorDbInvertedIndexParserMode }
   { name: 'VIKINGDB_ACCESS_KEY', value: vikingdbAccessKey }
   { name: 'VIKINGDB_SECRET_KEY', value: vikingdbSecretKey }
   { name: 'VIKINGDB_REGION', value: vikingdbRegion }
