@@ -269,3 +269,52 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
     }
   }
 }
+
+param containerAppSandboxName string = 'sandbox'
+param sandboxApiKey string = 'dify-sandbox'
+param sandboxGinMode string = 'release'
+param sandboxWorkerTimeout string = '15'
+param sandboxEnableNetwork string = 'true'
+param sandboxHttpProxy string = 'http://ssrf_proxy:3128'
+param sandboxHttpsProxy string = 'http://ssrf_proxy:3128'
+param pipMirrorUrl string = ''
+resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppSandboxName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'sandbox'
+          image: 'docker.io/langgenius/dify-sandbox:0.2.12'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'API_KEY', value: sandboxApiKey }
+            { name: 'GIN_MODE', value: sandboxGinMode }
+            { name: 'WORKER_TIMEOUT', value: sandboxWorkerTimeout }
+            { name: 'ENABLE_NETWORK', value: sandboxEnableNetwork }
+            { name: 'HTTP_PROXY', value: sandboxHttpProxy }
+            { name: 'HTTPS_PROXY', value: sandboxHttpsProxy }
+            { name: 'SANDBOX_PORT', value: sandboxPort }
+            { name: 'PIP_MIRROR_URL', value: pipMirrorUrl }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: [] // not supported... https://github.com/langgenius/dify/blob/f104839672ccf111b2799fc31a85870e5e997b7d/docker/docker-compose.yaml#L771
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+    }
+  }
+}
