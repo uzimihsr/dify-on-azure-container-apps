@@ -414,10 +414,10 @@ param consoleCorsAllowOrigins string = '*'
 param storageType string = 'opendal'
 param opendalScheme string = 'fs'
 param opendalFsRoot string = 'storage'
-param clickzettaVolumeType string = 'user'
-param clickzettaVolumeName string = ''
-param clickzettaVolumeTablePrefix string = 'dataset_'
-param clickzettaVolumeDifyPrefix string = 'dify_km'
+// param clickzettaVolumeType string = 'user'
+// param clickzettaVolumeName string = ''
+// param clickzettaVolumeTablePrefix string = 'dataset_'
+// param clickzettaVolumeDifyPrefix string = 'dify_km'
 
 param vectorStore string = 'weaviate'
 param vectorIndexNamePrefix string = 'Vector_index'
@@ -566,18 +566,18 @@ param huaweiCloudPassword string = 'admin'
 // param tablstoreAccessKeyId string = 'xxx'
 // param tablstoreAccessKeySecret string = 'xxx'
 // param tablstoreNormalizeFulltextBm25Score string = 'false'
-param clickzettaUsername string = ''
-param clickzettaPassword string = ''
-param clickzettaInstance string = ''
-param clickzettaService string = 'api.clickzetta.com'
-param clickzettaWorkspace string = 'quick_start'
-param clickzettaVcluster string = 'default_ap'
-param clickzettaSchema string = 'dify'
-param clickzettaBatchSize string = '100'
-param clickzettaEnableInvertedIndex string = 'true'
-param clickzettaAnalyzerType string = 'chinese'
-param clickzettaAnalyzerMode string = 'smart'
-param clickzettaVectorDistanceFunction string = 'cosine_distance'
+// param clickzettaUsername string = ''
+// param clickzettaPassword string = ''
+// param clickzettaInstance string = ''
+// param clickzettaService string = 'api.clickzetta.com'
+// param clickzettaWorkspace string = 'quick_start'
+// param clickzettaVcluster string = 'default_ap'
+// param clickzettaSchema string = 'dify'
+// param clickzettaBatchSize string = '100'
+// param clickzettaEnableInvertedIndex string = 'true'
+// param clickzettaAnalyzerType string = 'chinese'
+// param clickzettaAnalyzerMode string = 'smart'
+// param clickzettaVectorDistanceFunction string = 'cosine_distance'
 param uploadFileSizeLimit string = '15'
 param uploadFileBatchLimit string = '5'
 param etlType string = 'dify'
@@ -930,10 +930,10 @@ var sharedApiWorkerEnv = [
   { name: 'STORAGE_TYPE', value: storageType }
   { name: 'OPENDAL_SCHEME', value: opendalScheme }
   { name: 'OPENDAL_FS_ROOT', value: opendalFsRoot }
-  { name: 'CLICKZETTA_VOLUME_TYPE', value: clickzettaVolumeType }
-  { name: 'CLICKZETTA_VOLUME_NAME', value: clickzettaVolumeName }
-  { name: 'CLICKZETTA_VOLUME_TABLE_PREFIX', value: clickzettaVolumeTablePrefix }
-  { name: 'CLICKZETTA_VOLUME_DIFY_PREFIX', value: clickzettaVolumeDifyPrefix }
+  // { name: 'CLICKZETTA_VOLUME_TYPE', value: clickzettaVolumeType }
+  // { name: 'CLICKZETTA_VOLUME_NAME', value: clickzettaVolumeName }
+  // { name: 'CLICKZETTA_VOLUME_TABLE_PREFIX', value: clickzettaVolumeTablePrefix }
+  // { name: 'CLICKZETTA_VOLUME_DIFY_PREFIX', value: clickzettaVolumeDifyPrefix }
   { name: 'VECTOR_STORE', value: vectorStore }
   { name: 'VECTOR_INDEX_NAME_PREFIX', value: vectorIndexNamePrefix }
   { name: 'WEAVIATE_ENDPOINT', value: weaviateEndpoint }
@@ -1081,18 +1081,18 @@ var sharedApiWorkerEnv = [
   // { name: 'TABLESTORE_ACCESS_KEY_ID', value: tablstoreAccessKeyId }
   // { name: 'TABLESTORE_ACCESS_KEY_SECRET', value: tablstoreAccessKeySecret }
   // { name: 'TABLESTORE_NORMALIZE_FULLTEXT_BM25_SCORE', value: tablstoreNormalizeFulltextBm25Score }
-  { name: 'CLICKZETTA_USERNAME', value: clickzettaUsername }
-  { name: 'CLICKZETTA_PASSWORD', value: clickzettaPassword }
-  { name: 'CLICKZETTA_INSTANCE', value: clickzettaInstance }
-  { name: 'CLICKZETTA_SERVICE', value: clickzettaService }
-  { name: 'CLICKZETTA_WORKSPACE', value: clickzettaWorkspace }
-  { name: 'CLICKZETTA_VCLUSTER', value: clickzettaVcluster }
-  { name: 'CLICKZETTA_SCHEMA', value: clickzettaSchema }
-  { name: 'CLICKZETTA_BATCH_SIZE', value: clickzettaBatchSize }
-  { name: 'CLICKZETTA_ENABLE_INVERTED_INDEX', value: clickzettaEnableInvertedIndex }
-  { name: 'CLICKZETTA_ANALYZER_TYPE', value: clickzettaAnalyzerType }
-  { name: 'CLICKZETTA_ANALYZER_MODE', value: clickzettaAnalyzerMode }
-  { name: 'CLICKZETTA_VECTOR_DISTANCE_FUNCTION', value: clickzettaVectorDistanceFunction }
+  // { name: 'CLICKZETTA_USERNAME', value: clickzettaUsername }
+  // { name: 'CLICKZETTA_PASSWORD', value: clickzettaPassword }
+  // { name: 'CLICKZETTA_INSTANCE', value: clickzettaInstance }
+  // { name: 'CLICKZETTA_SERVICE', value: clickzettaService }
+  // { name: 'CLICKZETTA_WORKSPACE', value: clickzettaWorkspace }
+  // { name: 'CLICKZETTA_VCLUSTER', value: clickzettaVcluster }
+  // { name: 'CLICKZETTA_SCHEMA', value: clickzettaSchema }
+  // { name: 'CLICKZETTA_BATCH_SIZE', value: clickzettaBatchSize }
+  // { name: 'CLICKZETTA_ENABLE_INVERTED_INDEX', value: clickzettaEnableInvertedIndex }
+  // { name: 'CLICKZETTA_ANALYZER_TYPE', value: clickzettaAnalyzerType }
+  // { name: 'CLICKZETTA_ANALYZER_MODE', value: clickzettaAnalyzerMode }
+  // { name: 'CLICKZETTA_VECTOR_DISTANCE_FUNCTION', value: clickzettaVectorDistanceFunction }
   { name: 'UPLOAD_FILE_SIZE_LIMIT', value: uploadFileSizeLimit }
   { name: 'UPLOAD_FILE_BATCH_LIMIT', value: uploadFileBatchLimit }
   { name: 'ETL_TYPE', value: etlType }
