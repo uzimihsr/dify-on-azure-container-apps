@@ -4,321 +4,6 @@ resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-
   name: containerAppsEnvironmentName
 }
 
-param containerAppDbName string = 'db'
-param postgresUser string = 'postgres'
-param postgresPassword string = 'difyai123456'
-param postgresDb string = 'dify'
-param pgdata string = '/var/lib/postgresql/data/pgdata'
-param postgresMaxConnections string = '100'
-param postgresSharedBuffers string = '128MB'
-param postgresWorkMem string = '4MB'
-param postgresMainenceWorkMem string = '64MB'
-param postgresEffectiveCacheSize string = '4096MB'
-resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppDbName
-  location: resourceGroup().location
-  kind: 'containerapps'
-  properties: {
-    environmentId: containerAppsEnvironment.id
-    workloadProfileName: 'Consumption'
-    configuration: {}
-    template: {
-      containers: [
-        {
-          name: 'db'
-          image: 'docker.io/postgres:15-alpine'
-          imageType: 'ContainerImage'
-          env: [
-            { name: 'POSTGRES_USER', value: postgresUser }
-            { name: 'POSTGRES_PASSWORD', value: postgresPassword }
-            { name: 'POSTGRES_DB', value: postgresDb }
-            { name: 'PGDATA', value: pgdata }
-          ]
-          args: [
-            '-c'
-            'max_connections=${postgresMaxConnections}'
-            '-c'
-            'shared_buffers=${postgresSharedBuffers}'
-            '-c'
-            'work_mem=${postgresWorkMem}'
-            '-c'
-            'maintenance_work_mem=${postgresMainenceWorkMem}'
-            '-c'
-            'effective_cache_size=${postgresEffectiveCacheSize}'
-          ]
-          // command: [
-          //   'postgres'
-          //   '-c'
-          //   'max_connections=${pgdata}'
-          //   '-c'
-          //   'shared_buffers=${postgresSharedBuffers}'
-          //   '-c'
-          //   'work_mem=${postgresWorkMem}'
-          //   '-c'
-          //   'maintenance_work_mem=${postgresMainenceWorkMem}'
-          //   '-c'
-          //   'effective_cache_size=${postgresEffectiveCacheSize}'
-          // ] 
-          // "root" execution of the PostgreSQL server is not permitted...
-          resources: {
-            cpu: json('0.5')
-            memory: '1Gi'
-          }
-          probes: [] // not supported https://github.com/langgenius/dify/blob/e937c8c72e56ec8690c1790ff40cb4311bb63510/docker/docker-compose.yaml#L718
-          volumeMounts: [
-            {
-              volumeName: 'volume-db-data'
-              mountPath: '/var/lib/postgresql/data'
-            }
-          ]
-        }
-      ]
-      scale: {
-        minReplicas: 1
-        maxReplicas: 1
-        cooldownPeriod: 300
-        pollingInterval: 30
-      }
-      volumes: [
-        {
-          name: 'volume-db-data'
-          storageType: 'EmptyDir'
-        }
-      ]
-    }
-  }
-}
-
-param containerAppRedisName string = 'redis'
-param redisPassword string = 'difyai123456'
-resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppRedisName
-  location: resourceGroup().location
-  kind: 'containerapps'
-  properties: {
-    environmentId: containerAppsEnvironment.id
-    workloadProfileName: 'Consumption'
-    configuration: {}
-    template: {
-      containers: [
-        {
-          name: 'api'
-          image: 'docker.io/redis:6-alpine'
-          imageType: 'ContainerImage'
-          env: [
-            { name: 'REDISCLI_AUTH', value: redisPassword }
-          ]
-          command: [
-            'redis-server'
-            '--requirepass'
-            '${redisPassword}'
-          ]
-          resources: {
-            cpu: json('0.5')
-            memory: '1Gi'
-          }
-          probes: []
-          volumeMounts: [
-            {
-              volumeName: 'volume-redis-data'
-              mountPath: '/data'
-            }
-          ]
-        }
-      ]
-      scale: {
-        minReplicas: 1
-        maxReplicas: 1
-        cooldownPeriod: 300
-        pollingInterval: 30
-      }
-      volumes: [
-        {
-          name: 'volume-redis-data'
-          storageType: 'EmptyDir'
-        }
-      ]
-    }
-  }
-}
-
-param containerAppWeaviateName string = 'weaviate'
-param weaviatePersistenceDataPath string = '/var/lib/weaviate'
-param weaviateQueryDefaultsLimit string = '25'
-param weaviateAuthenticationAnonymousAccessEnabled string = 'false'
-param weviateDefaultVectorizerModule string = 'none'
-param weaviateClusterHostname string = 'node1'
-param weaviateAuthenticationApikeyEnabled string = 'true'
-param weaviateAuthenticationApikeyAllowedKeys string = 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
-param weaviateAuthenticationApikeyUsers string = 'hello@dify.ai'
-param weaviateAuthorizationAdminlistEnabled string = 'true'
-param weaviateAuthorizationAdminlistUsers string = 'hello@dify.ai'
-resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppWeaviateName
-  location: resourceGroup().location
-  kind: 'containerapps'
-  properties: {
-    environmentId: containerAppsEnvironment.id
-    workloadProfileName: 'Consumption'
-    configuration: {}
-    template: {
-      containers: [
-        {
-          name: 'weaviate'
-          image: 'docker.io/semitechnologies/weaviate:1.19.0'
-          imageType: 'ContainerImage'
-          env: [
-            { name: 'PERSISTENCE_DATA_PATH', value: weaviatePersistenceDataPath }
-            { name: 'QUERY_DEFAULTS_LIMIT', value: weaviateQueryDefaultsLimit }
-            { name: 'AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED', value: weaviateAuthenticationAnonymousAccessEnabled }
-            { name: 'DEFAULT_VECTORIZER_MODULE', value: weviateDefaultVectorizerModule }
-            { name: 'CLUSTER_HOSTNAME', value: weaviateClusterHostname }
-            { name: 'AUTHENTICATION_APIKEY_ENABLED', value: weaviateAuthenticationApikeyEnabled }
-            { name: 'AUTHENTICATION_APIKEY_ALLOWED_KEYS', value: weaviateAuthenticationApikeyAllowedKeys }
-            { name: 'AUTHENTICATION_APIKEY_USERS', value: weaviateAuthenticationApikeyUsers }
-            { name: 'AUTHORIZATION_ADMINLIST_ENABLED', value: weaviateAuthorizationAdminlistEnabled }
-            { name: 'AUTHORIZATION_ADMINLIST_USERS', value: weaviateAuthorizationAdminlistUsers }
-          ]
-          resources: {
-            cpu: json('0.5')
-            memory: '1Gi'
-          }
-          probes: []
-          volumeMounts: [
-            {
-              volumeName: 'volume-weaviate'
-              mountPath: '/var/lib/weaviate'
-            }
-          ]
-        }
-      ]
-      scale: {
-        minReplicas: 1
-        maxReplicas: 1
-        cooldownPeriod: 300
-        pollingInterval: 30
-      }
-      volumes: [
-        {
-          name: 'volume-weaviate'
-          storageType: 'EmptyDir'
-        }
-      ]
-    }
-  }
-}
-
-param containerAppSsrfProxyName string = 'ssrf_proxy'
-param ssrfHttpPort string = '3128'
-param ssrfCoredumpDir string = '/var/spool/squid'
-param ssrfReverseProxyPort string = '8194'
-param ssrfSandboxHost string = 'sandbox'
-param sandboxPort string = '8194'
-resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppSsrfProxyName
-  location: resourceGroup().location
-  kind: 'containerapps'
-  properties: {
-    environmentId: containerAppsEnvironment.id
-    workloadProfileName: 'Consumption'
-    configuration: {}
-    template: {
-      containers: [
-        {
-          name: 'ssrf_proxy'
-          image: 'docker.io/ubuntu/squid:latest'
-          imageType: 'ContainerImage'
-          command: [
-            'sh'
-            '-c'
-            'cp /docker-entrypoint-mount.sh /docker-entrypoint.sh && sed -i \'s/\r$$//\' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && /docker-entrypoint.sh'
-          ]
-          env: [
-            { name: 'HTTP_PORT', value: ssrfHttpPort }
-            { name: 'COREDUMP_DIR', value: ssrfCoredumpDir }
-            { name: 'REVERSE_PROXY_PORT', value: ssrfReverseProxyPort }
-            { name: 'SANDBOX_HOST', value: ssrfSandboxHost }
-            { name: 'SANDBOX_PORT', value: sandboxPort }
-          ]
-          resources: {
-            cpu: json('0.5')
-            memory: '1Gi'
-          }
-          probes: []
-          volumeMounts: [
-            {
-              volumeName: 'ssrf-proxy'
-              mountPath: '/'
-            }
-          ]
-        }
-      ]
-      scale: {
-        minReplicas: 1
-        maxReplicas: 1
-        cooldownPeriod: 300
-        pollingInterval: 30
-      }
-      volumes: [
-        // TODO: Azure File共有に変更すること
-        {
-          name: 'ssrf-proxy'
-          storageType: 'EmptyDir'
-        }
-      ]
-    }
-  }
-}
-
-param containerAppSandboxName string = 'sandbox'
-param sandboxApiKey string = 'dify-sandbox'
-param sandboxGinMode string = 'release'
-param sandboxWorkerTimeout string = '15'
-param sandboxEnableNetwork string = 'true'
-param sandboxHttpProxy string = 'http://ssrf_proxy:3128'
-param sandboxHttpsProxy string = 'http://ssrf_proxy:3128'
-param pipMirrorUrl string = ''
-resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppSandboxName
-  location: resourceGroup().location
-  kind: 'containerapps'
-  properties: {
-    environmentId: containerAppsEnvironment.id
-    workloadProfileName: 'Consumption'
-    configuration: {}
-    template: {
-      containers: [
-        {
-          name: 'sandbox'
-          image: 'docker.io/langgenius/dify-sandbox:0.2.12'
-          imageType: 'ContainerImage'
-          env: [
-            { name: 'API_KEY', value: sandboxApiKey }
-            { name: 'GIN_MODE', value: sandboxGinMode }
-            { name: 'WORKER_TIMEOUT', value: sandboxWorkerTimeout }
-            { name: 'ENABLE_NETWORK', value: sandboxEnableNetwork }
-            { name: 'HTTP_PROXY', value: sandboxHttpProxy }
-            { name: 'HTTPS_PROXY', value: sandboxHttpsProxy }
-            { name: 'SANDBOX_PORT', value: sandboxPort }
-            { name: 'PIP_MIRROR_URL', value: pipMirrorUrl }
-          ]
-          resources: {
-            cpu: json('0.5')
-            memory: '1Gi'
-          }
-          probes: [] // not supported... https://github.com/langgenius/dify/blob/f104839672ccf111b2799fc31a85870e5e997b7d/docker/docker-compose.yaml#L771
-        }
-      ]
-      scale: {
-        minReplicas: 1
-        maxReplicas: 1
-        cooldownPeriod: 300
-        pollingInterval: 30
-      }
-    }
-  }
-}
-
 // https://github.com/langgenius/dify/blob/f104839672ccf111b2799fc31a85870e5e997b7d/docker/docker-compose.yaml#L7-L598
 param consoleApiUrl string = ''
 param consoleWebUrl string = ''
@@ -350,6 +35,7 @@ param accessTokenExpireMinutes string = '60'
 param refreshTokenExpireDays string = '30'
 param appMaxActiveRequests string = '0'
 param appMaxExecutionTime string = '1200'
+
 param difyBindAddress string = '0.0.0.0'
 param difyPort string = '5001'
 param serverWorkerAmount string = '1'
@@ -358,6 +44,7 @@ param serverWorkerConnections string = '10'
 param celeryWorkerClass string = ''
 param gunicornTimeout string = '360'
 param celeryWorkerAmount string = ''
+
 param celeryAutoScale string = 'false'
 param celeryMaxWorkers string = ''
 param celeryMinWorkers string = ''
@@ -378,15 +65,15 @@ param sqlalchemyEcho string = 'false'
 param sqlalchemyPoolPrePing string = 'false'
 param sqlalchemyPoolUseLifo string = 'false'
 param sqlalchemyPoolTimeout string = '30'
-// param postgresMaxConnections string = '100'
-// param postgresSharedBuffers string = '128MB'
-// param postgresWorkMem string = '4MB'
+param postgresMaxConnections string = '100'
+param postgresSharedBuffers string = '128MB'
+param postgresWorkMem string = '4MB'
 param postgresMaintenanceWorkMem string = '64MB'
-// param postgresEffectiveCacheSize string = '4096MB'
+param postgresEffectiveCacheSize string = '4096MB'
 param redisHost string = 'redis'
 param redisPort string = '6379'
 param redisUsername string = ''
-// param redisPassword string = 'difyai123456'
+param redisPassword string = 'difyai123456'
 param redisUseSsl string = 'false'
 param redisSslCertReqs string = 'CERT_NONE'
 param redisSslCaCerts string = ''
@@ -511,27 +198,27 @@ param maxIterationsNum string = '99'
 param textGenerationTimeoutMs string = '60000'
 param allowUnsafeDataScheme string = 'false'
 param maxTreeDepth string = '50'
-// param postgresUser string = ''
-// param postgresPassword string = ''
-// param postgresDb string = ''
-// param pgdata string = '/var/lib/postgresql/data/pgdata'
-// param sandboxApiKey string = 'dify-sandbox'
-// param sandboxGinMode string = 'release'
-// param sandboxWorkerTimeout string = '15'
-// param sandboxEnableNetwork string = 'true'
-// param sandboxHttpProxy string = 'http://ssrf_proxy:3128'
-// param sandboxHttpsProxy string = 'http://ssrf_proxy:3128'
-// param sandboxPort string = '8194'
-// param weaviatePersistenceDataPath string = '/var/lib/weaviate'
-// param weaviateQueryDefaultsLimit string = '25'
-// param weaviateAuthenticationAnonymousAccessEnabled string = 'true'
+param postgresUser string = ''
+param postgresPassword string = ''
+param postgresDb string = ''
+param pgdata string = '/var/lib/postgresql/data/pgdata'
+param sandboxApiKey string = 'dify-sandbox'
+param sandboxGinMode string = 'release'
+param sandboxWorkerTimeout string = '15'
+param sandboxEnableNetwork string = 'true'
+param sandboxHttpProxy string = 'http://ssrf_proxy:3128'
+param sandboxHttpsProxy string = 'http://ssrf_proxy:3128'
+param sandboxPort string = '8194'
+param weaviatePersistenceDataPath string = '/var/lib/weaviate'
+param weaviateQueryDefaultsLimit string = '25'
+param weaviateAuthenticationAnonymousAccessEnabled string = 'true'
 param weaviateDefaultVectorizerModule string = 'none'
-// param weaviateClusterHostname string = 'node1'
-// param weaviateAuthenticationApikeyEnabled string = 'true'
-// param weaviateAuthenticationApikeyAllowedKeys string = 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
-// param weaviateAuthenticationApikeyUsers string = 'hello@dify.ai'
-// param weaviateAuthorizationAdminlistEnabled string = 'true'
-// param weaviateAuthorizationAdminlistUsers string = 'hello@dify.ai'
+param weaviateClusterHostname string = 'node1'
+param weaviateAuthenticationApikeyEnabled string = 'true'
+param weaviateAuthenticationApikeyAllowedKeys string = 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
+param weaviateAuthenticationApikeyUsers string = 'hello@dify.ai'
+param weaviateAuthorizationAdminlistEnabled string = 'true'
+param weaviateAuthorizationAdminlistUsers string = 'hello@dify.ai'
 param nginxServerName string = '_'
 param nginxHttpsEnabled string = 'false'
 param nginxPort string = '80'
@@ -548,10 +235,10 @@ param nginxEnableCertbotChallenge string = 'false'
 param certbotEmail string = 'your_email@example.com'
 param certbotDomain string = 'your_domain.com'
 param certbotOptions string = ''
-// param ssrfHttpPort string = '3128'
-// param ssrfCoredumpDir string = '/var/spool/squid'
-// param ssrfReverseProxyPort string = '8194'
-// param ssrfSandboxHost string = 'sandbox'
+param ssrfHttpPort string = '3128'
+param ssrfCoredumpDir string = '/var/spool/squid'
+param ssrfReverseProxyPort string = '8194'
+param ssrfSandboxHost string = 'sandbox'
 param ssrfDefaultTimeOut string = '5'
 param ssrfDefaultConnectTimeOut string = '5'
 param ssrfDefaultReadTimeOut string = '5'
@@ -592,7 +279,7 @@ param pluginStdioBufferSize string = '1024'
 param pluginStdioMaxBufferSize string = '5242880'
 param pluginPythonEnvInitTimeout string = '120'
 param pluginMaxExecutionTimeout string = '600'
-// param pipMirrorUrl string = ''
+param pipMirrorUrl string = ''
 param pluginStorageType string = 'local'
 param pluginStorageLocalRoot string = '/app/storage'
 param pluginWorkingPath string = '/app/storage/cwd'
@@ -600,19 +287,6 @@ param pluginInstalledPath string = 'plugin'
 param pluginPackageCachePath string = 'plugin_packages'
 param pluginMediaCachePath string = 'assets'
 param enableOtel string = 'false'
-// param otlpTraceEndpoint string = ''
-// param otlpMetricEndpoint string = ''
-// param otlpBaseEndpoint string = 'http://localhost:4318'
-// param otlpApiKey string = ''
-// param otelExporterOtlpProtocol string = ''
-// param otelExporterType string = 'otlp'
-// param otelSamplingRate string = '0.1'
-// param otelBatchExportScheduleDelay string = '5000'
-// param otelMaxQueueSize string = '2048'
-// param otelMaxExportBatchSize string = '512'
-// param otelMetricExportInterval string = '60000'
-// param otelBatchExportTimeout string = '10000'
-// param otelMetricExportTimeout string = '30000'
 param allowEmbed string = 'false'
 param queueMonitorThreshold string = '200'
 param queueMonitorAlertEmails string = ''
@@ -922,6 +596,291 @@ var sharedApiWorkerEnv = [
   { name: 'ENABLE_DATASETS_QUEUE_MONITOR', value: enableDatasetsQueueMonitor }
   { name: 'ENABLE_CHECK_UPGRADABLE_PLUGIN_TASK', value: enableCheckUpgradablePluginTask }
 ]
+
+param containerAppDbName string = 'db'
+param postgresMainenceWorkMem string = '64MB'
+resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppDbName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'db'
+          image: 'docker.io/postgres:15-alpine'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'POSTGRES_USER', value: postgresUser }
+            { name: 'POSTGRES_PASSWORD', value: postgresPassword }
+            { name: 'POSTGRES_DB', value: postgresDb }
+            { name: 'PGDATA', value: pgdata }
+          ]
+          args: [
+            '-c'
+            'max_connections=${postgresMaxConnections}'
+            '-c'
+            'shared_buffers=${postgresSharedBuffers}'
+            '-c'
+            'work_mem=${postgresWorkMem}'
+            '-c'
+            'maintenance_work_mem=${postgresMainenceWorkMem}'
+            '-c'
+            'effective_cache_size=${postgresEffectiveCacheSize}'
+          ]
+          // command: [
+          //   'postgres'
+          //   '-c'
+          //   'max_connections=${pgdata}'
+          //   '-c'
+          //   'shared_buffers=${postgresSharedBuffers}'
+          //   '-c'
+          //   'work_mem=${postgresWorkMem}'
+          //   '-c'
+          //   'maintenance_work_mem=${postgresMainenceWorkMem}'
+          //   '-c'
+          //   'effective_cache_size=${postgresEffectiveCacheSize}'
+          // ] 
+          // "root" execution of the PostgreSQL server is not permitted...
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: [] // not supported https://github.com/langgenius/dify/blob/e937c8c72e56ec8690c1790ff40cb4311bb63510/docker/docker-compose.yaml#L718
+          volumeMounts: [
+            {
+              volumeName: 'volume-db-data'
+              mountPath: '/var/lib/postgresql/data'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-db-data'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
+
+param containerAppRedisName string = 'redis'
+resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppRedisName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'api'
+          image: 'docker.io/redis:6-alpine'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'REDISCLI_AUTH', value: redisPassword }
+          ]
+          command: [
+            'redis-server'
+            '--requirepass'
+            '${redisPassword}'
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'volume-redis-data'
+              mountPath: '/data'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-redis-data'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
+
+param containerAppWeaviateName string = 'weaviate'
+param weviateDefaultVectorizerModule string = 'none'
+resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppWeaviateName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'weaviate'
+          image: 'docker.io/semitechnologies/weaviate:1.19.0'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'PERSISTENCE_DATA_PATH', value: weaviatePersistenceDataPath }
+            { name: 'QUERY_DEFAULTS_LIMIT', value: weaviateQueryDefaultsLimit }
+            { name: 'AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED', value: weaviateAuthenticationAnonymousAccessEnabled }
+            { name: 'DEFAULT_VECTORIZER_MODULE', value: weviateDefaultVectorizerModule }
+            { name: 'CLUSTER_HOSTNAME', value: weaviateClusterHostname }
+            { name: 'AUTHENTICATION_APIKEY_ENABLED', value: weaviateAuthenticationApikeyEnabled }
+            { name: 'AUTHENTICATION_APIKEY_ALLOWED_KEYS', value: weaviateAuthenticationApikeyAllowedKeys }
+            { name: 'AUTHENTICATION_APIKEY_USERS', value: weaviateAuthenticationApikeyUsers }
+            { name: 'AUTHORIZATION_ADMINLIST_ENABLED', value: weaviateAuthorizationAdminlistEnabled }
+            { name: 'AUTHORIZATION_ADMINLIST_USERS', value: weaviateAuthorizationAdminlistUsers }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'volume-weaviate'
+              mountPath: '/var/lib/weaviate'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-weaviate'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
+
+param containerAppSsrfProxyName string = 'ssrf_proxy'
+resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppSsrfProxyName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'ssrf_proxy'
+          image: 'docker.io/ubuntu/squid:latest'
+          imageType: 'ContainerImage'
+          command: [
+            'sh'
+            '-c'
+            'cp /docker-entrypoint-mount.sh /docker-entrypoint.sh && sed -i \'s/\r$$//\' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && /docker-entrypoint.sh'
+          ]
+          env: [
+            { name: 'HTTP_PORT', value: ssrfHttpPort }
+            { name: 'COREDUMP_DIR', value: ssrfCoredumpDir }
+            { name: 'REVERSE_PROXY_PORT', value: ssrfReverseProxyPort }
+            { name: 'SANDBOX_HOST', value: ssrfSandboxHost }
+            { name: 'SANDBOX_PORT', value: sandboxPort }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'ssrf-proxy'
+              mountPath: '/'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        // TODO: Azure File共有に変更すること
+        {
+          name: 'ssrf-proxy'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
+
+param containerAppSandboxName string = 'sandbox'
+resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppSandboxName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
+        {
+          name: 'sandbox'
+          image: 'docker.io/langgenius/dify-sandbox:0.2.12'
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'API_KEY', value: sandboxApiKey }
+            { name: 'GIN_MODE', value: sandboxGinMode }
+            { name: 'WORKER_TIMEOUT', value: sandboxWorkerTimeout }
+            { name: 'ENABLE_NETWORK', value: sandboxEnableNetwork }
+            { name: 'HTTP_PROXY', value: sandboxHttpProxy }
+            { name: 'HTTPS_PROXY', value: sandboxHttpsProxy }
+            { name: 'SANDBOX_PORT', value: sandboxPort }
+            { name: 'PIP_MIRROR_URL', value: pipMirrorUrl }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: [] // not supported... https://github.com/langgenius/dify/blob/f104839672ccf111b2799fc31a85870e5e997b7d/docker/docker-compose.yaml#L771
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+    }
+  }
+}
 
 // param containerAppApiName string = 'api'
 // param difyImageName string = 'docker.io/langgenius/dify-api:1.9.0'
