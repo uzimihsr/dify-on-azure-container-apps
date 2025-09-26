@@ -599,21 +599,6 @@ param pluginWorkingPath string = '/app/storage/cwd'
 param pluginInstalledPath string = 'plugin'
 param pluginPackageCachePath string = 'plugin_packages'
 param pluginMediaCachePath string = 'assets'
-param pluginAzureBlobStorageContainerName string = ''
-param pluginAzureBlobStorageConnectionString string = ''
-param pluginTencentCosSecretKey string = ''
-param pluginTencentCosSecretId string = ''
-param pluginTencentCosRegion string = ''
-param pluginAliyunOssRegion string = ''
-param pluginAliyunOssEndpoint string = ''
-param pluginAliyunOssAccessKeyId string = ''
-param pluginAliyunOssAccessKeySecret string = ''
-param pluginAliyunOssAuthVersion string = 'v4'
-param pluginAliyunOssPath string = ''
-param pluginVolcengineTosEndpoint string = ''
-param pluginVolcengineTosAccessKey string = ''
-param pluginVolcengineTosSecretKey string = ''
-param pluginVolcengineTosRegion string = ''
 param enableOtel string = 'false'
 param otlpTraceEndpoint string = ''
 param otlpMetricEndpoint string = ''
@@ -920,21 +905,6 @@ var sharedApiWorkerEnv = [
   { name: 'PLUGIN_INSTALLED_PATH', value: pluginInstalledPath }
   { name: 'PLUGIN_PACKAGE_CACHE_PATH', value: pluginPackageCachePath }
   { name: 'PLUGIN_MEDIA_CACHE_PATH', value: pluginMediaCachePath }
-  { name: 'PLUGIN_AZURE_BLOB_STORAGE_CONTAINER_NAME', value: pluginAzureBlobStorageContainerName }
-  { name: 'PLUGIN_AZURE_BLOB_STORAGE_CONNECTION_STRING', value: pluginAzureBlobStorageConnectionString }
-  { name: 'PLUGIN_TENCENT_COS_SECRET_KEY', value: pluginTencentCosSecretKey }
-  { name: 'PLUGIN_TENCENT_COS_SECRET_ID', value: pluginTencentCosSecretId }
-  { name: 'PLUGIN_TENCENT_COS_REGION', value: pluginTencentCosRegion }
-  { name: 'PLUGIN_ALIYUN_OSS_REGION', value: pluginAliyunOssRegion }
-  { name: 'PLUGIN_ALIYUN_OSS_ENDPOINT', value: pluginAliyunOssEndpoint }
-  { name: 'PLUGIN_ALIYUN_OSS_ACCESS_KEY_ID', value: pluginAliyunOssAccessKeyId }
-  { name: 'PLUGIN_ALIYUN_OSS_ACCESS_KEY_SECRET', value: pluginAliyunOssAccessKeySecret }
-  { name: 'PLUGIN_ALIYUN_OSS_AUTH_VERSION', value: pluginAliyunOssAuthVersion }
-  { name: 'PLUGIN_ALIYUN_OSS_PATH', value: pluginAliyunOssPath }
-  { name: 'PLUGIN_VOLCENGINE_TOS_ENDPOINT', value: pluginVolcengineTosEndpoint }
-  { name: 'PLUGIN_VOLCENGINE_TOS_ACCESS_KEY', value: pluginVolcengineTosAccessKey }
-  { name: 'PLUGIN_VOLCENGINE_TOS_SECRET_KEY', value: pluginVolcengineTosSecretKey }
-  { name: 'PLUGIN_VOLCENGINE_TOS_REGION', value: pluginVolcengineTosRegion }
   { name: 'ENABLE_OTEL', value: enableOtel }
   { name: 'OTLP_TRACE_ENDPOINT', value: otlpTraceEndpoint }
   { name: 'OTLP_METRIC_ENDPOINT', value: otlpMetricEndpoint }
