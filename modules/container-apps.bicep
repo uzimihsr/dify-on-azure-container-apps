@@ -600,19 +600,19 @@ param pluginInstalledPath string = 'plugin'
 param pluginPackageCachePath string = 'plugin_packages'
 param pluginMediaCachePath string = 'assets'
 param enableOtel string = 'false'
-param otlpTraceEndpoint string = ''
-param otlpMetricEndpoint string = ''
-param otlpBaseEndpoint string = 'http://localhost:4318'
-param otlpApiKey string = ''
-param otelExporterOtlpProtocol string = ''
-param otelExporterType string = 'otlp'
-param otelSamplingRate string = '0.1'
-param otelBatchExportScheduleDelay string = '5000'
-param otelMaxQueueSize string = '2048'
-param otelMaxExportBatchSize string = '512'
-param otelMetricExportInterval string = '60000'
-param otelBatchExportTimeout string = '10000'
-param otelMetricExportTimeout string = '30000'
+// param otlpTraceEndpoint string = ''
+// param otlpMetricEndpoint string = ''
+// param otlpBaseEndpoint string = 'http://localhost:4318'
+// param otlpApiKey string = ''
+// param otelExporterOtlpProtocol string = ''
+// param otelExporterType string = 'otlp'
+// param otelSamplingRate string = '0.1'
+// param otelBatchExportScheduleDelay string = '5000'
+// param otelMaxQueueSize string = '2048'
+// param otelMaxExportBatchSize string = '512'
+// param otelMetricExportInterval string = '60000'
+// param otelBatchExportTimeout string = '10000'
+// param otelMetricExportTimeout string = '30000'
 param allowEmbed string = 'false'
 param queueMonitorThreshold string = '200'
 param queueMonitorAlertEmails string = ''
@@ -906,19 +906,6 @@ var sharedApiWorkerEnv = [
   { name: 'PLUGIN_PACKAGE_CACHE_PATH', value: pluginPackageCachePath }
   { name: 'PLUGIN_MEDIA_CACHE_PATH', value: pluginMediaCachePath }
   { name: 'ENABLE_OTEL', value: enableOtel }
-  { name: 'OTLP_TRACE_ENDPOINT', value: otlpTraceEndpoint }
-  { name: 'OTLP_METRIC_ENDPOINT', value: otlpMetricEndpoint }
-  { name: 'OTLP_BASE_ENDPOINT', value: otlpBaseEndpoint }
-  { name: 'OTLP_API_KEY', value: otlpApiKey }
-  { name: 'OTEL_EXPORTER_OTLP_PROTOCOL', value: otelExporterOtlpProtocol }
-  { name: 'OTEL_EXPORTER_TYPE', value: otelExporterType }
-  { name: 'OTEL_SAMPLING_RATE', value: otelSamplingRate }
-  { name: 'OTEL_BATCH_EXPORT_SCHEDULE_DELAY', value: otelBatchExportScheduleDelay }
-  { name: 'OTEL_MAX_QUEUE_SIZE', value: otelMaxQueueSize }
-  { name: 'OTEL_MAX_EXPORT_BATCH_SIZE', value: otelMaxExportBatchSize }
-  { name: 'OTEL_METRIC_EXPORT_INTERVAL', value: otelMetricExportInterval }
-  { name: 'OTEL_BATCH_EXPORT_TIMEOUT', value: otelBatchExportTimeout }
-  { name: 'OTEL_METRIC_EXPORT_TIMEOUT', value: otelMetricExportTimeout }
   { name: 'ALLOW_EMBED', value: allowEmbed }
   { name: 'QUEUE_MONITOR_THRESHOLD', value: queueMonitorThreshold }
   { name: 'QUEUE_MONITOR_ALERT_EMAILS', value: queueMonitorAlertEmails }
