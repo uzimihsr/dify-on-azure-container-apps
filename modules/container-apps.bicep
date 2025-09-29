@@ -592,7 +592,7 @@ resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'api'
+          name: 'web'
           image: difyWebImageName
           imageType: 'ContainerImage'
           env: [
@@ -633,6 +633,114 @@ resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
         pollingInterval: 30
       }
       volumes: []
+    }
+  }
+}
+
+param containerAppPluginDaemonName string = 'plugin_daemon'
+param difyPluginDaemonImageName string = 'docker.io/langgenius/dify-plugin-daemon:0.3.0-local'
+param dbPluginDatabase string = 'dify_plugin'
+param pluginDaemonPort string = '5002'
+param pluginDaemonKey string = 'lYkiYYT6owG+71oLerGzA7GXCgOT++6ovaezWAjpCjf+Sjc3ZtU+qUEi'
+param pluginPprofEnabled string = 'false'
+param pluginDifyInnerApiUrl string = 'http://api:5001'
+param pluginDebuggingHost string = '0.0.0.0'
+param pluginDebuggingPort string = '5003'
+param pluginWorkingPath string = '/app/storage/cwd'
+param forceVerifyingSignature string = 'true'
+param pluginPythonEnvInitTimeout string = '120'
+param pluginMaxExecutionTimeout string = '600'
+param pluginStdioBufferSize string = '1024'
+param pluginStdioMaxBufferSize string = '5242880'
+param pluginStorageType string = 'local'
+param pluginStorageLocalRoot string = '/app/storage'
+param pluginInstalledPath string = 'plugin'
+param pluginPackageCachePath string = 'plugin_packages'
+param pluginMediaCachePath string = 'assets'
+param pluginSentryEnabled string = 'false'
+param pluginSentryDsn string = ''
+
+resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppPluginDaemonName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {
+      ingress: {
+        external: true
+        targetPort: 5002
+        exposedPort: 0
+        transport: 'Auto'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
+    template: {
+      containers: [
+        {
+          name: 'plugin_daemon'
+          image: difyWebImageName
+          imageType: 'ContainerImage'
+          env: concat(sharedApiWorkerEnv, [
+            { name: 'DB_DATABASE', value: dbPluginDatabase }
+            { name: 'SERVER_PORT', value: pluginDaemonPort }
+            { name: 'SERVER_KEY', value: pluginDaemonKey }
+            { name: 'MAX_PLUGIN_PACKAGE_SIZE', value: pluginMaxPackageSize }
+            { name: 'PPROF_ENABLED', value: pluginPprofEnabled }
+            { name: 'DIFY_INNER_API_URL', value: pluginDifyInnerApiUrl }
+            { name: 'DIFY_INNER_API_KEY', value: pluginDifyInnerApiKey }
+            { name: 'PLUGIN_REMOTE_INSTALLING_HOST', value: pluginDebuggingHost }
+            { name: 'PLUGIN_REMOTE_INSTALLING_PORT', value: pluginDebuggingPort }
+            { name: 'PLUGIN_WORKING_PATH', value: pluginWorkingPath }
+            { name: 'FORCE_VERIFYING_SIGNATURE', value: forceVerifyingSignature }
+            { name: 'PYTHON_ENV_INIT_TIMEOUT', value: pluginPythonEnvInitTimeout }
+            { name: 'PLUGIN_MAX_EXECUTION_TIMEOUT', value: pluginMaxExecutionTimeout }
+            { name: 'PLUGIN_STDIO_BUFFER_SIZE', value: pluginStdioBufferSize }
+            { name: 'PLUGIN_STDIO_MAX_BUFFER_SIZE', value: pluginStdioMaxBufferSize }
+            { name: 'PIP_MIRROR_URL', value: pipMirrorUrl }
+            { name: 'PLUGIN_STORAGE_TYPE', value: pluginStorageType }
+            { name: 'PLUGIN_STORAGE_LOCAL_ROOT', value: pluginStorageLocalRoot }
+            { name: 'PLUGIN_INSTALLED_PATH', value: pluginInstalledPath }
+            { name: 'PLUGIN_PACKAGE_CACHE_PATH', value: pluginPackageCachePath }
+            { name: 'PLUGIN_MEDIA_CACHE_PATH', value: pluginMediaCachePath }
+            { name: 'SENTRY_ENABLED', value: pluginSentryEnabled }
+            { name: 'SENTRY_DSN', value: pluginSentryDsn }
+          ])
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'volume-plugin_daemon'
+              mountPath: '/app/storage'
+            }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-plugin_daemon'
+          storageType: 'EmptyDir'
+        }
+      ]
     }
   }
 }
