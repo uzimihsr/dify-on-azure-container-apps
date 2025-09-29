@@ -427,118 +427,212 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
   }
 }
 
-// param containerAppApiName string = 'api'
-// param difyImageName string = 'docker.io/langgenius/dify-api:1.9.0'
-// param apiSentryDsn string = ''
-// param apiSentryTracesSampleRate string = '1.0'
-// param apiSentryProfilesSampleRate string = '1.0'
-// param exposePluginDebuggingHost string = 'localhost'
-// param exposePluginDebuggingPort string = '5003'
-// param pluginMaxPackageSize string = '52428800'
-// param pluginDifyInnerApiKey string = 'QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1'
-// resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
-//   name: containerAppApiName
-//   location: resourceGroup().location
-//   kind: 'containerapps'
-//   properties: {
-//     environmentId: containerAppsEnvironment.id
-//     workloadProfileName: 'Consumption'
-//     configuration: {
-//       ingress: {
-//         external: true
-//         targetPort: 5001
-//         exposedPort: 0
-//         transport: 'Auto'
-//         traffic: [
-//           {
-//             weight: 100
-//             latestRevision: true
-//           }
-//         ]
-//         allowInsecure: false
-//         stickySessions: {
-//           affinity: 'none'
-//         }
-//       }
-//     }
-//     template: {
-//       containers: [
-//         {
-//           name: 'api'
-//           image: difyImageName
-//           imageType: 'ContainerImage'
-//           env: concat(sharedApiWorkerEnv, [
-//             { name: 'MODE', value: 'api' }
-//             { name: 'SENTRY_DSN', value: apiSentryDsn }
-//             { name: 'SENTRY_TRACES_SAMPLE_RATE', value: apiSentryTracesSampleRate }
-//             { name: 'SENTRY_PROFILES_SAMPLE_RATE', value: apiSentryProfilesSampleRate }
-//             { name: 'PLUGIN_REMOTE_INSTALL_HOST', value: exposePluginDebuggingHost }
-//             { name: 'PLUGIN_REMOTE_INSTALL_PORT', value: exposePluginDebuggingPort }
-//             { name: 'PLUGIN_MAX_PACKAGE_SIZE', value: pluginMaxPackageSize }
-//             { name: 'INNER_API_KEY_FOR_PLUGIN', value: pluginDifyInnerApiKey }
-//           ])
-//           resources: {
-//             cpu: json('0.5')
-//             memory: '1Gi'
-//           }
-//           probes: []
-//           volumeMounts: [
-//             {
-//               volumeName: 'volume-app-storage'
-//               mountPath: '/app/api/storage'
-//             }
-//           ]
-//         }
-//         {
-//           name: 'worker'
-//           image: difyImageName
-//           imageType: 'ContainerImage'
-//           env: concat(sharedApiWorkerEnv, [
-//             { name: 'MODE', value: 'worker' }
-//             { name: 'SENTRY_DSN', value: apiSentryDsn }
-//             { name: 'SENTRY_TRACES_SAMPLE_RATE', value: apiSentryTracesSampleRate }
-//             { name: 'SENTRY_PROFILES_SAMPLE_RATE', value: apiSentryProfilesSampleRate }
-//             { name: 'PLUGIN_MAX_PACKAGE_SIZE', value: pluginMaxPackageSize }
-//             { name: 'INNER_API_KEY_FOR_PLUGIN', value: pluginDifyInnerApiKey }
-//           ])
-//           resources: {
-//             cpu: json('0.5')
-//             memory: '1Gi'
-//           }
-//           probes: []
-//           volumeMounts: [
-//             {
-//               volumeName: 'volume-app-storage'
-//               mountPath: '/app/api/storage'
-//             }
-//           ]
-//         }
-//         {
-//           name: 'worker-beat'
-//           image: difyImageName
-//           imageType: 'ContainerImage'
-//           env: concat(sharedApiWorkerEnv, [
-//             { name: 'MODE', value: 'beat' }
-//           ])
-//           resources: {
-//             cpu: json('0.5')
-//             memory: '1Gi'
-//           }
-//           probes: []
-//         }
-//       ]
-//       scale: {
-//         minReplicas: 1
-//         maxReplicas: 1
-//         cooldownPeriod: 300
-//         pollingInterval: 30
-//       }
-//       volumes: [
-//         {
-//           name: 'volume-app-storage'
-//           storageType: 'EmptyDir'
-//         }
-//       ]
-//     }
-//   }
-// }
+param containerAppApiName string = 'api'
+param difyImageName string = 'docker.io/langgenius/dify-api:1.9.0'
+param apiSentryDsn string = ''
+param apiSentryTracesSampleRate string = '1.0'
+param apiSentryProfilesSampleRate string = '1.0'
+param exposePluginDebuggingHost string = 'localhost'
+param exposePluginDebuggingPort string = '5003'
+param pluginMaxPackageSize string = '52428800'
+param pluginDifyInnerApiKey string = 'QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1'
+resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppApiName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {
+      ingress: {
+        external: true
+        targetPort: 5001
+        exposedPort: 0
+        transport: 'Auto'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
+    template: {
+      containers: [
+        {
+          name: 'api'
+          image: difyImageName
+          imageType: 'ContainerImage'
+          env: concat(sharedApiWorkerEnv, [
+            { name: 'MODE', value: 'api' }
+            { name: 'SENTRY_DSN', value: apiSentryDsn }
+            { name: 'SENTRY_TRACES_SAMPLE_RATE', value: apiSentryTracesSampleRate }
+            { name: 'SENTRY_PROFILES_SAMPLE_RATE', value: apiSentryProfilesSampleRate }
+            { name: 'PLUGIN_REMOTE_INSTALL_HOST', value: exposePluginDebuggingHost }
+            { name: 'PLUGIN_REMOTE_INSTALL_PORT', value: exposePluginDebuggingPort }
+            { name: 'PLUGIN_MAX_PACKAGE_SIZE', value: pluginMaxPackageSize }
+            { name: 'INNER_API_KEY_FOR_PLUGIN', value: pluginDifyInnerApiKey }
+          ])
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'volume-app-storage'
+              mountPath: '/app/api/storage'
+            }
+          ]
+        }
+        {
+          name: 'worker'
+          image: difyImageName
+          imageType: 'ContainerImage'
+          env: concat(sharedApiWorkerEnv, [
+            { name: 'MODE', value: 'worker' }
+            { name: 'SENTRY_DSN', value: apiSentryDsn }
+            { name: 'SENTRY_TRACES_SAMPLE_RATE', value: apiSentryTracesSampleRate }
+            { name: 'SENTRY_PROFILES_SAMPLE_RATE', value: apiSentryProfilesSampleRate }
+            { name: 'PLUGIN_MAX_PACKAGE_SIZE', value: pluginMaxPackageSize }
+            { name: 'INNER_API_KEY_FOR_PLUGIN', value: pluginDifyInnerApiKey }
+          ])
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            {
+              volumeName: 'volume-app-storage'
+              mountPath: '/app/api/storage'
+            }
+          ]
+        }
+        {
+          name: 'worker-beat'
+          image: difyImageName
+          imageType: 'ContainerImage'
+          env: concat(sharedApiWorkerEnv, [
+            { name: 'MODE', value: 'beat' }
+          ])
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-app-storage'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
+
+param containerAppWebName string = 'web'
+param difyWebImageName string = 'docker.io/langgenius/dify-web:1.9.0'
+param centryDsn string = ''
+param nextTelemetryDisabled string = '0'
+param textGenerationTimeoutMs string = '60000'
+param cspWhitelist string = ''
+param allowEmbed string = 'false'
+param allowUnsafeDataScheme string = 'false'
+param marketplaceApiUrl string = 'https://marketplace.dify.ai'
+param marketplaceUrl string = 'https://marketplace.dify.ai'
+param topKMaxValue string = ''
+param indexingMaxSegmentationTokensLength string = ''
+param pm2Instances string = '2'
+param loopNodeMaxCount string = '100'
+param maxToolsNum string = '10'
+param maxParallelLimit string = '10'
+param maxIterationsNum string = '99'
+param maxTreeDepth string = '50'
+param enableWebsiteJinareader string = 'true'
+param enableWebsiteFirecrawl string = 'true'
+param enableWebsiteWatercrawl string = 'true'
+resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppWebName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {
+      ingress: {
+        external: true
+        targetPort: 3000
+        exposedPort: 0
+        transport: 'Auto'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
+    template: {
+      containers: [
+        {
+          name: 'api'
+          image: difyWebImageName
+          imageType: 'ContainerImage'
+          env: [
+            { name: 'CONSOLE_API_URL', value: consoleApiUrl }
+            { name: 'APP_API_URL', value: appApiUrl }
+            { name: 'SENTRY_DSN', value: centryDsn }
+            { name: 'NEXT_TELEMETRY_DISABLED', value: nextTelemetryDisabled }
+            { name: 'TEXT_GENERATION_TIMEOUT_MS', value: textGenerationTimeoutMs }
+            { name: 'CSP_WHITELIST', value: cspWhitelist }
+            { name: 'ALLOW_EMBED', value: allowEmbed }
+            { name: 'ALLOW_UNSAFE_DATA_SCHEME', value: allowUnsafeDataScheme }
+            { name: 'MARKETPLACE_API_URL', value: marketplaceApiUrl }
+            { name: 'MARKETPLACE_URL', value: marketplaceUrl }
+            { name: 'TOP_K_MAX_VALUE', value: topKMaxValue }
+            { name: 'INDEXING_MAX_SEGMENTATION_TOKENS_LENGTH', value: indexingMaxSegmentationTokensLength }
+            { name: 'PM2_INSTANCES', value: pm2Instances }
+            { name: 'LOOP_NODE_MAX_COUNT', value: loopNodeMaxCount }
+            { name: 'MAX_TOOLS_NUM', value: maxToolsNum }
+            { name: 'MAX_PARALLEL_LIMIT', value: maxParallelLimit }
+            { name: 'MAX_ITERATIONS_NUM', value: maxIterationsNum }
+            { name: 'MAX_TREE_DEPTH', value: maxTreeDepth }
+            { name: 'ENABLE_WEBSITE_JINAREADER', value: enableWebsiteJinareader }
+            { name: 'ENABLE_WEBSITE_FIRECRAWL', value: enableWebsiteFirecrawl }
+            { name: 'ENABLE_WEBSITE_WATERCRAWL', value: enableWebsiteWatercrawl }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: []
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: []
+    }
+  }
+}
