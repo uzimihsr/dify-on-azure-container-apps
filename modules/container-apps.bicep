@@ -744,3 +744,79 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
     }
   }
 }
+
+param nginxImageName string = 'docker.io/nginx:latest'
+param nginxServerName string = ''
+param nginxHttpsEnabled string = 'false'
+param nginxSslPort string = '443'
+param nginxPort string = '80'
+resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: 'nginx'
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {
+      ingress: {
+        external: true
+        targetPort: 80
+        exposedPort: 0
+        transport: 'Auto'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
+    template: {
+      containers: [
+        {
+          name: 'nginx'
+          image: nginxImageName
+          imageType: 'ContainerImage'
+          command: [
+            'sh'
+            '-c'
+            'cp /docker-entrypoint-mount.sh /docker-entrypoint.sh && sed -i \'s/\r$$//\' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && /docker-entrypoint.sh'
+          ]
+          env: [
+            { name: 'NGINX_SERVER_NAME', value: nginxServerName }
+            { name: 'NGINX_HTTPS_ENABLED', value: nginxHttpsEnabled }
+            { name: 'NGINX_SSL_PORT', value: nginxSslPort }
+            { name: 'NGINX_PORT', value: nginxPort }
+          ]
+          resources: {
+            cpu: json('0.5')
+            memory: '1Gi'
+          }
+          probes: []
+          volumeMounts: [
+            // {
+            //   volumeName: 'nginx-conf'
+            //   mountPath: '/etc/nginx'
+            // }
+          ]
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        // {
+        //   name: 'nginx-conf'
+        //   storageType: 'EmptyDir'
+        // }
+      ]
+    }
+  }
+}
