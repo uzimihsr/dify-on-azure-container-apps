@@ -328,7 +328,7 @@ resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' =
   }
 }
 
-param containerAppSsrfProxyName string = 'ssrf_proxy'
+param containerAppSsrfProxyName string = 'ssrf-proxy'
 resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' = {
   name: containerAppSsrfProxyName
   location: resourceGroup().location
@@ -340,7 +340,7 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
     template: {
       containers: [
         {
-          name: 'ssrf_proxy'
+          name: 'ssrf-proxy'
           image: 'docker.io/ubuntu/squid:latest'
           imageType: 'ContainerImage'
           command: [
@@ -363,7 +363,7 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
           volumeMounts: [
             {
               volumeName: 'ssrf-proxy'
-              mountPath: '/'
+              mountPath: '/etc/ssrf_proxy'
             }
           ]
         }
@@ -637,7 +637,7 @@ resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
   }
 }
 
-param containerAppPluginDaemonName string = 'plugin_daemon'
+param containerAppPluginDaemonName string = 'plugin-daemon'
 param difyPluginDaemonImageName string = 'docker.io/langgenius/dify-plugin-daemon:0.3.0-local'
 param dbPluginDatabase string = 'dify_plugin'
 param pluginDaemonPort string = '5002'
@@ -688,8 +688,8 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
     template: {
       containers: [
         {
-          name: 'plugin_daemon'
-          image: difyWebImageName
+          name: 'plugin-daemon'
+          image: difyPluginDaemonImageName
           imageType: 'ContainerImage'
           env: concat(sharedApiWorkerEnv, [
             { name: 'DB_DATABASE', value: dbPluginDatabase }
@@ -723,7 +723,7 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
           probes: []
           volumeMounts: [
             {
-              volumeName: 'volume-plugin_daemon'
+              volumeName: 'volume-plugin-daemon'
               mountPath: '/app/storage'
             }
           ]
@@ -737,7 +737,7 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
       }
       volumes: [
         {
-          name: 'volume-plugin_daemon'
+          name: 'volume-plugin-daemon'
           storageType: 'EmptyDir'
         }
       ]
