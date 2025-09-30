@@ -15,36 +15,38 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
       enforcement: 'AllowUnencrypted'
     }
     privateEndpointVNetPolicies: 'Disabled'
-    subnets: [
-      {
-        name: 'snet-cae'
-        properties: {
-          addressPrefixes: [
-            subnetAddressPrefixContainerAppsEnvironment
-          ]
-          delegations: [
-            {
-              name: 'Microsoft.App/environments'
-              properties: {
-                serviceName: 'Microsoft.App/environments'
-              }
-            }
-          ]
-          serviceEndpoints: [
-            {
-              service: 'Microsoft.KeyVault'
-              locations: [
-                '*'
-              ]
-            }
-          ]
-          privateEndpointNetworkPolicies: 'Disabled'
-          privateLinkServiceNetworkPolicies: 'Enabled'
-        }
-        type: 'Microsoft.Network/virtualNetworks/subnets'
-      }
-    ]
+    subnets: []
     virtualNetworkPeerings: []
     enableDdosProtection: false
   }
 }
+
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' = {
+  parent: vnet
+  name: 'snet-cae'
+  properties: {
+    addressPrefixes: [
+      subnetAddressPrefixContainerAppsEnvironment
+    ]
+    delegations: [
+      {
+        name: 'Microsoft.App/environments'
+        properties: {
+          serviceName: 'Microsoft.App/environments'
+        }
+      }
+    ]
+    serviceEndpoints: [
+      {
+        service: 'Microsoft.KeyVault'
+        locations: [
+          '*'
+        ]
+      }
+    ]
+    privateEndpointNetworkPolicies: 'Disabled'
+    privateLinkServiceNetworkPolicies: 'Enabled'
+  }
+}
+
+output subnetId string = subnet.id

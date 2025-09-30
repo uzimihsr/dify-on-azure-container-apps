@@ -2,6 +2,7 @@ param name string
 param storageAccountName string
 param storageAccountKey string
 param fileShareName string
+param subnetId string
 
 var storageName = 'dify-app-storage'
 
@@ -15,6 +16,9 @@ resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-
         workloadProfileType: 'Consumption'
       }
     ]
+    vnetConfiguration: {
+      infrastructureSubnetId: subnetId
+    }
   }
 }
 
