@@ -66,8 +66,8 @@ param sandboxApiKey string = 'dify-sandbox'
 param sandboxGinMode string = 'release'
 param sandboxWorkerTimeout string = '15'
 param sandboxEnableNetwork string = 'true'
-param sandboxHttpProxy string = 'http://ssrf_proxy:3128'
-param sandboxHttpsProxy string = 'http://ssrf_proxy:3128'
+param sandboxHttpProxy string = 'http://ssrf-proxy:3128'
+param sandboxHttpsProxy string = 'http://ssrf-proxy:3128'
 param sandboxPort string = '8194'
 param weaviatePersistenceDataPath string = '/var/lib/weaviate'
 param weaviateQueryDefaultsLimit string = '25'
@@ -518,6 +518,13 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
           name: 'sandbox'
           image: 'docker.io/langgenius/dify-sandbox:0.2.12'
           imageType: 'ContainerImage'
+          command: [
+            'sh'
+          ]
+          args: [
+            '-c'
+            'cp -rf /etc/volume-dify-sandbox/* / && /main'
+          ]
           env: [
             { name: 'API_KEY', value: sandboxApiKey }
             { name: 'GIN_MODE', value: sandboxGinMode }
@@ -536,7 +543,7 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
           volumeMounts: [
             {
               volumeName: 'volume-dify-sandbox'
-              mountPath: '/conf'
+              mountPath: '/etc/volume-dify-sandbox'
             }
           ]
         }
