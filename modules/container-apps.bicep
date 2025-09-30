@@ -49,7 +49,15 @@ param postgresSharedBuffers string = '128MB'
 param postgresWorkMem string = '4MB'
 param postgresMaintenanceWorkMem string = '64MB'
 param postgresEffectiveCacheSize string = '4096MB'
-param redisPassword string = 'difyai123456'
+var redisHost string = 'redis'
+var redisPort string = '6379'
+var redisUsername string = ''
+var redisPassword string = 'difyai123456'
+var redisUseSsl string = 'false'
+var redisDb string = '0'
+var redisUseSentinel string = 'false'
+var redisUseClusters string = 'false'
+var celeryBrokerUrl string = 'redis://:${redisPassword}@${redisHost}:6379/1'
 param postgresUser string = 'postgres'
 param postgresPassword string = 'difyai123456'
 param postgresDb string = 'dify'
@@ -76,6 +84,13 @@ param ssrfCoredumpDir string = '/var/spool/squid'
 param ssrfReverseProxyPort string = '8194'
 param ssrfSandboxHost string = 'sandbox'
 param pipMirrorUrl string = ''
+var storageType string = 'opendal'
+var opendalScheme string = 'fs'
+var opendalFsRoot string = 'storage'
+var dbHost string = 'db'
+var dbPort string = '5432'
+var dbDatabase string = 'dify'
+var vectorStore string = 'weaviate'
 var sharedApiWorkerEnv = [
   { name: 'CONSOLE_API_URL', value: consoleApiUrl }
   { name: 'CONSOLE_WEB_URL', value: consoleWebUrl }
@@ -118,7 +133,15 @@ var sharedApiWorkerEnv = [
   { name: 'POSTGRES_WORK_MEM', value: postgresWorkMem }
   { name: 'POSTGRES_MAINTENANCE_WORK_MEM', value: postgresMaintenanceWorkMem }
   { name: 'POSTGRES_EFFECTIVE_CACHE_SIZE', value: postgresEffectiveCacheSize }
+  { name: 'REDIS_HOST', value: redisHost }
+  { name: 'REDIS_PORT', value: redisPort }
+  { name: 'REDIS_USERNAME', value: redisUsername }
   { name: 'REDIS_PASSWORD', value: redisPassword }
+  { name: 'REDIS_USE_SSL', value: redisUseSsl }
+  { name: 'REDIS_DB', value: redisDb }
+  { name: 'REDIS_USE_SENTINEL', value: redisUseSentinel }
+  { name: 'REDIS_USE_CLUSTERS', value: redisUseClusters }
+  { name: 'CELERY_BROKER_URL', value: celeryBrokerUrl }
   { name: 'POSTGRES_USER', value: postgresUser }
   { name: 'POSTGRES_PASSWORD', value: postgresPassword }
   { name: 'POSTGRES_DB', value: postgresDb }
@@ -145,6 +168,13 @@ var sharedApiWorkerEnv = [
   { name: 'SSRF_REVERSE_PROXY_PORT', value: ssrfReverseProxyPort }
   { name: 'SSRF_SANDBOX_HOST', value: ssrfSandboxHost }
   { name: 'PIP_MIRROR_URL', value: pipMirrorUrl }
+  { name: 'STORAGE_TYPE', value: storageType }
+  { name: 'OPENDAL_SCHEME', value: opendalScheme }
+  { name: 'OPENDAL_FS_ROOT', value: opendalFsRoot }
+  { name: 'DB_HOST', value: dbHost }
+  { name: 'DB_PORT', value: dbPort }
+  { name: 'DB_DATABASE', value: dbDatabase }
+  { name: 'VECTOR_STORE', value: vectorStore }
 ]
 
 param containerAppDbName string = 'db'
