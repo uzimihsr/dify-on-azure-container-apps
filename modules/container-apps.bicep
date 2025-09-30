@@ -445,7 +445,7 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
     workloadProfileName: 'Consumption'
     configuration: {
       ingress: {
-        external: true
+        external: false
         targetPort: 5001
         exposedPort: 0
         transport: 'Auto'
@@ -489,6 +489,34 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
             }
           ]
         }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-app-storage'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
+
+param containerAppWorkerName string = 'worker'
+resource containerAppWorker 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppWorkerName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
         {
           name: 'worker'
           image: difyImageName
@@ -513,6 +541,34 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
             }
           ]
         }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+        cooldownPeriod: 300
+        pollingInterval: 30
+      }
+      volumes: [
+        {
+          name: 'volume-app-storage'
+          storageType: 'EmptyDir'
+        }
+      ]
+    }
+  }
+}
+
+param containerAppBeatName string = 'worker-beat'
+resource containerAppBeat 'Microsoft.App/containerApps@2025-02-02-preview' = {
+  name: containerAppBeatName
+  location: resourceGroup().location
+  kind: 'containerapps'
+  properties: {
+    environmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {}
+    template: {
+      containers: [
         {
           name: 'worker-beat'
           image: difyImageName
@@ -530,15 +586,7 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
       scale: {
         minReplicas: 1
         maxReplicas: 1
-        cooldownPeriod: 300
-        pollingInterval: 30
       }
-      volumes: [
-        {
-          name: 'volume-app-storage'
-          storageType: 'EmptyDir'
-        }
-      ]
     }
   }
 }
@@ -573,7 +621,7 @@ resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
     workloadProfileName: 'Consumption'
     configuration: {
       ingress: {
-        external: true
+        external: false
         targetPort: 3000
         exposedPort: 0
         transport: 'Auto'
@@ -669,7 +717,7 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
     workloadProfileName: 'Consumption'
     configuration: {
       ingress: {
-        external: true
+        external: false
         targetPort: 5002
         exposedPort: 0
         transport: 'Auto'
