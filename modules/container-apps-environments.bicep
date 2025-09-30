@@ -4,6 +4,7 @@ param storageAccountKey string
 param fileShareName string
 param fileShareSandboxName string
 param fileShareNginxName string
+param fileShareSsrfProxyName string
 param subnetId string
 param logAnalyticsWorkspaceName string
 
@@ -76,6 +77,20 @@ resource storageNginx 'Microsoft.App/managedEnvironments/storages@2025-02-02-pre
   }
 }
 
+resource storageSsrfProxy 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
+  parent: containerAppsEnvironment
+  name: 'volume-ssrf-proxy'
+  properties: {
+    azureFile: {
+      accountName: storageAccountName
+      accountKey: storageAccountKey
+      shareName: fileShareSsrfProxyName
+      accessMode: 'ReadWrite'
+    }
+  }
+}
+
 output storageName string = storageName
 output storageDifySandboxName string = storageDifySandbox.name
 output storageNginxName string = storageNginx.name
+output storageSsrfProxyName string = storageSsrfProxy.name

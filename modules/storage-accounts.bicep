@@ -40,8 +40,17 @@ resource fileShareNginx 'Microsoft.Storage/storageAccounts/fileServices/shares@2
   }
 }
 
+resource fileShareSsrfProxy 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-01-01' = {
+  parent: fileService
+  name: 'volume-ssrf-proxy'
+  properties: {
+    shareQuota: 5120
+  }
+}
+
 output storageAccountName string = storageAccount.name
 output storageAccountKey string = storageAccount.listKeys().keys[0].value
 output fileShareName string = fileShare.name
 output fileShareDifySandboxName string = fileShareDifySandbox.name
 output fileShareNginxName string = fileShareNginx.name
+output fileShareSsrfProxyName string = fileShareSsrfProxy.name

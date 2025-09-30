@@ -23,6 +23,7 @@ module containerAppsEnvironment './modules/container-apps-environments.bicep' = 
     subnetId: vnet.outputs.subnetId
     fileShareSandboxName: storage.outputs.fileShareDifySandboxName
     fileShareNginxName: storage.outputs.fileShareNginxName
+    fileShareSsrfProxyName: storage.outputs.fileShareSsrfProxyName
     logAnalyticsWorkspaceName: log.outputs.logAnalyticsWorkspaceName
   }
 }
@@ -34,5 +35,6 @@ module containerApps './modules/container-apps.bicep' = {
     storageName: containerAppsEnvironment.outputs.storageName
     storageDifySandboxName: containerAppsEnvironment.outputs.storageDifySandboxName
     storageNginxName: containerAppsEnvironment.outputs.storageNginxName
+    storageSsrfProxyName: containerAppsEnvironment.outputs.storageSsrfProxyName
   }
 }

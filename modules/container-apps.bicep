@@ -2,6 +2,7 @@ param containerAppsEnvironmentName string
 param storageName string
 param storageDifySandboxName string
 param storageNginxName string
+param storageSsrfProxyName string
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' existing = {
   name: containerAppsEnvironmentName
@@ -447,7 +448,7 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
           command: [
             'sh'
             '-c'
-            'cp /docker-entrypoint-mount.sh /docker-entrypoint.sh && sed -i \'s/\r$$//\' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && /docker-entrypoint.sh'
+            'cp /etc/ssrf_proxy/squid.conf.template /etc/squid/squid.conf.template&& cp /etc/ssrf_proxy/docker-entrypoint.sh /docker-entrypoint-mount.sh && cp /docker-entrypoint-mount.sh /docker-entrypoint.sh && sed -i \'s/\r$$//\' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && /docker-entrypoint.sh'
           ]
           env: [
             { name: 'HTTP_PORT', value: ssrfHttpPort }
@@ -463,7 +464,7 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
           probes: []
           volumeMounts: [
             {
-              volumeName: 'ssrf-proxy'
+              volumeName: 'volume-ssrf-proxy'
               mountPath: '/etc/ssrf_proxy'
             }
           ]
@@ -476,10 +477,10 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
         pollingInterval: 30
       }
       volumes: [
-        // TODO: Azure File共有に変更すること
         {
-          name: 'ssrf-proxy'
-          storageType: 'EmptyDir'
+          name: 'volume-ssrf-proxy'
+          storageType: 'AzureFile'
+          storageName: storageSsrfProxyName
         }
       ]
     }
