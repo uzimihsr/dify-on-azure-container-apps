@@ -24,8 +24,6 @@ module containerApps './modules/container-apps.bicep' = {
   name: 'containerapp-deployment'
   params: {
     containerAppsEnvironmentName: containerAppsEnvironmentName
+    storageName: containerAppsEnvironment.outputs.storageName
   }
-  dependsOn: [
-    containerAppsEnvironment
-  ]
 }

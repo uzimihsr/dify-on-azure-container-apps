@@ -1,4 +1,5 @@
 param containerAppsEnvironmentName string
+param storageName string
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' existing = {
   name: containerAppsEnvironmentName
@@ -499,7 +500,8 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
       volumes: [
         {
           name: 'volume-app-storage'
-          storageType: 'EmptyDir'
+          storageType: 'AzureFile'
+          storageName: storageName
         }
       ]
     }
@@ -551,7 +553,8 @@ resource containerAppWorker 'Microsoft.App/containerApps@2025-02-02-preview' = {
       volumes: [
         {
           name: 'volume-app-storage'
-          storageType: 'EmptyDir'
+          storageType: 'AzureFile'
+          storageName: storageName
         }
       ]
     }
