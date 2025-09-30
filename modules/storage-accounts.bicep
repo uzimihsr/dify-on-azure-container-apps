@@ -24,6 +24,15 @@ resource fileShare 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-0
   }
 }
 
+resource fileShareDifySandbox 'Microsoft.Storage/storageAccounts/fileServices/shares@2023-01-01' = {
+  parent: fileService
+  name: 'dify-sandbox'
+  properties: {
+    shareQuota: 5120
+  }
+}
+
 output storageAccountName string = storageAccount.name
 output storageAccountKey string = storageAccount.listKeys().keys[0].value
 output fileShareName string = fileShare.name
+output fileShareDifySandboxName string = fileShareDifySandbox.name

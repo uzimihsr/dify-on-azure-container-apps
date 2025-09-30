@@ -1,5 +1,6 @@
 param containerAppsEnvironmentName string
 param storageName string
+param storageDifySandboxName string
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' existing = {
   name: containerAppsEnvironmentName
@@ -416,6 +417,19 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
             memory: '1Gi'
           }
           probes: [] // not supported... https://github.com/langgenius/dify/blob/f104839672ccf111b2799fc31a85870e5e997b7d/docker/docker-compose.yaml#L771
+          volumeMounts: [
+            {
+              volumeName: 'volume-dify-sandbox'
+              mountPath: '/conf'
+            }
+          ]
+        }
+      ]
+      volumes: [
+        {
+          name: 'volume-dify-sandbox'
+          storageType: 'AzureFile'
+          storageName: storageDifySandboxName
         }
       ]
       scale: {

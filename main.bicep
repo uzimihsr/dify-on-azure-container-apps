@@ -17,6 +17,7 @@ module containerAppsEnvironment './modules/container-apps-environments.bicep' = 
     storageAccountKey: storage.outputs.storageAccountKey
     fileShareName: storage.outputs.fileShareName
     subnetId: vnet.outputs.subnetId
+    fileShareSandboxName: storage.outputs.fileShareDifySandboxName
   }
 }
 
@@ -25,5 +26,6 @@ module containerApps './modules/container-apps.bicep' = {
   params: {
     containerAppsEnvironmentName: containerAppsEnvironmentName
     storageName: containerAppsEnvironment.outputs.storageName
+    storageDifySandboxName: containerAppsEnvironment.outputs.storageDifySandboxName
   }
 }
