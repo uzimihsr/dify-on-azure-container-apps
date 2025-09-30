@@ -1,3 +1,8 @@
+module log './modules/log-analytics.bicep' = {
+  name: 'loganalytics-deployment'
+  params: {}
+}
+
 module vnet './modules/virtual-network.bicep' = {
   name: 'vnet-deployment'
   params: {}
@@ -18,6 +23,7 @@ module containerAppsEnvironment './modules/container-apps-environments.bicep' = 
     subnetId: vnet.outputs.subnetId
     fileShareSandboxName: storage.outputs.fileShareDifySandboxName
     fileShareNginxName: storage.outputs.fileShareNginxName
+    logAnalyticsWorkspaceName: log.outputs.logAnalyticsWorkspaceName
   }
 }
 

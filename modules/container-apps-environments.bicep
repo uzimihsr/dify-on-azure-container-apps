@@ -5,8 +5,13 @@ param fileShareName string
 param fileShareSandboxName string
 param fileShareNginxName string
 param subnetId string
+param logAnalyticsWorkspaceName string
 
 var storageName = 'dify-app-storage'
+
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-02-01' existing = {
+  name: logAnalyticsWorkspaceName
+}
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' = {
   name: name
@@ -20,6 +25,14 @@ resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-
     ]
     vnetConfiguration: {
       infrastructureSubnetId: subnetId
+    }
+    appLogsConfiguration: {
+      destination: 'log-analytics'
+      logAnalyticsConfiguration: {
+        customerId: logAnalyticsWorkspace.properties.customerId
+        dynamicJsonColumns: false
+        sharedKey: logAnalyticsWorkspace.listKeys().primarySharedKey
+      }
     }
   }
 }
