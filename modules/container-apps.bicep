@@ -1,6 +1,7 @@
 param containerAppsEnvironmentName string
 param storageName string
 param storageDifySandboxName string
+param storageNginxName string
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' existing = {
   name: containerAppsEnvironmentName
@@ -863,10 +864,10 @@ resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
           }
           probes: []
           volumeMounts: [
-            // {
-            //   volumeName: 'nginx-conf'
-            //   mountPath: '/etc/nginx'
-            // }
+            {
+              volumeName: 'volume-nginx'
+              mountPath: '/etc/nginx'
+            }
           ]
         }
       ]
@@ -877,10 +878,11 @@ resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
         pollingInterval: 30
       }
       volumes: [
-        // {
-        //   name: 'nginx-conf'
-        //   storageType: 'EmptyDir'
-        // }
+        {
+          name: 'volume-nginx'
+          storageType: 'AzureFile'
+          storageName: storageNginxName
+        }
       ]
     }
   }

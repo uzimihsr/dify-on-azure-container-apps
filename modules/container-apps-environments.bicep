@@ -3,6 +3,7 @@ param storageAccountName string
 param storageAccountKey string
 param fileShareName string
 param fileShareSandboxName string
+param fileShareNginxName string
 param subnetId string
 
 var storageName = 'dify-app-storage'
@@ -43,7 +44,20 @@ resource storageDifySandbox 'Microsoft.App/managedEnvironments/storages@2025-02-
     azureFile: {
       accountName: storageAccountName
       accountKey: storageAccountKey
-      shareName: fileShareName
+      shareName: fileShareSandboxName
+      accessMode: 'ReadWrite'
+    }
+  }
+}
+
+resource storageNginx 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
+  parent: containerAppsEnvironment
+  name: 'volume-nginx'
+  properties: {
+    azureFile: {
+      accountName: storageAccountName
+      accountKey: storageAccountKey
+      shareName: fileShareNginxName
       accessMode: 'ReadWrite'
     }
   }
@@ -51,3 +65,4 @@ resource storageDifySandbox 'Microsoft.App/managedEnvironments/storages@2025-02-
 
 output storageName string = storageName
 output storageDifySandboxName string = storageDifySandbox.name
+output storageNginxName string = storageNginx.name
