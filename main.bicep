@@ -3,7 +3,6 @@ module vnet './modules/virtual-network.bicep' = {
   params: {}
 }
 
-param stName string = 'st${uniqueString(resourceGroup().id)}'
 module storage './modules/storage-accounts.bicep' = {
   name: 'storage-deployment'
 }
