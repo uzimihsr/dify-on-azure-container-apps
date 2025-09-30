@@ -1,6 +1,6 @@
 param name string = 'vnet-${uniqueString(resourceGroup().id)}'
-param vnetAddressPrefix string = '10.99.0.0/16'
-param subnetAddressPrefixContainerAppsEnvironment string = '10.99.2.0/23'
+param vnetAddressPrefix string = '10.10.0.0/16'
+param subnetAddressPrefixContainerAppsEnvironment string = '10.10.2.0/23'
 resource vnet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
   name: name
   location: resourceGroup().location
