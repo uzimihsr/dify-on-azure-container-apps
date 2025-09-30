@@ -14,12 +14,12 @@ param consoleWebUrl string = ''
 param serviceApiUrl string = ''
 param appApiUrl string = ''
 param appWebUrl string = ''
-param filesUrl string = 'http://api:5001'
+param filesUrl string = '' // 'http://api:5001'
 param internalFilesUrl string = ''
 param lang string = 'en_US.UTF-8'
 param lcAll string = 'en_US.UTF-8'
 param pythonIoEncoding string = 'utf-8'
-param logLevel string = 'INFO'
+param logLevel string = 'DEBUG' // 'INFO'
 param logFile string = '/app/logs/server.log'
 param logFileMaxSize string = '20'
 param logFileBackupCount string = '5'
@@ -27,7 +27,7 @@ param logDateformat string = '%Y-%m-%d %H:%M:%S'
 param logTz string = 'UTC'
 param debug string = 'false'
 param flaskDebug string = 'false'
-param enableRequestLogging string = 'False'
+param enableRequestLogging string = 'True' // 'False'
 param secretKey string = 'sk-9f73s3ljTXVcMT3Blb3ljTqtsKiGHXVcMT3BlbkFJLK7U'
 param initPassword string = ''
 param deployEnv string = 'PRODUCTION'
@@ -91,7 +91,13 @@ var opendalFsRoot string = 'storage'
 var dbHost string = 'db'
 var dbPort string = '5432'
 var dbDatabase string = 'dify'
+var dbUsername string = 'postgres'
+var dbPassword string = 'difyai123456'
 var vectorStore string = 'weaviate'
+var webApiCorsAllowOrigins string = '*'
+var consoleCorsAllowOrigins string = '*'
+var codeExecutionEndpoint string = 'http://sandbox:8194'
+
 var sharedApiWorkerEnv = [
   { name: 'CONSOLE_API_URL', value: consoleApiUrl }
   { name: 'CONSOLE_WEB_URL', value: consoleWebUrl }
@@ -175,7 +181,12 @@ var sharedApiWorkerEnv = [
   { name: 'DB_HOST', value: dbHost }
   { name: 'DB_PORT', value: dbPort }
   { name: 'DB_DATABASE', value: dbDatabase }
+  { name: 'DB_USERNAME', value: dbUsername }
+  { name: 'DB_PASSWORD', value: dbPassword }
   { name: 'VECTOR_STORE', value: vectorStore }
+  { name: 'WEB_API_CORS_ALLOW_ORIGINS', value: webApiCorsAllowOrigins }
+  { name: 'CONSOLE_CORS_ALLOW_ORIGINS', value: consoleCorsAllowOrigins }
+  { name: 'CODE_EXECUTION_ENDPOINT', value: codeExecutionEndpoint }
 ]
 
 param containerAppDbName string = 'db'
@@ -300,7 +311,7 @@ resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'api'
+          name: 'redis'
           image: 'docker.io/redis:6-alpine'
           imageType: 'ContainerImage'
           env: [
