@@ -850,7 +850,7 @@ resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
           command: [
             'sh'
             '-c'
-            'cp /docker-entrypoint-mount.sh /docker-entrypoint.sh && sed -i \'s/\r$$//\' /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh && /docker-entrypoint.sh'
+            'cp -rf /etc/volume-nginx/* /etc/nginx/ && nginx -g "daemon off;"'
           ]
           env: [
             { name: 'NGINX_SERVER_NAME', value: nginxServerName }
