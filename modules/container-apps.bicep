@@ -155,7 +155,24 @@ resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
   properties: {
     environmentId: containerAppsEnvironment.id
     workloadProfileName: 'Consumption'
-    configuration: {}
+    configuration: {
+      ingress: {
+        external: false
+        targetPort: 5432
+        exposedPort: 5432
+        transport: 'tcp'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
     template: {
       containers: [
         {
@@ -231,7 +248,24 @@ resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
   properties: {
     environmentId: containerAppsEnvironment.id
     workloadProfileName: 'Consumption'
-    configuration: {}
+    configuration: {
+      ingress: {
+        external: false
+        targetPort: 6379
+        exposedPort: 6379
+        transport: 'tcp'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
     template: {
       containers: [
         {
@@ -283,7 +317,24 @@ resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' =
   properties: {
     environmentId: containerAppsEnvironment.id
     workloadProfileName: 'Consumption'
-    configuration: {}
+    configuration: {
+      ingress: {
+        external: false
+        targetPort: 8080
+        exposedPort: 8080
+        transport: 'tcp'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
     template: {
       containers: [
         {
@@ -339,7 +390,24 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
   properties: {
     environmentId: containerAppsEnvironment.id
     workloadProfileName: 'Consumption'
-    configuration: {}
+    configuration: {
+      ingress: {
+        external: false
+        targetPort: 3128
+        exposedPort: 3128
+        transport: 'tcp'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
     template: {
       containers: [
         {
@@ -396,7 +464,24 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
   properties: {
     environmentId: containerAppsEnvironment.id
     workloadProfileName: 'Consumption'
-    configuration: {}
+    configuration: {
+      ingress: {
+        external: false
+        targetPort: 8194
+        exposedPort: 8194
+        transport: 'tcp'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+        stickySessions: {
+          affinity: 'none'
+        }
+      }
+    }
     template: {
       containers: [
         {
@@ -463,8 +548,8 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
       ingress: {
         external: false
         targetPort: 5001
-        exposedPort: 0
-        transport: 'Auto'
+        exposedPort: 5001
+        transport: 'tcp'
         traffic: [
           {
             weight: 100
@@ -641,8 +726,8 @@ resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
       ingress: {
         external: false
         targetPort: 3000
-        exposedPort: 0
-        transport: 'Auto'
+        exposedPort: 3000
+        transport: 'tcp'
         traffic: [
           {
             weight: 100
@@ -737,8 +822,8 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
       ingress: {
         external: false
         targetPort: 5002
-        exposedPort: 0
-        transport: 'Auto'
+        exposedPort: 5002
+        transport: 'tcp'
         traffic: [
           {
             weight: 100
@@ -866,7 +951,7 @@ resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
           volumeMounts: [
             {
               volumeName: 'volume-nginx'
-              mountPath: '/etc/nginx'
+              mountPath: '/etc/volume-nginx'
             }
           ]
         }
