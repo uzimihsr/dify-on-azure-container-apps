@@ -97,6 +97,8 @@ var vectorStore string = 'weaviate'
 var webApiCorsAllowOrigins string = '*'
 var consoleCorsAllowOrigins string = '*'
 var codeExecutionEndpoint string = 'http://sandbox:8194'
+var exposePluginDaemonPort string = '5002'
+var pluginDaemonUrl string = 'http://plugin-daemon:5002' // 'http://plugin_daemon:5002'
 
 var sharedApiWorkerEnv = [
   { name: 'CONSOLE_API_URL', value: consoleApiUrl }
@@ -187,6 +189,10 @@ var sharedApiWorkerEnv = [
   { name: 'WEB_API_CORS_ALLOW_ORIGINS', value: webApiCorsAllowOrigins }
   { name: 'CONSOLE_CORS_ALLOW_ORIGINS', value: consoleCorsAllowOrigins }
   { name: 'CODE_EXECUTION_ENDPOINT', value: codeExecutionEndpoint }
+  { name: 'EXPOSE_PLUGIN_DAEMON_PORT', value: exposePluginDaemonPort }
+  { name: 'PLUGIN_DAEMON_PORT', value: pluginDaemonPort }
+  { name: 'PLUGIN_DAEMON_KEY', value: pluginDaemonKey }
+  { name: 'PLUGIN_DAEMON_URL', value: pluginDaemonUrl }
 ]
 
 param containerAppDbName string = 'db'
