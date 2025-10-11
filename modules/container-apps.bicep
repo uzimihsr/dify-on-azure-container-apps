@@ -1461,8 +1461,7 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
       volumes: [
         {
           name: storageNameDifyPluginDaemon
-          storageType: 'AzureFile'
-          storageName: storageNameDifyPluginDaemon
+          storageType: 'EmptyDir' // AzureFilesストレージ(SMB/NFS)と相性が悪いのでこれも一旦永続化を諦める
         }
       ]
     }
