@@ -72,16 +72,14 @@ resource fileShareSsrfProxy 'Microsoft.Storage/storageAccounts/fileServices/shar
   }
 }
 
-// プライベートDNSゾーン - File
-resource fileDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' = {
+resource privateDnsZoneFile 'Microsoft.Network/privateDnsZones@2020-06-01' = {
   name: 'privatelink.file.${environment().suffixes.storage}'
   location: 'global'
 }
 
-// 仮想ネットワークリンク - File
 resource fileVnetLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {
-  name: 'file-dns-link'
-  parent: fileDnsZone
+  name: virtualNetwork.name
+  parent: privateDnsZoneFile
   location: 'global'
   properties: {
     registrationEnabled: false
@@ -91,8 +89,7 @@ resource fileVnetLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@202
   }
 }
 
-// プライベートエンドポイント - File
-resource filePrivateEndpoint 'Microsoft.Network/privateEndpoints@2023-05-01' = {
+resource privateEndpointFile 'Microsoft.Network/privateEndpoints@2023-05-01' = {
   name: 'pep-file-${name}'
   location: resourceGroup().location
   properties: {
@@ -101,7 +98,7 @@ resource filePrivateEndpoint 'Microsoft.Network/privateEndpoints@2023-05-01' = {
     }
     privateLinkServiceConnections: [
       {
-        name: 'psc-file'
+        name: 'pep-file-${name}'
         properties: {
           privateLinkServiceId: storageAccount.id
           groupIds: [
@@ -113,16 +110,15 @@ resource filePrivateEndpoint 'Microsoft.Network/privateEndpoints@2023-05-01' = {
   }
 }
 
-// プライベートエンドポイントDNSグループ - File
 resource filePrivateEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2023-05-01' = {
-  name: 'pdz-file'
-  parent: filePrivateEndpoint
+  name: 'default'
+  parent: privateEndpointFile
   properties: {
     privateDnsZoneConfigs: [
       {
-        name: 'config1'
+        name: 'privatelink-file-core-windows-net'
         properties: {
-          privateDnsZoneId: fileDnsZone.id
+          privateDnsZoneId: privateDnsZoneFile.id
         }
       }
     ]
