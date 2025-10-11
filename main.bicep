@@ -24,8 +24,22 @@ module vnet './modules/virtual-network.bicep' = {
   }
 }
 
+param stName string = 'st${uniqueString(resourceGroup().id)}'
+param fileShareNameDifyApi string = 'volume-dify-api'
+param fileShareNameDifySandbox string = 'volume-dify-sandbox'
+param fileShareNameDifyPluginDaemon string = 'volume-dify-plugin-daemon'
+param fileShareNameNginx string = 'volume-nginx'
+param fileShareNameSsrfProxy string = 'volume-ssrf-proxy'
 module storage './modules/storage-accounts.bicep' = {
   name: 'storage-deployment'
+  params: {
+    name: stName
+    fileShareNameDifyApi: fileShareNameDifyApi
+    fileShareNameDifySandbox: fileShareNameDifySandbox
+    fileShareNameDifyPluginDaemon: fileShareNameDifyPluginDaemon
+    fileShareNameNginx: fileShareNameNginx
+    fileShareNameSsrfProxy: fileShareNameSsrfProxy
+  }
 }
 
 param containerAppsEnvironmentName string = 'cae-${uniqueString(resourceGroup().id)}'
@@ -33,14 +47,15 @@ module containerAppsEnvironment './modules/container-apps-environments.bicep' = 
   name: 'containerappsenv-deployment'
   params: {
     name: containerAppsEnvironmentName
-    storageAccountName: storage.outputs.storageAccountName
-    storageAccountKey: storage.outputs.storageAccountKey
-    fileShareName: storage.outputs.fileShareName
-    subnetId: vnet.outputs.subnetContainerAppsEnvironmentId
-    fileShareSandboxName: storage.outputs.fileShareDifySandboxName
-    fileShareNginxName: storage.outputs.fileShareNginxName
-    fileShareSsrfProxyName: storage.outputs.fileShareSsrfProxyName
-    logAnalyticsWorkspaceName: log.outputs.logAnalyticsWorkspaceName
+    stName: stName
+    logName: logName
+    vnetName: vnetName
+    subnetName: subnetNameContainerAppsEnvironment
+    fileShareNameDifyApi: fileShareNameDifyApi
+    fileShareNameDifySandbox: fileShareNameDifySandbox
+    fileShareNameDifyPluginDaemon: fileShareNameDifyPluginDaemon
+    fileShareNameNginx: fileShareNameNginx
+    fileShareNameSsrfProxy: fileShareNameSsrfProxy
   }
 }
 
@@ -48,7 +63,7 @@ module containerApps './modules/container-apps.bicep' = {
   name: 'containerapp-deployment'
   params: {
     containerAppsEnvironmentName: containerAppsEnvironmentName
-    storageName: containerAppsEnvironment.outputs.storageName
+    storageName: stName
     storageDifySandboxName: containerAppsEnvironment.outputs.storageDifySandboxName
     storageNginxName: containerAppsEnvironment.outputs.storageNginxName
     storageSsrfProxyName: containerAppsEnvironment.outputs.storageSsrfProxyName

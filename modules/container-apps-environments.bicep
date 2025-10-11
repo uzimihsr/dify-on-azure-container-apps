@@ -1,17 +1,28 @@
 param name string
-param storageAccountName string
-param storageAccountKey string
-param fileShareName string
-param fileShareSandboxName string
-param fileShareNginxName string
-param fileShareSsrfProxyName string
-param subnetId string
-param logAnalyticsWorkspaceName string
-
-var storageName = 'dify-app-storage'
+param stName string
+param logName string
+param vnetName string
+param subnetName string
+param fileShareNameDifyApi string
+param fileShareNameDifySandbox string
+param fileShareNameDifyPluginDaemon string
+param fileShareNameNginx string
+param fileShareNameSsrfProxy string
 
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-02-01' existing = {
-  name: logAnalyticsWorkspaceName
+  name: logName
+}
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+  name: stName
+}
+
+resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-07-01' existing = {
+  name: vnetName
+}
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' existing = {
+  parent: virtualNetwork
+  name: subnetName
 }
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' = {
@@ -25,7 +36,7 @@ resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-
       }
     ]
     vnetConfiguration: {
-      infrastructureSubnetId: subnetId
+      infrastructureSubnetId: subnet.id
     }
     appLogsConfiguration: {
       destination: 'log-analytics'
@@ -38,59 +49,54 @@ resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-
   }
 }
 
-resource storageDifyApp 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
+// 共通化
+var azureFileProperties = {
+  accountName: storageAccount.name
+  accountKey: storageAccount.listKeys().keys[0].value
+  accessMode: 'ReadWrite'
+}
+
+resource storageDifyApi 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
   parent: containerAppsEnvironment
-  name: storageName
+  name: fileShareNameDifyApi
   properties: {
-    azureFile: {
-      accountName: storageAccountName
-      accountKey: storageAccountKey
-      shareName: fileShareName
-      accessMode: 'ReadWrite'
-    }
+    azureFile: union(azureFileProperties, { shareName: fileShareNameDifyApi })
   }
 }
 
 resource storageDifySandbox 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
   parent: containerAppsEnvironment
-  name: 'volume-dify-sandbox'
+  name: fileShareNameDifySandbox
   properties: {
-    azureFile: {
-      accountName: storageAccountName
-      accountKey: storageAccountKey
-      shareName: fileShareSandboxName
-      accessMode: 'ReadWrite'
-    }
+    azureFile: union(azureFileProperties, { shareName: fileShareNameDifySandbox })
+  }
+}
+
+resource storageDifyPluginDaemon 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
+  parent: containerAppsEnvironment
+  name: fileShareNameDifyPluginDaemon
+  properties: {
+    azureFile: union(azureFileProperties, { shareName: fileShareNameDifyPluginDaemon })
   }
 }
 
 resource storageNginx 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
   parent: containerAppsEnvironment
-  name: 'volume-nginx'
+  name: fileShareNameNginx
   properties: {
-    azureFile: {
-      accountName: storageAccountName
-      accountKey: storageAccountKey
-      shareName: fileShareNginxName
-      accessMode: 'ReadWrite'
-    }
+    azureFile: union(azureFileProperties, { shareName: fileShareNameNginx })
   }
 }
 
 resource storageSsrfProxy 'Microsoft.App/managedEnvironments/storages@2025-02-02-preview' = {
   parent: containerAppsEnvironment
-  name: 'volume-ssrf-proxy'
+  name: fileShareNameSsrfProxy
   properties: {
-    azureFile: {
-      accountName: storageAccountName
-      accountKey: storageAccountKey
-      shareName: fileShareSsrfProxyName
-      accessMode: 'ReadWrite'
-    }
+    azureFile: union(azureFileProperties, { shareName: fileShareNameSsrfProxy })
   }
 }
 
-output storageName string = storageName
+output storageDifyApiName string = storageDifyApi.name
 output storageDifySandboxName string = storageDifySandbox.name
 output storageNginxName string = storageNginx.name
 output storageSsrfProxyName string = storageSsrfProxy.name
