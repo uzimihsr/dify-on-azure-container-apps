@@ -4,6 +4,16 @@ param fileShareNameDifySandbox string = 'volume-dify-sandbox'
 param fileShareNameDifyPluginDaemon string = 'volume-dify-plugin-daemon'
 param fileShareNameNginx string = 'volume-nginx'
 param fileShareNameSsrfProxy string = 'volume-ssrf-proxy'
+param vnetName string
+param subnetName string
+
+resource virtualNetwork 'Microsoft.Network/virtualNetworks@2024-07-01' existing = {
+  name: vnetName
+}
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' existing = {
+  parent: virtualNetwork
+  name: subnetName
+}
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: name
@@ -59,6 +69,63 @@ resource fileShareSsrfProxy 'Microsoft.Storage/storageAccounts/fileServices/shar
   name: fileShareNameSsrfProxy
   properties: {
     shareQuota: 5120
+  }
+}
+
+// プライベートDNSゾーン - File
+resource fileDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' = {
+  name: 'privatelink.file.${environment().suffixes.storage}'
+  location: 'global'
+}
+
+// 仮想ネットワークリンク - File
+resource fileVnetLink 'Microsoft.Network/privateDnsZones/virtualNetworkLinks@2020-06-01' = {
+  name: 'file-dns-link'
+  parent: fileDnsZone
+  location: 'global'
+  properties: {
+    registrationEnabled: false
+    virtualNetwork: {
+      id: virtualNetwork.id
+    }
+  }
+}
+
+// プライベートエンドポイント - File
+resource filePrivateEndpoint 'Microsoft.Network/privateEndpoints@2023-05-01' = {
+  name: 'pep-file-${name}'
+  location: resourceGroup().location
+  properties: {
+    subnet: {
+      id: subnet.id
+    }
+    privateLinkServiceConnections: [
+      {
+        name: 'psc-file'
+        properties: {
+          privateLinkServiceId: storageAccount.id
+          groupIds: [
+            'file'
+          ]
+        }
+      }
+    ]
+  }
+}
+
+// プライベートエンドポイントDNSグループ - File
+resource filePrivateEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2023-05-01' = {
+  name: 'pdz-file'
+  parent: filePrivateEndpoint
+  properties: {
+    privateDnsZoneConfigs: [
+      {
+        name: 'config1'
+        properties: {
+          privateDnsZoneId: fileDnsZone.id
+        }
+      }
+    ]
   }
 }
 
