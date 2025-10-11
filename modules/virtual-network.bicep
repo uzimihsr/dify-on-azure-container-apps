@@ -1,6 +1,9 @@
 param name string = 'vnet-${uniqueString(resourceGroup().id)}'
 param vnetAddressPrefix string = '10.10.0.0/16'
+param subnetNameContainerAppsEnvironment string = 'snet-cae'
+param subnetNamePrivateEndpoint string = 'snet-pep'
 param subnetAddressPrefixContainerAppsEnvironment string = '10.10.2.0/23'
+param subnetAddressPrefixPrivateEndpoint string = '10.10.1.0/24'
 resource vnet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
   name: name
   location: resourceGroup().location
@@ -21,9 +24,9 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-07-01' = {
   }
 }
 
-resource subnet 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' = {
+resource subnetContainerAppsEnvironment 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' = {
   parent: vnet
-  name: 'snet-cae'
+  name: subnetNameContainerAppsEnvironment
   properties: {
     addressPrefixes: [
       subnetAddressPrefixContainerAppsEnvironment
@@ -49,4 +52,19 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' = {
   }
 }
 
-output subnetId string = subnet.id
+resource subnetPrivateEndpoint 'Microsoft.Network/virtualNetworks/subnets@2024-07-01' = {
+  parent: vnet
+  name: subnetNamePrivateEndpoint
+  properties: {
+    addressPrefixes: [
+      subnetAddressPrefixPrivateEndpoint
+    ]
+    delegations: []
+    serviceEndpoints: []
+    privateEndpointNetworkPolicies: 'Disabled'
+    privateLinkServiceNetworkPolicies: 'Enabled'
+  }
+}
+
+output subnetContainerAppsEnvironmentId string = subnetContainerAppsEnvironment.id
+output subnetPrivateEndpointId string = subnetPrivateEndpoint.id
