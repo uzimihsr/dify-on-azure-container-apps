@@ -1,12 +1,29 @@
 param containerAppsEnvironmentName string
-param storageName string
-param storageDifySandboxName string
-param storageNginxName string
-param storageSsrfProxyName string
+param storageNameSsrfProxy string
+param storageNameDifySandbox string
+param storageNameDifyApi string
+param storageNameDifyPluginDaemon string
+param storageNameNginx string
 
 resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2025-02-02-preview' existing = {
   name: containerAppsEnvironmentName
 }
+
+param containerAppNameDb string = 'db'
+param containerAppNameRedis string = 'redis'
+param containerAppNameWeaviate string = 'weaviate'
+param containerAppNameSsrfProxy string = 'ssrf-proxy'
+param containerAppNameSandbox string = 'sandbox'
+param containerAppNameApi string = 'api'
+param containerAppNameWorker string = 'worker'
+param containerAppNameBeat string = 'worker-beat'
+param containerAppNameWeb string = 'web'
+param containerAppNamePluginDaemon string = 'plugin-daemon'
+param containerAppNameNginx string = 'nginx'
+
+param difyImageName string = 'docker.io/langgenius/dify-api:1.9.0'
+param difyPluginDaemonImageName string = 'docker.io/langgenius/dify-plugin-daemon:0.3.0-local'
+param nginxImageName string = 'docker.io/nginx:latest'
 
 // https://github.com/langgenius/dify/blob/f104839672ccf111b2799fc31a85870e5e997b7d/docker/docker-compose.yaml#L7-L598
 var consoleApiUrl string = ''
@@ -29,9 +46,6 @@ var enableWebsiteWatercrawl string = 'true'
 var dbUserName string = 'postgres'
 var dbPassword string = 'difyai123456'
 var dbDatabase string = 'dify'
-var postgresUser string = ''
-var postgresPassword string = ''
-var postgresDb string = ''
 var pgdata string = '/var/lib/postgresql/data/pgdata'
 var postgresMaxConnections string = '100'
 var postgresSharedBuffers string = '128MB'
@@ -52,13 +66,13 @@ var weaviateAuthorizationAdminlistUsers string = 'hello@dify.ai'
 var ssrfHttpPort string = '3128'
 var ssrfCoredumpDir string = '/var/spool/squid'
 var ssrfReverseProxyPort string = '8194'
-var ssrfSandboxHost string = 'sandbox'
+var ssrfSandboxHost string = containerAppNameSandbox // 'sandbox'
 var sandboxApiKey string = 'dify-sandbox'
 var sandboxGinMode string = 'release'
 var sandboxWorkerTimeout string = '15'
 var sandboxEnableNetwork string = 'true'
-var sandboxHttpProxy string = 'http://ssrf-proxy:3128' // 'http://ssrf_proxy:3128'
-var sandboxHttpsProxy string = 'http://ssrf-proxy:3128' // 'http://ssrf_proxy:3128'
+var sandboxHttpProxy string = 'http://${containerAppNameSsrfProxy}:3128' // 'http://ssrf_proxy:3128'
+var sandboxHttpsProxy string = 'http://${containerAppNameSsrfProxy}:3128' // 'http://ssrf_proxy:3128'
 var sandboxPort string = '8194'
 var pipMirrorUrl string = ''
 var apiSentryDsn string = ''
@@ -66,7 +80,7 @@ var apiSentryTracesSampleRate string = '1.0'
 var apiSentryProfilesSampleRate string = '1.0'
 var pluginMaxPackageSize string = '52428800'
 var pluginDifyInnerApiKey string = 'QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1'
-var pluginDifyInnerApiUrl string = 'http://api:5001'
+var pluginDifyInnerApiUrl string = 'http://${containerAppNameApi}:5001' // 'http://api:5001'
 var exposePluginDebuggingHost string = 'localhost'
 var exposePluginDebuggingPort string = '5003'
 var dbPluginDatabase string = 'dify_plugin'
@@ -174,7 +188,7 @@ var sharedApiWorkerEnv = [
   { name: 'ENABLE_WEBSITE_WATERCRAWL', value: enableWebsiteWatercrawl }
   { name: 'DB_USERNAME', value: dbUserName }
   { name: 'DB_PASSWORD', value: dbPassword }
-  { name: 'DB_HOST', value: 'db' }
+  { name: 'DB_HOST', value: containerAppNameDb } // 'db'
   { name: 'DB_PORT', value: '5432' }
   { name: 'DB_DATABASE', value: 'dify' }
   { name: 'SQLALCHEMY_POOL_SIZE', value: '30' }
@@ -189,7 +203,7 @@ var sharedApiWorkerEnv = [
   { name: 'POSTGRES_WORK_MEM', value: postgresWorkMem }
   { name: 'POSTGRES_MAINTENANCE_WORK_MEM', value: postgresMaintenanceWorkMem }
   { name: 'POSTGRES_EFFECTIVE_CACHE_SIZE', value: postgresEffectiveCacheSize }
-  { name: 'REDIS_HOST', value: 'redis' }
+  { name: 'REDIS_HOST', value: containerAppNameRedis } // 'redis'
   { name: 'REDIS_PORT', value: '6379' }
   { name: 'REDIS_USERNAME', value: '' }
   { name: 'REDIS_PASSWORD', value: redisPassword }
@@ -208,7 +222,7 @@ var sharedApiWorkerEnv = [
   { name: 'REDIS_USE_CLUSTERS', value: 'false' }
   { name: 'REDIS_CLUSTERS', value: '' }
   { name: 'REDIS_CLUSTERS_PASSWORD', value: '' }
-  { name: 'CELERY_BROKER_URL', value: 'redis://:difyai123456@redis:6379/1' }
+  { name: 'CELERY_BROKER_URL', value: 'redis://:difyai123456@${containerAppNameRedis}:6379/1' } // 'redis://:difyai123456@redis:6379/1'
   { name: 'CELERY_BACKEND', value: 'redis' }
   { name: 'BROKER_USE_SSL', value: 'false' }
   { name: 'CELERY_USE_SENTINEL', value: 'false' }
@@ -274,7 +288,7 @@ var sharedApiWorkerEnv = [
   { name: 'SUPABASE_URL', value: 'your-server-url' }
   { name: 'VECTOR_STORE', value: 'weaviate' }
   { name: 'VECTOR_INDEX_NAME_PREFIX', value: 'Vector_index' }
-  { name: 'WEAVIATE_ENDPOINT', value: 'http://weaviate:8080' }
+  { name: 'WEAVIATE_ENDPOINT', value: 'http://${containerAppNameWeaviate}:8080' } // 'http://weaviate:8080'
   { name: 'WEAVIATE_API_KEY', value: 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih' }
   { name: 'QDRANT_URL', value: 'http://qdrant:6333' }
   { name: 'QDRANT_API_KEY', value: 'difyai123456' }
@@ -504,7 +518,7 @@ var sharedApiWorkerEnv = [
   { name: 'EMAIL_REGISTER_TOKEN_EXPIRY_MINUTES', value: '5' }
   { name: 'CHANGE_EMAIL_TOKEN_EXPIRY_MINUTES', value: '5' }
   { name: 'OWNER_TRANSFER_TOKEN_EXPIRY_MINUTES', value: '5' }
-  { name: 'CODE_EXECUTION_ENDPOINT', value: 'http://sandbox:8194' }
+  { name: 'CODE_EXECUTION_ENDPOINT', value: 'http://${containerAppNameSandbox}:8194' } // 'http://sandbox:8194'
   { name: 'CODE_EXECUTION_API_KEY', value: 'dify-sandbox' }
   { name: 'CODE_EXECUTION_SSL_VERIFY', value: 'True' }
   { name: 'CODE_EXECUTION_POOL_MAX_CONNECTIONS', value: '100' }
@@ -555,8 +569,8 @@ var sharedApiWorkerEnv = [
   { name: 'HTTP_REQUEST_NODE_MAX_TEXT_SIZE', value: '1048576' }
   { name: 'HTTP_REQUEST_NODE_SSL_VERIFY', value: 'True' }
   { name: 'RESPECT_XFORWARD_HEADERS_ENABLED', value: 'false' }
-  { name: 'SSRF_PROXY_HTTP_URL', value: 'http://ssrf-proxy:3128' } // http://ssrf_proxy:3128
-  { name: 'SSRF_PROXY_HTTPS_URL', value: 'http://ssrf-proxy:3128' } // http://ssrf_proxy:3128
+  { name: 'SSRF_PROXY_HTTP_URL', value: 'http://${containerAppNameSsrfProxy}:3128' } // http://ssrf_proxy:3128
+  { name: 'SSRF_PROXY_HTTPS_URL', value: 'http://${containerAppNameSsrfProxy}:3128' } // http://ssrf_proxy:3128
   { name: 'LOOP_NODE_MAX_COUNT', value: loopNodeMaxCount }
   { name: 'MAX_TOOLS_NUM', value: maxToolsNum }
   { name: 'MAX_PARALLEL_LIMIT', value: maxParallelLimit }
@@ -655,7 +669,7 @@ var sharedApiWorkerEnv = [
   { name: 'EXPOSE_PLUGIN_DAEMON_PORT', value: '5002' }
   { name: 'PLUGIN_DAEMON_PORT', value: pluginDaemonPort }
   { name: 'PLUGIN_DAEMON_KEY', value: pluginDaemonKey }
-  { name: 'PLUGIN_DAEMON_URL', value: 'http://plugin-daemon:5002' } // 'http://plugin_daemon:5002'
+  { name: 'PLUGIN_DAEMON_URL', value: 'http://${containerAppNamePluginDaemon}:5002' } // 'http://plugin_daemon:5002'
   { name: 'PLUGIN_MAX_PACKAGE_SIZE', value: pluginMaxPackageSize }
   { name: 'PLUGIN_PPROF_ENABLED', value: pluginPprofEnabled }
   { name: 'PLUGIN_DEBUGGING_HOST', value: pluginDebuggingHost }
@@ -733,9 +747,8 @@ var sharedApiWorkerEnv = [
   { name: 'ENABLE_CHECK_UPGRADABLE_PLUGIN_TASK', value: 'true' }
 ]
 
-param containerAppDbName string = 'db'
 resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppDbName
+  name: containerAppNameDb
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -762,7 +775,7 @@ resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'db'
+          name: containerAppNameDb
           image: 'docker.io/postgres:15-alpine'
           imageType: 'ContainerImage'
           env: [
@@ -819,16 +832,15 @@ resource containerAppDb 'Microsoft.App/containerApps@2025-02-02-preview' = {
       volumes: [
         {
           name: 'volume-db-data'
-          storageType: 'EmptyDir'
+          storageType: 'EmptyDir' // Azure File Share(SMB/NFS)と相性が悪いので一旦emptyDir(永続化を諦める)
         }
       ]
     }
   }
 }
 
-param containerAppRedisName string = 'redis'
 resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppRedisName
+  name: containerAppNameRedis
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -855,7 +867,7 @@ resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'redis'
+          name: containerAppNameRedis
           image: 'docker.io/redis:6-alpine'
           imageType: 'ContainerImage'
           env: [
@@ -888,16 +900,15 @@ resource containerAppRedis 'Microsoft.App/containerApps@2025-02-02-preview' = {
       volumes: [
         {
           name: 'volume-redis-data'
-          storageType: 'EmptyDir'
+          storageType: 'EmptyDir' // redisはそもそも永続化不要
         }
       ]
     }
   }
 }
 
-param containerAppWeaviateName string = 'weaviate'
 resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppWeaviateName
+  name: containerAppNameWeaviate
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -924,7 +935,7 @@ resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' =
     template: {
       containers: [
         {
-          name: 'weaviate'
+          name: containerAppNameWeaviate
           image: 'docker.io/semitechnologies/weaviate:1.19.0'
           imageType: 'ContainerImage'
           env: [
@@ -961,16 +972,15 @@ resource containerAppWeaviate 'Microsoft.App/containerApps@2025-02-02-preview' =
       volumes: [
         {
           name: 'volume-weaviate'
-          storageType: 'EmptyDir'
+          storageType: 'EmptyDir' // weaviateも一旦永続化を諦める
         }
       ]
     }
   }
 }
 
-param containerAppSsrfProxyName string = 'ssrf-proxy'
 resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppSsrfProxyName
+  name: containerAppNameSsrfProxy
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -997,7 +1007,7 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
     template: {
       containers: [
         {
-          name: 'ssrf-proxy'
+          name: containerAppNameSsrfProxy
           image: 'docker.io/ubuntu/squid:latest'
           imageType: 'ContainerImage'
           command: [
@@ -1019,7 +1029,7 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
           probes: []
           volumeMounts: [
             {
-              volumeName: 'volume-ssrf-proxy'
+              volumeName: storageNameSsrfProxy
               mountPath: '/etc/ssrf_proxy'
             }
           ]
@@ -1033,18 +1043,17 @@ resource containerAppSsrfProxy 'Microsoft.App/containerApps@2025-02-02-preview' 
       }
       volumes: [
         {
-          name: 'volume-ssrf-proxy'
+          name: storageNameSsrfProxy
           storageType: 'AzureFile'
-          storageName: storageSsrfProxyName
+          storageName: storageNameSsrfProxy
         }
       ]
     }
   }
 }
 
-param containerAppSandboxName string = 'sandbox'
 resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppSandboxName
+  name: containerAppNameSandbox
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -1071,7 +1080,7 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
     template: {
       containers: [
         {
-          name: 'sandbox'
+          name: containerAppNameSandbox
           image: 'docker.io/langgenius/dify-sandbox:0.2.12'
           imageType: 'ContainerImage'
           command: [
@@ -1098,7 +1107,7 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
           probes: [] // not supported... https://github.com/langgenius/dify/blob/f104839672ccf111b2799fc31a85870e5e997b7d/docker/docker-compose.yaml#L771
           volumeMounts: [
             {
-              volumeName: 'volume-dify-sandbox'
+              volumeName: storageNameDifySandbox
               mountPath: '/etc/volume-dify-sandbox'
             }
           ]
@@ -1106,9 +1115,9 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
       ]
       volumes: [
         {
-          name: 'volume-dify-sandbox'
+          name: storageNameDifySandbox
           storageType: 'AzureFile'
-          storageName: storageDifySandboxName
+          storageName: storageNameDifySandbox
         }
       ]
       scale: {
@@ -1121,10 +1130,8 @@ resource containerAppSandbox 'Microsoft.App/containerApps@2025-02-02-preview' = 
   }
 }
 
-param containerAppApiName string = 'api'
-param difyImageName string = 'docker.io/langgenius/dify-api:1.9.0'
 resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppApiName
+  name: containerAppNameApi
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -1151,7 +1158,7 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'api'
+          name: containerAppNameApi
           image: difyImageName
           imageType: 'ContainerImage'
           env: concat(sharedApiWorkerEnv, [
@@ -1171,7 +1178,7 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
           probes: []
           volumeMounts: [
             {
-              volumeName: 'volume-app-storage'
+              volumeName: storageNameDifyApi
               mountPath: '/app/api/storage'
             }
           ]
@@ -1185,18 +1192,17 @@ resource containerAppApi 'Microsoft.App/containerApps@2025-02-02-preview' = {
       }
       volumes: [
         {
-          name: 'volume-app-storage'
+          name: storageNameDifyApi
           storageType: 'AzureFile'
-          storageName: storageName
+          storageName: storageNameDifyApi
         }
       ]
     }
   }
 }
 
-param containerAppWorkerName string = 'worker'
 resource containerAppWorker 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppWorkerName
+  name: containerAppNameWorker
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -1206,7 +1212,7 @@ resource containerAppWorker 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'worker'
+          name: containerAppNameWorker
           image: difyImageName
           imageType: 'ContainerImage'
           env: concat(sharedApiWorkerEnv, [
@@ -1224,7 +1230,7 @@ resource containerAppWorker 'Microsoft.App/containerApps@2025-02-02-preview' = {
           probes: []
           volumeMounts: [
             {
-              volumeName: 'volume-app-storage'
+              volumeName: storageNameDifyApi
               mountPath: '/app/api/storage'
             }
           ]
@@ -1238,18 +1244,17 @@ resource containerAppWorker 'Microsoft.App/containerApps@2025-02-02-preview' = {
       }
       volumes: [
         {
-          name: 'volume-app-storage'
+          name: storageNameDifyApi
           storageType: 'AzureFile'
-          storageName: storageName
+          storageName: storageNameDifyApi
         }
       ]
     }
   }
 }
 
-param containerAppBeatName string = 'worker-beat'
 resource containerAppBeat 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppBeatName
+  name: containerAppNameBeat
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -1259,7 +1264,7 @@ resource containerAppBeat 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'worker-beat'
+          name: containerAppNameBeat
           image: difyImageName
           imageType: 'ContainerImage'
           env: concat(sharedApiWorkerEnv, [
@@ -1280,14 +1285,10 @@ resource containerAppBeat 'Microsoft.App/containerApps@2025-02-02-preview' = {
   }
 }
 
-param containerAppWebName string = 'web'
 param difyWebImageName string = 'docker.io/langgenius/dify-web:1.9.0'
 param centryDsn string = ''
-param nextTelemetryDisabled string = '0'
-param marketplaceUrl string = 'https://marketplace.dify.ai'
-param pm2Instances string = '2'
 resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppWebName
+  name: containerAppNameWeb
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -1314,7 +1315,7 @@ resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'web'
+          name: containerAppNameWeb
           image: difyWebImageName
           imageType: 'ContainerImage'
           env: [
@@ -1359,11 +1360,8 @@ resource containerAppWeb 'Microsoft.App/containerApps@2025-02-02-preview' = {
   }
 }
 
-param containerAppPluginDaemonName string = 'plugin-daemon'
-param difyPluginDaemonImageName string = 'docker.io/langgenius/dify-plugin-daemon:0.3.0-local'
-
 resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: containerAppPluginDaemonName
+  name: containerAppNamePluginDaemon
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -1390,7 +1388,7 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
     template: {
       containers: [
         {
-          name: 'plugin-daemon'
+          name: containerAppNamePluginDaemon
           image: difyPluginDaemonImageName
           imageType: 'ContainerImage'
           env: concat(sharedApiWorkerEnv, [
@@ -1448,7 +1446,7 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
           probes: []
           volumeMounts: [
             {
-              volumeName: 'volume-plugin-daemon'
+              volumeName: storageNameDifyPluginDaemon
               mountPath: '/app/storage'
             }
           ]
@@ -1462,17 +1460,17 @@ resource containerAppPluginDaemon 'Microsoft.App/containerApps@2025-02-02-previe
       }
       volumes: [
         {
-          name: 'volume-plugin-daemon'
-          storageType: 'EmptyDir'
+          name: storageNameDifyPluginDaemon
+          storageType: 'AzureFile'
+          storageName: storageNameDifyPluginDaemon
         }
       ]
     }
   }
 }
 
-param nginxImageName string = 'docker.io/nginx:latest'
 resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
-  name: 'nginx'
+  name: containerAppNameNginx
   location: resourceGroup().location
   kind: 'containerapps'
   properties: {
@@ -1499,7 +1497,7 @@ resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
     template: {
       containers: [
         {
-          name: 'nginx'
+          name: containerAppNameNginx
           image: nginxImageName
           imageType: 'ContainerImage'
           command: [
@@ -1530,7 +1528,7 @@ resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
           probes: []
           volumeMounts: [
             {
-              volumeName: 'volume-nginx'
+              volumeName: storageNameNginx
               mountPath: '/etc/volume-nginx'
             }
           ]
@@ -1544,9 +1542,9 @@ resource containerAppNginx 'Microsoft.App/containerApps@2025-02-02-preview' = {
       }
       volumes: [
         {
-          name: 'volume-nginx'
+          name: storageNameNginx
           storageType: 'AzureFile'
-          storageName: storageNginxName
+          storageName: storageNameNginx
         }
       ]
     }

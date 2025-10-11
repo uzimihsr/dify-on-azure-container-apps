@@ -42,11 +42,11 @@ module storage './modules/storage-accounts.bicep' = {
   }
 }
 
-param containerAppsEnvironmentName string = 'cae-${uniqueString(resourceGroup().id)}'
+param caeName string = 'cae-${uniqueString(resourceGroup().id)}'
 module containerAppsEnvironment './modules/container-apps-environments.bicep' = {
   name: 'containerappsenv-deployment'
   params: {
-    name: containerAppsEnvironmentName
+    name: caeName
     stName: stName
     logName: logName
     vnetName: vnetName
@@ -62,10 +62,11 @@ module containerAppsEnvironment './modules/container-apps-environments.bicep' = 
 module containerApps './modules/container-apps.bicep' = {
   name: 'containerapp-deployment'
   params: {
-    containerAppsEnvironmentName: containerAppsEnvironmentName
-    storageName: stName
-    storageDifySandboxName: containerAppsEnvironment.outputs.storageDifySandboxName
-    storageNginxName: containerAppsEnvironment.outputs.storageNginxName
-    storageSsrfProxyName: containerAppsEnvironment.outputs.storageSsrfProxyName
+    containerAppsEnvironmentName: caeName
+    storageNameSsrfProxy: fileShareNameSsrfProxy
+    storageNameDifySandbox: fileShareNameDifySandbox
+    storageNameDifyApi: fileShareNameDifyApi
+    storageNameDifyPluginDaemon: fileShareNameDifyPluginDaemon
+    storageNameNginx: containerAppsEnvironment.outputs.storageSsrfProxyName
   }
 }
