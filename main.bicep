@@ -1,10 +1,10 @@
 param logName string = 'log-${uniqueString(resourceGroup().id)}'
-module log './modules/log-analytics.bicep' = {
-  name: 'loganalytics-deployment'
-  params: {
-    name: logName
-  }
-}
+// module log './modules/log-analytics.bicep' = {
+//   name: 'loganalytics-deployment'
+//   params: {
+//     name: logName
+//   }
+// }
 
 param vnetName string = 'vnet-${uniqueString(resourceGroup().id)}'
 param vnetAddressPrefix string = '10.10.0.0/16'
@@ -75,6 +75,6 @@ module containerApps './modules/container-apps.bicep' = {
     storageNameDifySandbox: fileShareNameDifySandbox
     storageNameDifyApi: fileShareNameDifyApi
     storageNameDifyPluginDaemon: fileShareNameDifyPluginDaemon
-    storageNameNginx: containerAppsEnvironment.outputs.storageSsrfProxyName
+    storageNameNginx: fileShareNameNginx
   }
 }
