@@ -34,12 +34,17 @@ module storage './modules/storage-accounts.bicep' = {
   name: 'storage-deployment'
   params: {
     name: stName
+    vnetName: vnetName
+    subnetName: subnetNamePrivateEndpoint
     fileShareNameDifyApi: fileShareNameDifyApi
     fileShareNameDifySandbox: fileShareNameDifySandbox
     fileShareNameDifyPluginDaemon: fileShareNameDifyPluginDaemon
     fileShareNameNginx: fileShareNameNginx
     fileShareNameSsrfProxy: fileShareNameSsrfProxy
   }
+  dependsOn: [
+    vnet
+  ]
 }
 
 param caeName string = 'cae-${uniqueString(resourceGroup().id)}'
@@ -57,6 +62,9 @@ module containerAppsEnvironment './modules/container-apps-environments.bicep' = 
     fileShareNameNginx: fileShareNameNginx
     fileShareNameSsrfProxy: fileShareNameSsrfProxy
   }
+  dependsOn: [
+    storage
+  ]
 }
 
 module containerApps './modules/container-apps.bicep' = {
