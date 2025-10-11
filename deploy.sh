@@ -29,7 +29,7 @@ az containerapp revision restart -g $rgName -n "nginx" --revision $nginxRevision
 
 fqdn=$(az containerapp show -g $rgName -n "nginx" --query "properties.configuration.ingress.fqdn" -o tsv)
 echo "ブラウザで https://${fqdn} を開きます..."
-sleep 5
+sleep 10
 az containerapp browse -g $rgName -n "nginx"
 
 echo "Enjoy!"
